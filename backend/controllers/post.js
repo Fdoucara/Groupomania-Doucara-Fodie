@@ -194,54 +194,73 @@ exports.deleteAnyonePost = (req, res) => {
 }
 
 exports.likePost = (req, res) => {
-  let id = req.params.id;
+  let post_id = req.params.id;
+  let user_id = req.auth;
 
-  db.query("SELECT * FROM post WHERE id = ?", [id], (error, result) => {
+  db.query("SELECT * FROM post WHERE id = ?", [post_id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
-      if(resultat[0].length == 0){
-        res.status(400).json({ message: "Aucun post trouvé !"});
+      console.log(resultat[0]);
+      if (resultat[0].length == 0) {
+        res.status(400).json({ message: "Aucun post trouvé !" });
       }
-      console.log(resultat[0].post_likes);
-      if(req.body.like == 1){
-        resultat[0].post_likes += 1; 
-        console.log(resultat[0].post_likes);
-        db.query("UPDATE post SET post_likes = ? WHERE id = ?", [resultat[0].post_likes, id], (error, result) => {
-          if(!error) {
-            return res.status(201).json({ message: "Vous aimez ce post !" });
+      else {
+        db.query("SELECT * FROM post_likes WHERE user_id = ? AND post_id = ?", [user_id, post_id], (error, result) => {
+          if (!error) {
+            if (result.length == 0) {
+              db.query("INSERT INTO post_likes (user_id, post_id) VALUES (?, ?)", [user_id, post_id], (error, result) => {
+                if (!error) {
+                  db.query("SELECT COUNT(*) AS likes FROM post_likes WHERE post_id = ?", [post_id], (error, result) => {
+                    if (!error) {
+                      let resultat = JSON.parse(JSON.stringify(result));
+                      let totalLike = resultat[0].likes;
+                      db.query("UPDATE post SET post_likes = ? WHERE id = ?", [totalLike, post_id], (error, result) => {
+                        if (!error) {
+                          return res.status(201).json({ message: "Vous aimez ce post." });
+                        }
+                        else {
+                          res.status(400).json({ error });
+                        }
+                      })
+                    }
+                    else {
+                      res.status(400).json({ error });
+                    }
+                  })
+                }
+                else {
+                  res.status(400).json({ error });
+                }
+              })
+            } else {
+              db.query("DELETE FROM post_likes WHERE user_id = ? AND post_id = ?", [user_id, post_id], (error, result) => {
+                if (!error) {
+                  db.query("SELECT COUNT(*) AS likes FROM post_likes WHERE post_id = ?", [post_id], (error, result) => {
+                    if (!error) {
+                      let resultat = JSON.parse(JSON.stringify(result));
+                      let totalLike = resultat[0].likes;
+                      db.query("UPDATE post SET post_likes = ? WHERE id = ?", [totalLike, post_id], (error, result) => {
+                        if (!error) {
+                          return res.status(201).json({ message: "Vous n'aimez plus ce post." });
+                        }
+                        else {
+                          res.status(400).json({ error });
+                        }
+                      })
+                    }
+                    else {
+                      res.status(400).json({ error });
+                    }
+                  })
+                }
+                else {
+                  res.status(400).json({ error });
+                }
+              })
+            }
           }
-          else {
-            return res.status(400).json({ error });
-          } 
         })
       }
-    } else {
-      res.status(400).json({ error });
-    }
-  })
-}
-
-exports.unlikePost = (req, res) => {
-  let id = req.params.id;
-
-  db.query("SELECT * FROM post WHERE id = ?", [id], (error, result) => {
-    if (!error) {
-      let resultat = JSON.parse(JSON.stringify(result));
-      console.log(resultat[0].post_likes);
-      if(req.body.like == 0){
-        resultat[0].post_likes -= 1; 
-        console.log(resultat[0].post_likes);
-        db.query("UPDATE post SET post_likes = ? WHERE id = ?", [resultat[0].post_likes, id], (error, result) => {
-          if(!error){
-            return res.status(201).json({ message: "Vous n'aimez plus ce post !" });
-          }
-          else {
-            return res.status(400).json({ error });
-          } 
-        })
-      }
-    } else {
-      res.status(400).json({ error });
     }
   })
 }
@@ -416,51 +435,72 @@ exports.deleteAnyoneComment = (req, res) => {
 }
 
 exports.likeComment = (req, res) => {
-  let id = req.params.id;
+  let comment_id = req.params.id;
+  let user_id = req.auth;
 
-  db.query("SELECT * FROM comment WHERE id = ?", [id], (error, result) => {
+  db.query("SELECT * FROM comment WHERE id = ?", [comment_id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
-      console.log(resultat[0].comment_likes);
-      if(req.body.like == 1){
-        resultat[0].comment_likes += 1; 
-        console.log(resultat[0].comment_likes);
-        db.query("UPDATE post SET post_likes = ? WHERE id = ?", [resultat[0].comment_likes, id], (error, result) => {
-          if(!error){
-            
+      if (resultat[0].length == 0) {
+        res.status(400).json({ message: "Aucun commentaire trouvé !" });
+      }
+      else {
+        db.query("SELECT * FROM comment_likes WHERE user_id = ? AND comment_id = ?", [user_id, comment_id], (error, result) => {
+          if (!error) {
+            if (result.length == 0) {
+              db.query("INSERT INTO comment_likes (user_id, comment_id) VALUES (?, ?)", [user_id, comment_id], (error, result) => {
+                if (!error) {
+                  db.query("SELECT COUNT(*) AS likes FROM comment_likes WHERE comment_id = ?", [comment_id], (error, result) => {
+                    if (!error) {
+                      let resultat = JSON.parse(JSON.stringify(result));
+                      let totalLike = resultat[0].likes;
+                      db.query("UPDATE comment SET comment_likes = ? WHERE id = ?", [totalLike, comment_id], (error, result) => {
+                        if (!error) {
+                          return res.status(201).json({ message: "Vous aimez ce commentaire." });
+                        }
+                        else {
+                          res.status(400).json({ error });
+                        }
+                      })
+                    }
+                    else {
+                      res.status(400).json({ error });
+                    }
+                  })
+                }
+                else {
+                  res.status(400).json({ error });
+                }
+              })
+            } else {
+              db.query("DELETE FROM comment_likes WHERE user_id = ? AND comment_id = ?", [user_id, comment_id], (error, result) => {
+                if (!error) {
+                  db.query("SELECT COUNT(*) AS likes FROM comment_likes WHERE comment_id = ?", [comment_id], (error, result) => {
+                    if (!error) {
+                      let resultat = JSON.parse(JSON.stringify(result));
+                      let totalLike = resultat[0].likes;
+                      db.query("UPDATE comment SET comment_likes = ? WHERE id = ?", [totalLike, comment_id], (error, result) => {
+                        if (!error) {
+                          return res.status(201).json({ message: "Vous n'aimez plus ce commentaire." });
+                        }
+                        else {
+                          res.status(400).json({ error });
+                        }
+                      })
+                    }
+                    else {
+                      res.status(400).json({ error });
+                    }
+                  })
+                }
+                else {
+                  res.status(400).json({ error });
+                }
+              })
+            }
           }
-          else {
-
-          } 
         })
       }
-    } else {
-      res.status(400).json({ error });
-    }
-  })
-}
-
-exports.unlikeComment = (req, res) => {
-  let id = req.params.id;
-
-  db.query("SELECT * FROM comment WHERE id = ?", [id], (error, result) => {
-    if (!error) {
-      let resultat = JSON.parse(JSON.stringify(result));
-      console.log(resultat[0].comment_likes);
-      if(req.body.like == 1){
-        resultat[0].comment_likes += 1; 
-        console.log(resultat[0].comment_likes);
-        db.query("UPDATE post SET post_likes = ? WHERE id = ?", [resultat[0].comment_likes, id], (error, result) => {
-          if(!error){
-            
-          }
-          else {
-
-          } 
-        })
-      }
-    } else {
-      res.status(400).json({ error });
     }
   })
 }

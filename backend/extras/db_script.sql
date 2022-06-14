@@ -59,6 +59,21 @@ CREATE TABLE `comment` (
   FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
+-- ! Creation table liaison pour les likes ! --
+
+CREATE TABLE post_likes (
+  user_id INT NOT NULL,
+  post_id INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+  FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE comment_likes (
+  user_id INT NOT NULL,
+  comment_id INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+  FOREIGN KEY (comment_id) REFERENCES comment(id) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB;
 
 -- ! CRÉATION DES TABLES RÉALISER AVEC SUCCÈS ! --
 

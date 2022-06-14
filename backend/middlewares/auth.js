@@ -56,7 +56,7 @@ exports.isAdmin = (req, res, next) => {
   db.query("SELECT user.role_id FROM user WHERE id = ?", [id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
-      if (resultat[0].role_id == 1) {
+      if (resultat[0].role_id == process.env.ADMIN) {
         next();
       } else {
         return res.status(401).json({ message: "Seul l'admin peut realiser cette action !" });
@@ -72,7 +72,7 @@ exports.isModerator = (req, res, next) => {
   db.query("SELECT user.role_id FROM user WHERE id = ?", [id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
-      if (resultat[0].role_id == 4 || resultat[0].role_id == 1) {
+      if (resultat[0].role_id == process.env.MODERATOR || resultat[0].role_id == process.env.ADMIN) {
         next();
       } else {
         return res.status(401).json({ message: "Seul l'admin et le moderateur peuvent réaliser cette action !" });

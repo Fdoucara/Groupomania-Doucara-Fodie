@@ -18,8 +18,8 @@ exports.register = (req, res) => {
   let role_id;
   bcrypt.hash(user.password, 10)
     .then(hash => {
-      if (req.body.email == "admin@gmail.com") {
-        role_id = 1;
+      if (req.body.email == process.env.ADMIN_EMAIL) {
+        role_id = process.env.ADMIN;
         db.query("INSERT INTO user (nom, prenom, email, user_imageUrl, bio, password, role_id) VALUES (?, ?, ?, ?, ?, ?, ?)", [user.nom, user.prenom, user.email, user.imageUrl, user.bio, hash, role_id], (error, result) => {
           if (!error) {
             return res.status(201).json({ message: "Utilisateur bien ajouté !" });
@@ -27,7 +27,7 @@ exports.register = (req, res) => {
           res.status(400).json({ error });
         })
       } else {
-        role_id = 3;
+        role_id = process.env.USER;
         db.query("INSERT INTO user (nom, prenom, email, user_imageUrl, bio, password, role_id) VALUES (?, ?, ?, ?, ?, ?, ?)", [user.nom, user.prenom, user.email, user.imageUrl, user.bio, hash, role_id], (error, result) => {
           if (!error) {
             return res.status(201).json({ message: "Utilisateur bien ajouté !" });
@@ -267,8 +267,8 @@ exports.changeRole = (req, res) => {
   db.query("SELECT * FROM user WHERE user.id = ?", [id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
-      if (resultat[0].role_id === 4) {
-        const role_id = 3;
+      if (resultat[0].role_id === process.env.MODERATOR) {
+        const role_id = process.env.USER;
         db.query("UPDATE user SET role_id = ? WHERE id = ?", [role_id, id], (error, result) => {
           if (!error) {
             return res.status(200).json({ message: "Passage de modérateur à utilisateur normal !" });
@@ -278,8 +278,8 @@ exports.changeRole = (req, res) => {
           }
         })
       }
-      else if (resultat[0].role_id === 3) {
-        const role_id = 4;
+      else if (resultat[0].role_id === process.env.USER) {
+        const role_id = process.env.MODERATOR;
         db.query("UPDATE user SET role_id = ? WHERE id = ?", [role_id, id], (error, result) => {
           if (!error) {
             return res.status(200).json({ message: "Passage d'utilisateur normal à modérateur !" });

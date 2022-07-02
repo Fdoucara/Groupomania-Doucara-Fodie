@@ -8,7 +8,7 @@ const multer = require('../middlewares/multer');
 router.post('/register', verifEmailAndPassword, userCtrl.register);
 router.post('/login', userCtrl.logIn);
 router.post('/change/:id', verifToken, isAdmin, userCtrl.changeRole);
-router.get('/logout', userCtrl.logOut);
+router.get('/logout', verifToken, userCtrl.logOut);
 
 // CRUD -> CREATE READ UPDATE DELETE <- CRUD -> USER
 router.get('/', verifToken, userCtrl.getAllUser);

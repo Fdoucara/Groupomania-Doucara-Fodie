@@ -76,6 +76,7 @@ exports.logIn = (req, res) => {
 
 exports.logOut = (req, res) => {
   res.cookie('jwt', '', { maxAge: 1 });
+  res.status(200).json({ message: 'Vous êtes deconnecté !'})
 }
 
 exports.getAllUser = (req, res) => {

@@ -11,9 +11,6 @@ const app = express();
 // Lire le body en json
 app.use(express.json());
 
-// Lire le body venant des formulaires
-app.use(express.urlencoded({extended:true}));
-
 // Lire les cookies
 app.use(cookieParser());
 

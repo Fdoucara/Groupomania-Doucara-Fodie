@@ -6,29 +6,39 @@
     </div>
 
     <navbar></navbar>
-   
+    <creation></creation>
+
     <div class="card" :key="index" v-for="(post, index) in info">
       <div class="card-body">
+        <div class="card-body-header">
+          <p class="card-body-header-text"> {{ post.post_content }} </p>
+          <p class="card-body-header-text"> {{ new Date(post.post_date).toLocaleString() }} </p>
+        </div>       
         <img :src="post.post_imageUrl" class="card-image">
         <p class="card-text"> {{ post.post_content }} </p>
-      </div>
-      <div class="card-footer text-muted">
-        {{ new Date(post.post_date).toLocaleString() }}
+        <div class="card-body-footer">
+          <i class="fas fa-comment"></i>
+          <i class="fas fa-heart"></i>
+          <i class="fas fa-edit"></i>
+          <i class="fas fa-trash"></i>
+        </div>
       </div>
     </div>
-    
+
   </div>
 </template>
 
 <script>
 
 import NavbarComponent from '@/components/Navbar.vue'
+import CreationPost from '@/components/CreationPost.vue'
 import axios from 'axios'
 
 export default {
   name: 'AccueilComponent',
   components: {
-    'navbar': NavbarComponent,  
+    'navbar': NavbarComponent,
+    'creation': CreationPost
   },
   data() {
     return {
@@ -41,10 +51,9 @@ export default {
   },
   mounted() {
     this.axiosInstance.get('post')
-    .then(reponse => {
-      this.info = reponse.data.result;
-      console.log(this.info);
-    })
+      .then(reponse => {
+        this.info = reponse.data.result;
+      })
   },
 }
 </script>
@@ -126,26 +135,52 @@ export default {
 }
 
 .card {
-  width: 50%;
+  width: 40%;
   margin: auto;
-  padding-top: 30px;
-background: #C9D6FF;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+  padding-top: 5px;
+  border-radius: 0px;
+  background: #C9D6FF;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #E2E2E2, #C9D6FF);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
 .card-body {
   width: 100%;
   margin: auto;
 }
 
+.card-body-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-body-header-text {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
 img {
-  width: 90%;
+  width: 100%;
   height: auto;
 }
 
 .card-text {
-  font-size: 25px;
-  padding-top: 15px;
+  text-align: left;
+  font-size: 22px;
+  margin: 0;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.card-body-footer {
+  display: flex;
+  justify-content: space-evenly;
+  border-top: 1px solid grey;
+  padding-top: 20px;
+  font-size: 22px;
 }
 </style>

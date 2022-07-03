@@ -5,7 +5,6 @@
         <router-link to="/accueil"> <img src="../assets/logomodif.png" alt="Logo Groupomania" class="navbar_logo"> </router-link>
         <router-link to="/accueil" class="navbar_link"> <p> Accueil </p> </router-link>
         <router-link to="/profil" class="navbar_link"> <p> Profil </p> </router-link>
-        <router-link to="/creation" class="navbar_link"> <p> Créer un post </p> </router-link>
       </div>
       <p class="navbar_link navbar_left" @click="deconnexion"> Deconnexion </p>
     </nav>

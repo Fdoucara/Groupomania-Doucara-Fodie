@@ -4,6 +4,7 @@ import LoginComponent from '@/views/Login.vue'
 import RegisterComponent from '@/views/Register.vue'
 import AccueilComponent from '@/views/Accueil.vue'
 import ProfilComponent from '@/views/Profil.vue'
+import OnePost from '@/views/OnePost.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,10 @@ const routes = [
   {
     path: '/profil',
     component: ProfilComponent
+  },
+  {
+    path: '/post/:id',
+    component: OnePost
   },
 ]
 

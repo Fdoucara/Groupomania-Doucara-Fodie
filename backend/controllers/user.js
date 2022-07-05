@@ -64,7 +64,8 @@ exports.logIn = (req, res) => {
             const token = createToken(resultat[0].id);
             res.cookie('jwt', token, { maxAge, httpOnly: true });
             res.status(200).json({
-              userId: resultat[0].id
+              userId: resultat[0].id,
+              roleUser: resultat[0].role_id
             });
           })
       }

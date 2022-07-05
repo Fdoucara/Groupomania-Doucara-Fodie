@@ -1,28 +1,30 @@
 <template>
   <div>
 
-    <div class="loader-container">
+    <!-- <div class="loader-container">
       <div class="loader"></div>
-    </div>
+    </div> -->
 
     <navbar></navbar>
-    <creation></creation>
+    <creation :info="info" @updateList="newList"></creation>
 
     <div class="card" :key="index" v-for="(post, index) in info">
-      <div class="card-body">
-        <div class="card-body-header">
-          <p class="card-body-header-text"> {{ post.post_content }} </p>
-          <p class="card-body-header-text"> {{ new Date(post.post_date).toLocaleString() }} </p>
-        </div>       
-        <img :src="post.post_imageUrl" class="card-image">
-        <p class="card-text"> {{ post.post_content }} </p>
-        <div class="card-body-footer">
-          <i class="fas fa-comment"></i>
-          <i class="fas fa-heart"></i>
-          <i class="fas fa-edit"></i>
-          <i class="fas fa-trash"></i>
+      <router-link :to="`/post/${post.id}`" class="card_link">
+        <div class="card-body">
+          <div class="card-body-header">
+            <p class="card-body-header-text bold"> {{ post.nom + ' ' + post.prenom }} </p>
+            <p class="card-body-header-text"> {{ new Date(post.post_date).toLocaleString() }} </p>
+          </div>
+          <img :src="post.post_imageUrl" class="card-image">
+          <p class="card-text"> {{ post.post_content }} </p>
+          <div class="card-body-footer">
+            <i class="fas fa-comment"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-edit"></i>
+            <i class="fas fa-trash"></i>
+          </div>
         </div>
-      </div>
+      </router-link>
     </div>
 
   </div>
@@ -49,11 +51,20 @@ export default {
       info: null
     }
   },
+  methods: {
+    postList() {
+      this.axiosInstance.get('post')
+        .then(reponse => {
+          this.info = reponse.data.result;
+        })
+    },
+    newList() {
+      this.info = [];
+      this.postList();
+    }
+  },
   mounted() {
-    this.axiosInstance.get('post')
-      .then(reponse => {
-        this.info = reponse.data.result;
-      })
+    this.postList();
   },
 }
 </script>
@@ -138,13 +149,20 @@ export default {
   width: 40%;
   margin: auto;
   padding-top: 5px;
+  border: 0px;
   border-radius: 0px;
   background: #C9D6FF;
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #E2E2E2, #C9D6FF);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.card_link {
+  text-decoration: none;
+  color: black;
+  transition: background 0.5s ease-in-out;
+}
+
+.card_link:hover {
+  background: #eef2f3;
+
 }
 
 .card-body {
@@ -161,6 +179,10 @@ export default {
 .card-body-header-text {
   margin-bottom: 10px;
   font-size: 18px;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 img {

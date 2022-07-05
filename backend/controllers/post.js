@@ -29,7 +29,7 @@ exports.createPost = (req, res) => {
 }
 
 exports.getAllPost = (req, res) => {
-  db.query("SELECT post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, comment.comment_content, comment.comment_imageUrl, comment.comment_likes, comment.comment_date FROM post LEFT JOIN comment ON post.id = comment.post_id ORDER BY post.post_date DESC", [], (error, result) => {
+  db.query("SELECT user.nom, user.prenom, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, comment.comment_content, comment.comment_imageUrl, comment.comment_likes, comment.comment_date FROM post LEFT JOIN user ON post.user_id = user.id LEFT JOIN comment ON post.id = comment.post_id ORDER BY post.post_date DESC", [], (error, result) => {
     if (!error) {
       return res.status(200).json({ result });
     }
@@ -39,7 +39,7 @@ exports.getAllPost = (req, res) => {
 
 exports.getOnePost = (req, res) => {
   const id = req.params.id;
-  db.query("SELECT post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, comment.comment_content, comment.comment_imageUrl, comment.comment_likes, comment.comment_date FROM post LEFT JOIN comment ON post.id = comment.post_id WHERE post.id = ?", [id], (error, result) => {
+  db.query("SELECT user.nom, user.prenom, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, comment.comment_content, comment.comment_imageUrl, comment.comment_likes, comment.comment_date FROM post LEFT JOIN user ON post.user_id = user.id LEFT JOIN comment ON post.id = comment.post_id WHERE post.id = ?", [id], (error, result) => {
     if (!error) {
       if (result.length == 0) {
         return res.status(401).json({ message: "Post non trouvé !" });

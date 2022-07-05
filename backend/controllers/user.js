@@ -10,7 +10,7 @@ exports.register = (req, res) => {
     nom: req.body.nom,
     prenom: req.body.prenom,
     email: req.body.email,
-    imageUrl: 'http://localhost:3000/api/images/user.png',
+    imageUrl: 'http://localhost:3000/images/user.png',
     bio: req.body.bio,
     password: req.body.password,
   }
@@ -91,7 +91,7 @@ exports.getAllUser = (req, res) => {
 
 exports.getOneUser = (req, res) => {
   let id = req.params.id;
-  db.query("SELECT user.nom, user.prenom, user.email, post.post_content, post.post_imageUrl, post.post_date, comment.comment_content, comment.comment_imageUrl, comment.comment_date FROM user LEFT JOIN post ON user.id = post.user_id LEFT JOIN comment ON user.id = comment.user_id WHERE user.id = ?", [id], (error, result) => {
+  db.query("SELECT user.nom, user.prenom, user.email, user.user_imageUrl, post.post_content, post.post_imageUrl, post.post_date, comment.comment_content, comment.comment_imageUrl, comment.comment_date FROM user LEFT JOIN post ON user.id = post.user_id LEFT JOIN comment ON user.id = comment.user_id WHERE user.id = ?", [id], (error, result) => {
     if (!error) {
       if (result.length == 0) {
         return res.status(401).json({ message: "Aucun utilisateur trouvé !" });
@@ -104,22 +104,7 @@ exports.getOneUser = (req, res) => {
   })
 }
 
-exports.getProfile = (req, res) => {
-  let id = req.auth;
-  db.query("SELECT user.nom, user.prenom, user.email, post.post_content, post.post_imageUrl, post.post_date, comment.comment_content, comment.comment_imageUrl, comment.comment_date FROM user LEFT JOIN post ON user.id = post.user_id LEFT JOIN comment ON user.id = comment.user_id WHERE user.id = ?", [id], (error, result) => {
-    if (!error) {
-      if (result.length == 0) {
-        return res.status(401).json({ message: "Id de l'utilisateur non trouvé !" });
-      } else {
-        return res.status(200).json({ result });
-      }
-    } else {
-      res.status(400).json({ error });
-    }
-  })
-}
-
-exports.updateProfile = (req, res) => {
+exports.updateProfil = (req, res) => {
   const id = req.auth;
   let user = req.body;
 
@@ -189,7 +174,7 @@ exports.updateProfile = (req, res) => {
   })
 }
 
-exports.deleteProfile = (req, res) => {
+exports.deleteProfil = (req, res) => {
   let id = req.auth;
   db.query("SELECT * FROM user WHERE id = ?", [id], (error, result) => {
     if (!error) {
@@ -230,7 +215,7 @@ exports.deleteProfile = (req, res) => {
   })
 }
 
-exports.deleteAnyoneProfile = (req, res) => {
+exports.deleteAnyoneProfil = (req, res) => {
   let id = req.auth;
   db.query("SELECT * FROM user WHERE id = ?", [id], (error, result) => {
     if (!error) {

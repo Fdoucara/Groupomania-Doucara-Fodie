@@ -15,10 +15,18 @@
           </div>
 
           <div class="card-body-footer">
-            <input type="file" id="image" @change="onFileSelected">
-            <div class="btn btn-primary" @click="sendData"> Publier </div>
+            <div class="card-body-footer-upload">
+              <input type="file" id="image" @change="onFileSelected">
+              <label for="image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
+            </div>
+            <div class="card-body-footer-send">
+              <button class="btn btn-primary" @click="sendData"> <i class="fas fa-paper-plane"></i> &nbsp; Publier
+              </button>
+            </div>
           </div>
         </form>
+        <p class="upload-image-name"></p>
+        <p class="error"></p>
       </div>
     </div>
   </div>
@@ -35,7 +43,7 @@ export default {
   data() {
     return {
       formData: {
-        post_content: '',
+        post_content: null,
         selectedFile: null,
       },
       axiosInstance: axios.create({
@@ -45,13 +53,21 @@ export default {
       config: {
         headers: { 'Content-Type': 'multipart/form-data' }
       },
-      filename: ''
+      filename: '',
+      paragraphe: undefined,
+      paragrapheError: undefined
     }
   },
   methods: {
     onFileSelected(event) {
-      this.formData.selectedFile = event.target.files[0],
-        this.filename = event.target.files[0].name
+      this.formData.selectedFile = event.target.files[0];
+      this.filename = event.target.files[0].name;
+      this.paragraphe = document.querySelector('.upload-image-name');
+      if(this.formData.selectedFile) {
+        this.paragraphe.textContent = `${this.filename}`;
+      } else {
+        this.paragraphe.textContent = '';
+      }
     },
     sendData() {
       if (!this.formData.selectedFile) {
@@ -61,21 +77,38 @@ export default {
           .then(reponse => {
             if (reponse.status == 201) {
               this.$emit('updateList')
+              this.formData.post_content = null
             }
           })
           .catch(error => {
             console.log(error);
           })
       }
+      else if (this.formData.post_content == null || this.formData.post_content == '') {
+        const fb = new FormData();
+        fb.append('image', this.formData.selectedFile, this.filename);
+        this.axiosInstance.post('post/create', fb, this.config)
+          .catch(() => {
+            this.formData.selectedFile = null
+            this.paragraphe.textContent = ''
+            this.formData.post_content = null
+            this.paragrapheError = document.querySelector('.error');
+            this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte !'
+            this.paragrapheError.style.fontSize = '18px'
+            this.paragrapheError.style.color = 'red'
+          })
+      }
       else {
         const fd = new FormData();
         fd.append('image', this.formData.selectedFile, this.filename);
         fd.append('post_content', this.formData.post_content);
-
         this.axiosInstance.post('post/create', fd, this.config)
           .then(reponse => {
             if (reponse.status == 201) {
               this.$emit('updateList')
+              this.formData.selectedFile = null
+              this.paragraphe.textContent = ''
+              this.formData.post_content = null
             }
           })
           .catch(error => {
@@ -105,18 +138,21 @@ export default {
 .card-body-header {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  border-bottom: 1px solid gray;
+  justify-content: space-between;
+  width: 95%;
+  margin: auto;
 }
 
 .card-body-header-text {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   font-size: 40px;
 }
+
 .text1 {
   font-size: 30px;
   font-weight: bold;
 }
+
 .card-text {
   text-align: left;
   font-size: 22px;
@@ -145,6 +181,7 @@ img {
   padding: 7px;
   background: transparent;
   resize: none;
+  font-size: 20px;
 }
 
 .card-body-content-text::placeholder {
@@ -157,9 +194,37 @@ img {
 
 .card-body-footer {
   display: flex;
-  justify-content: space-evenly;
-  border-top: 1px solid grey;
+  justify-content: space-around;
+  align-items: center;
   padding-top: 20px;
+  padding-bottom: 25px;
   font-size: 22px;
+}
+
+.card-body-footer-upload,
+.card-body-footer-send {
+  width: 40%;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+label {
+  display: block;
+  background-color: white;
+  color: black;
+  font-size: 18px;
+  text-align: center;
+  padding: 10px 0px;
+  border-radius: 5px;
+  margin: 0;
+  cursor: pointer;
+}
+
+button {
+  width: 100%;
+  padding: 10px 0px;
+  font-size: 18px;
 }
 </style>

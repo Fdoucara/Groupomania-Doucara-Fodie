@@ -13,9 +13,8 @@ router.get('/logout', verifToken, userCtrl.logOut);
 // CRUD -> CREATE READ UPDATE DELETE <- CRUD -> USER
 router.get('/', verifToken, userCtrl.getAllUser);
 router.get('/:id', verifToken, userCtrl.getOneUser);
-router.get('/profile', verifToken, userCtrl.getProfile);
-router.patch('/update-profile', verifToken, multer, userCtrl.updateProfile);
-router.delete('/delete-profile', verifToken, userCtrl.deleteProfile);
-router.delete('/delete-anyone-profile', verifToken, isAdmin, userCtrl.deleteAnyoneProfile);
+router.patch('/update-profil', verifToken, multer, userCtrl.updateProfil);
+router.delete('/delete-profil', verifToken, userCtrl.deleteProfil);
+router.delete('/delete-anyone-profil', verifToken, isAdmin, userCtrl.deleteAnyoneProfil);
 
 module.exports = router;

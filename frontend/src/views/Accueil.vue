@@ -148,7 +148,6 @@ export default {
 .card {
   width: 40%;
   margin: auto;
-  padding-top: 5px;
   border: 0px;
   border-radius: 0px;
   background: #C9D6FF;
@@ -157,17 +156,19 @@ export default {
 .card_link {
   text-decoration: none;
   color: black;
+  padding: 0;
+  margin: 0;
   transition: background 0.5s ease-in-out;
 }
 
 .card_link:hover {
   background: #eef2f3;
-
 }
 
 .card-body {
   width: 100%;
-  margin: auto;
+  margin: 0;
+  border-top: 1px solid grey;
 }
 
 .card-body-header {
@@ -188,21 +189,21 @@ export default {
 img {
   width: 100%;
   height: auto;
+  padding-bottom: 25px;
 }
 
 .card-text {
   text-align: left;
   font-size: 22px;
   margin: 0;
-  padding-top: 25px;
   padding-bottom: 25px;
 }
 
 .card-body-footer {
   display: flex;
   justify-content: space-evenly;
-  border-top: 1px solid grey;
-  padding-top: 20px;
+  padding-top: 10px;
+  padding-bottom: 25px;
   font-size: 22px;
 }
 </style>

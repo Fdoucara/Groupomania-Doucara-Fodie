@@ -46,7 +46,6 @@ export default {
         withCredentials: true,
         baseURL: 'http://localhost:3000/api/'
       }),
-      info: null
     }
   },
   methods: {
@@ -56,11 +55,9 @@ export default {
         password: this.formData.password
       })
         .then(reponse => {
-          console.log(reponse)
-          console.log(this.info)
           if (reponse.status == 200) {
-            this.info = reponse.data.userId;
-            console.log(this.info);
+            this.$store.commit('UPDATE_USER_ID', reponse.data.userId);
+            this.$store.commit('UPDATE_ROLE_USER', reponse.data.roleUser);
             this.$router.push('/accueil');
           }
         })

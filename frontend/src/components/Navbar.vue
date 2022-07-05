@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="navbar">
-        <router-link to="/accueil"> <img src="../assets/logomodif1.png" alt="Logo Groupomania" class="navbar_logo"> </router-link>
+        <router-link to="/accueil"> <img src="../assets/logomodif.png" alt="Logo Groupomania" class="navbar_logo"> </router-link>
         <div class="navbar_item">
           <i class="fas fa-home"></i>
           <router-link to="/accueil" class="navbar_link"> <p> Accueil </p> </router-link>
@@ -36,9 +36,9 @@ export default {
   methods: {
     deconnexion(){
       this.axiosInstance.get('user/logout')
-      .then(reponse => {
-        console.log('ok');
-        console.log(reponse);
+      .then(() => {
+        this.$store.commit('REMOVE_USER_ID');
+        this.$store.commit('REMOVE_ROLE_USER');
         this.$router.push('/');
       })
     }

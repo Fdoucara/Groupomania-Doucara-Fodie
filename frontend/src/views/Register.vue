@@ -136,4 +136,9 @@ h2 {
   display: flex;
   flex-direction: column;
 }
+
+textarea {
+  padding: 5px;
+  resize: none;
+}
 </style>

@@ -10,18 +10,19 @@
 
     <div class="card" :key="index" v-for="(post, index) in info">
       <router-link :to="`/post/${post.id}`" class="card_link">
-        <div class="card-body">
+        <div class="card-body" :user_id="post.user_id">
           <div class="card-body-header">
-            <p class="card-body-header-text bold"> {{ post.nom + ' ' + post.prenom }} </p>
-            <p class="card-body-header-text"> {{ new Date(post.post_date).toLocaleString() }} </p>
+            <p class="card-body-header-text bold" v-if="post.user_id == userId"> Crée par vous </p>
+            <p class="card-body-header-text bold" v-else> {{ post.nom + ' ' + post.prenom }} </p>
+            <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
           </div>
           <img :src="post.post_imageUrl" class="card-image">
           <p class="card-text"> {{ post.post_content }} </p>
           <div class="card-body-footer">
-            <i class="fas fa-comment"></i>
+            <router-link to="/" class="logo_link"> <i class="fas fa-comment"></i> </router-link>
             <i class="fas fa-heart"></i>
-            <i class="fas fa-edit"></i>
-            <i class="fas fa-trash"></i>
+            <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-edit" ></i> </router-link>
+            <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-trash" ></i> </router-link>
           </div>
         </div>
       </router-link>
@@ -48,20 +49,21 @@ export default {
         withCredentials: true,
         baseURL: 'http://localhost:3000/api/'
       }),
-      info: null
+      info: undefined,
+      userId: this.$store.state.userId,
+      showYou: false,
     }
   },
   methods: {
     postList() {
       this.axiosInstance.get('post')
         .then(reponse => {
-          this.info = reponse.data.result;
+          this.info = reponse.data.result
         })
     },
     newList() {
-      this.info = [];
       this.postList();
-    }
+    },
   },
   mounted() {
     this.postList();
@@ -202,8 +204,13 @@ img {
 .card-body-footer {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   padding-top: 10px;
-  padding-bottom: 25px;
-  font-size: 22px;
+  font-size: 25px;
+}
+
+.logo_link {
+  text-decoration: none;
+  color: black;
 }
 </style>

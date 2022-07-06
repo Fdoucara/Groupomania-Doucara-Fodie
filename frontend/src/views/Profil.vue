@@ -1,14 +1,34 @@
 <template>
   <div>
     <navbar></navbar>
-    <div class="card">
+
+    <div class="card mb-3">
+      <div class="card_contain">
+        <div class="card_img">
+          <img :src="photo" class="img-fluid rounded-start" alt="`Photo de profil`">
+        </div>
+        <div class="card_body">
+          <h5 class="card-name"> {{ nom }} </h5>
+          <p class="card-firstname"> {{ prenom }} </p>
+          <p class="card-email"> {{ email }} </p>
+        </div>
+      </div>
+         <button class="card_button btn btn-primary mt-2"> Modifier votre profil </button>
+    </div>
+
+    <div class="activite mt-2">
+      <h1> Votre activité </h1>
+    </div>
+
+    <div class="card" :key="index" v-for="(post, index) in info">
+      <router-link :to="`/post/${post.id}`" class="card_link">
         <div class="card-body">
           <div class="card-body-header">
-            <p class="card-body-header-text bold"> {{ nom }} </p>
-            <p class="card-body-header-text"> {{ prenom }} </p>
+            <p class="card-body-header-text bold"> Crée par vous </p>
+            <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
           </div>
-          <img :src="photo" class="card-image">
-          <p class="card-text"> {{ email }} </p>
+          <img :src="post.post_imageUrl" class="card-image">
+          <p class="card-text"> {{ post.post_content }} </p>
           <div class="card-body-footer">
             <i class="fas fa-comment"></i>
             <i class="fas fa-heart"></i>
@@ -16,7 +36,9 @@
             <i class="fas fa-trash"></i>
           </div>
         </div>
+      </router-link>
     </div>
+
   </div>
 </template>
 
@@ -33,7 +55,7 @@ export default {
   data() {
     return {
       userId: this.$store.state.userId,
-        axiosInstance: axios.create({
+      axiosInstance: axios.create({
         withCredentials: true,
         baseURL: 'http://localhost:3000/api/'
       }),
@@ -41,10 +63,11 @@ export default {
       prenom: null,
       email: null,
       photo: null,
+      info: null,
     }
   },
   methods: {
-      getProfile() {
+    getProfile() {
       console.log(this.userId)
       this.axiosInstance.get(`user/${this.userId}`)
         .then(reponse => {
@@ -53,6 +76,8 @@ export default {
           this.prenom = reponse.data.result[0].prenom;
           this.email = reponse.data.result[0].email;
           this.photo = reponse.data.result[0].user_imageUrl;
+          this.info = reponse.data.result;
+          console.log(this.info);
         })
     }
   },
@@ -64,6 +89,45 @@ export default {
 </script>
 
 <style scoped>
+
+.card_contain {
+  width: 70%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.img-fluid {
+  width: 100%;
+  height: auto;
+}
+
+.card_body {
+  font-size: 20px;
+  text-align: left;
+}
+
+.card_button {
+  font-size: 20px;
+  width: 100%;
+  border-radius: 0;
+}
+
+.activite {
+  background-color: #C9D6FF;
+  width: 40%;
+  margin: auto;
+  margin-bottom: 0;
+}
+
+.activite h1 {
+  padding: 15px;
+  font-size: 30px;
+  margin: 0;
+}
+
 .card {
   width: 40%;
   margin: auto;

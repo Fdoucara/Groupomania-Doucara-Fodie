@@ -8,12 +8,12 @@
     <navbar></navbar>
     <creation :info="info" @updateList="newList"></creation>
 
-    <div class="card" :key="index" v-for="(post, index) in info">
+    <div class="card my-4" :key="index" v-for="(post, index) in info">
       <router-link :to="`/post/${post.id}`" class="card_link">
         <div class="card-body" :user_id="post.user_id">
           <div class="card-body-header">
-            <p class="card-body-header-text bold" v-if="post.user_id == userId"> Crée par vous </p>
-            <p class="card-body-header-text bold" v-else> {{ post.nom + ' ' + post.prenom }} </p>
+            <router-link :to="`/profil/${post.user_id}`" v-if="post.user_id == userId"> <p class="card-body-header-text bold"> Crée par vous </p> </router-link>
+            <router-link :to="`/profil/${post.user_id}`" v-else> <p class="card-body-header-text bold" > {{ post.nom + ' ' + post.prenom }} </p> </router-link>
             <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
           </div>
           <img :src="post.post_imageUrl" class="card-image">
@@ -148,11 +148,16 @@ export default {
 }
 
 .card {
-  width: 40%;
+  padding: 10px;
+  width: 43%;
   margin: auto;
   border: 0px;
-  border-radius: 0px;
-  background: #C9D6FF;
+  border-radius: 15px;
+  background: white;
+}
+
+.card:hover {
+  background: #eef2f3;
 }
 
 .card_link {
@@ -163,14 +168,9 @@ export default {
   transition: background 0.5s ease-in-out;
 }
 
-.card_link:hover {
-  background: #eef2f3;
-}
-
 .card-body {
   width: 100%;
   margin: 0;
-  border-top: 1px solid grey;
 }
 
 .card-body-header {

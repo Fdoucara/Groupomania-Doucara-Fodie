@@ -13,18 +13,19 @@
           <p class="card-email"> {{ email }} </p>
         </div>
       </div>
-         <button class="card_button btn btn-primary mt-2"> Modifier votre profil </button>
+         <button class="card_button btn btn-primary mt-2" v-if="userId == id"> Modifier votre profil </button>
     </div>
 
     <div class="activite mt-2">
-      <h1> Votre activité </h1>
+      <h1> Activité </h1>
     </div>
 
     <div class="card" :key="index" v-for="(post, index) in info">
       <router-link :to="`/post/${post.id}`" class="card_link">
         <div class="card-body">
           <div class="card-body-header">
-            <p class="card-body-header-text bold"> Crée par vous </p>
+            <p class="card-body-header-text bold" v-if="post.user_id == userId"> Crée par vous </p>
+            <p class="card-body-header-text bold" v-else> Crée par {{ post.nom + ' ' + post.prenom }} </p>
             <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
           </div>
           <img :src="post.post_imageUrl" class="card-image">
@@ -55,6 +56,7 @@ export default {
   data() {
     return {
       userId: this.$store.state.userId,
+      id: this.$route.params.id,
       axiosInstance: axios.create({
         withCredentials: true,
         baseURL: 'http://localhost:3000/api/'
@@ -69,7 +71,7 @@ export default {
   methods: {
     getProfile() {
       console.log(this.userId)
-      this.axiosInstance.get(`user/${this.userId}`)
+      this.axiosInstance.get(`user/${this.id}`)
         .then(reponse => {
           console.log(reponse);
           this.nom = reponse.data.result[0].nom;

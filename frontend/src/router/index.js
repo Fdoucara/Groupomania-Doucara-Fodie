@@ -22,7 +22,7 @@ const routes = [
     component: AccueilComponent
   },
   {
-    path: '/profil',
+    path: '/profil/:id',
     component: ProfilComponent
   },
   {

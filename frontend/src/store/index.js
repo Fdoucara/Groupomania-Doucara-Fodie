@@ -8,7 +8,8 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     userId: null,
-    roleUser: null
+    roleUser: null,
+    userPicture: null
   },
   getters: {
   },
@@ -24,7 +25,7 @@ export default new Vuex.Store({
     },
     REMOVE_ROLE_USER(state) {
       state.roleUser = null;
-    },
+    }
   },
   actions: {
   },

@@ -11,7 +11,7 @@
           <div class="card-body-content">
             <img src="../assets/icon-above-font.png" class="card-image">
             <textarea class="card-body-content-text" id="content" v-model="formData.post_content"
-              placeholder="Que voulez-vous nous raconter aujourd'hui ?" required></textarea>
+              placeholder="Que voulez-vous nous raconter aujourd'hui ?" @keyup="verifWrite" required></textarea>
           </div>
 
           <div class="card-body-footer">
@@ -55,7 +55,7 @@ export default {
       },
       filename: '',
       paragraphe: undefined,
-      paragrapheError: undefined
+      paragrapheError: undefined,
     }
   },
   methods: {
@@ -68,6 +68,9 @@ export default {
       } else {
         this.paragraphe.textContent = '';
       }
+    },
+    verifWrite(){
+      this.paragrapheError.textContent = '';
     },
     sendData() {
       if (!this.formData.selectedFile) {
@@ -89,9 +92,6 @@ export default {
         fb.append('image', this.formData.selectedFile, this.filename);
         this.axiosInstance.post('post/create', fb, this.config)
           .catch(() => {
-            this.formData.selectedFile = null
-            this.paragraphe.textContent = ''
-            this.formData.post_content = null
             this.paragrapheError = document.querySelector('.error');
             this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte !'
             this.paragrapheError.style.fontSize = '18px'
@@ -109,6 +109,7 @@ export default {
               this.formData.selectedFile = null
               this.paragraphe.textContent = ''
               this.formData.post_content = null
+               this.paragrapheError.textContent = ''
             }
           })
           .catch(error => {
@@ -122,12 +123,12 @@ export default {
 
 <style scoped>
 .card {
-  width: 40%;
+  width: 43%;
   margin: auto;
   padding-top: 5px;
   border: 0;
-  border-radius: 0px;
-  background: #C9D6FF;
+  border-radius: 0px 0px 15px 15px;
+  background: white;
 }
 
 .card-body {
@@ -212,8 +213,8 @@ input[type="file"] {
 
 label {
   display: block;
-  background-color: white;
-  color: black;
+  background-color: #203A43;
+  color: white;
   font-size: 18px;
   text-align: center;
   padding: 10px 0px;

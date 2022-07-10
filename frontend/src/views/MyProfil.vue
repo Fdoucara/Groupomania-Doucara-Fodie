@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <navbar></navbar>
+  <div class="big_contain">
 
     <div class="card_ mb-3">
       <div class="card_contain">
@@ -13,26 +12,28 @@
           <p class="card-email"> {{ email }} </p>
         </div>
       </div>
-         <button class="card_button btn mt-2"> Modifier votre profil </button>
+      <button class="card_button btn mt-2"> Modifier votre profil </button>
     </div>
 
-    <div class="card my-4" :key="index" v-for="(post, index) in info">
-      <router-link :to="`/post/${post.id}`" class="card_link">
-        <div class="card-body">
-          <div class="card-body-header">
-            <p class="card-body-header-text bold"> Par vous </p>
-            <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
+    <div class="post_scroll">
+      <div class="card my-4" :key="index" v-for="(post, index) in info">
+        <router-link :to="`/post/${post.id}`" class="card_link">
+          <div class="card-body">
+            <div class="card-body-header">
+              <p class="card-body-header-text bold"> Par vous </p>
+              <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
+            </div>
+            <img :src="post.post_imageUrl" class="card-image">
+            <p class="card-text"> {{ post.post_content }} </p>
+            <div class="card-body-footer">
+              <i class="fas fa-comment"></i>
+              <i class="fas fa-heart"></i>
+              <i class="fas fa-edit"></i>
+              <i class="fas fa-trash"></i>
+            </div>
           </div>
-          <img :src="post.post_imageUrl" class="card-image">
-          <p class="card-text"> {{ post.post_content }} </p>
-          <div class="card-body-footer">
-            <i class="fas fa-comment"></i>
-            <i class="fas fa-heart"></i>
-            <i class="fas fa-edit"></i>
-            <i class="fas fa-trash"></i>
-          </div>
-        </div>
-      </router-link>
+        </router-link>
+      </div>
     </div>
 
   </div>
@@ -40,14 +41,10 @@
 
 <script>
 
-import NavbarComponent from '@/components/Navbar.vue'
 import axios from 'axios'
 
 export default {
   name: 'MyProfilComponent',
-  components: {
-    'navbar': NavbarComponent,
-  },
   data() {
     return {
       userId: this.$store.state.userId,
@@ -86,9 +83,17 @@ export default {
 </script>
 
 <style scoped>
+.big_contain {
+  position: fixed;
+  background: #D31027;
+  width: 25%;
+  height: 100%;
+  padding: 20px 0px;
+  right: 0;
+}
 
 .card_contain {
-  width: 70%;
+  width: 90%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -98,11 +103,12 @@ export default {
 
 .card_ {
   padding: 15px;
-  width: 43%;
+  width: 95%;
   margin: auto;
   border: 0px;
   background: white;
 }
+
 .img-fluid {
   width: 100%;
   height: auto;
@@ -121,23 +127,19 @@ export default {
   color: white;
 }
 
-.activite {
-  background-color: white;
-  width: 43%;
-  margin: auto;
-  margin-bottom: 0;
-  border-radius: 25px;
+.post_scroll {
+  overflow-y: scroll;
+  height: 600px;
+  scrollbar-width: none;
 }
 
-.activite h1 {
-  padding: 15px;
-  font-size: 30px;
-  margin: 0;
+.post_scroll::-webkit-scrollbar {
+    width: 0px;
 }
 
 .card {
   padding: 10px;
-  width: 43%;
+  width: 95%;
   margin: auto;
   border: 0px;
   border-radius: 15px;

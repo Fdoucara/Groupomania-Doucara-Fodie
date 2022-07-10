@@ -6,10 +6,6 @@
           <i class="fas fa-home"></i>
           <router-link to="/accueil" class="navbar_link"> <p> Accueil </p> </router-link>
         </div>
-        <div class="navbar_item">
-          <i class="fas fa-user"></i>
-          <router-link to="/monProfil" class="navbar_link"> <p> Profil </p> </router-link>
-        </div>
         <div class="navbar_item">        
           <i class="fas fa-sign-out-alt"></i> 
           <p class="navbar_link" @click="deconnexion"> Deconnexion </p> 
@@ -51,11 +47,12 @@ export default {
 .navbar {
   position: fixed;
   height: 100%;
-  width: 30%;
+  width: 25%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  background: #D31027;
 }
 
 .navbar_logo{

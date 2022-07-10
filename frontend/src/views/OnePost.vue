@@ -4,7 +4,8 @@
   <div class="card">
     <div class="card-body" :key="index" v-for="(post, index) in info">
       <div class="card-body-header">
-        <p class="card-body-header-text bold"> {{ post.nom + ' ' + post.prenom }} </p>
+        <p class="card-body-header-text bold" v-if="post.user_id == userId"> Par vous </p>
+        <p class="card-body-header-text bold" v-else> Par {{ post.nom + ' ' + post.prenom }} </p>
         <p class="card-body-header-text"> {{ new Date(post.post_date).toLocaleString() }} </p>
       </div>
       <img :src="post.post_imageUrl" class="card-image">
@@ -12,8 +13,8 @@
       <div class="card-body-footer">
         <i class="fas fa-comment"></i>
         <i class="fas fa-heart"></i>
-        <i class="fas fa-edit"></i>
-        <i class="fas fa-trash" @click="deletePost"></i>
+        <i class="fas fa-edit" v-if="post.user_id == userId"></i>
+        <i class="fas fa-trash" @click="deletePost" v-if="post.user_id == userId"></i>
       </div>
     </div>
   </div>
@@ -37,7 +38,8 @@ export default {
         baseURL: 'http://localhost:3000/api/'
       }),
       info: null,
-      index: this.$route.params.id
+      index: this.$route.params.id,
+      userId: this.$store.state.userId
     }
   },
   methods: {

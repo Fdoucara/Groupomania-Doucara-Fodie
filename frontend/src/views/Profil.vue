@@ -24,8 +24,8 @@
       <router-link :to="`/post/${post.id}`" class="card_link">
         <div class="card-body">
           <div class="card-body-header">
-            <p class="card-body-header-text bold" v-if="post.user_id == userId"> Crée par vous </p>
-            <p class="card-body-header-text bold" v-else> Crée par {{ post.nom + ' ' + post.prenom }} </p>
+            <p class="card-body-header-text bold" v-if="post.user_id == userId"> Par vous </p>
+            <p class="card-body-header-text bold" v-else> Par {{ post.nom + ' ' + post.prenom }} </p>
             <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
           </div>
           <img :src="post.post_imageUrl" class="card-image">
@@ -33,8 +33,8 @@
           <div class="card-body-footer">
             <i class="fas fa-comment"></i>
             <i class="fas fa-heart"></i>
-            <i class="fas fa-edit"></i>
-            <i class="fas fa-trash"></i>
+            <i class="fas fa-edit" v-if="post.user_id == userId"></i>
+            <i class="fas fa-trash" v-if="post.user_id == userId"></i>
           </div>
         </div>
       </router-link>
@@ -83,7 +83,7 @@ export default {
         })
     }
   },
-  mounted() {
+  beforeMount() {
     this.getProfile();
   },
 }
@@ -118,7 +118,7 @@ export default {
 }
 
 .activite {
-  background-color: #C9D6FF;
+  background-color: white;
   width: 40%;
   margin: auto;
   margin-bottom: 0;
@@ -135,7 +135,7 @@ export default {
   margin: auto;
   border: 0px;
   border-radius: 0px;
-  background: #C9D6FF;
+  background: white;
 }
 
 .card_link {

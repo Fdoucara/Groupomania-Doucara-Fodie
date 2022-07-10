@@ -1,8 +1,8 @@
 <template>
   <div>
 
-    <loader :visible="visible"></loader>
     <navbar></navbar>
+    <mon-profil></mon-profil>
     <creation :info="info" @updateList="newList"></creation>
 
     <div class="card my-4" :key="index" v-for="(post, index) in info">
@@ -32,7 +32,7 @@
 
 import NavbarComponent from '@/components/Navbar.vue'
 import CreationPost from '@/components/CreationPost.vue'
-import LoaderComponent from '@/components/Loader.vue'
+import MyProfilComponent from '@/views/MyProfil.vue'
 import axios from 'axios'
 
 export default {
@@ -40,7 +40,7 @@ export default {
   components: {
     'navbar': NavbarComponent,
     'creation': CreationPost,
-    'loader': LoaderComponent
+    'mon-profil': MyProfilComponent
   },
   data() {
     return {
@@ -50,7 +50,6 @@ export default {
       }),
       info: undefined,
       userId: this.$store.state.userId,
-      visible: true,
     }
   },
   methods: {

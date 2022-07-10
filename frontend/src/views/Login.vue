@@ -1,31 +1,31 @@
 <template>
 
-  <div class="container">
+    <div class="container">
+      <img src="../assets/icon-left-font-monochrome-white.png" alt="Groupomania logo">
 
-    <img src="../assets/icon-left-font-monochrome-white.png" alt="Groupomania logo">
+      <div class="form-p">
+        <form>
+          <h2> Connexion </h2>
+          <div class="form-group my-5">
+            <label for="email" class="mb-2"> Votre adresse email : </label>
+            <input type="email" id="email" class="form-control" v-model="formData.email">
+          </div>
 
-    <div class="form-p">
-      <form>
-        <h2> Connexion </h2>
-        <div class="form-group my-5">
-          <label for="email" class="mb-2"> Votre adresse email : </label>
-          <input type="email" id="email" class="form-control" v-model="formData.email">
+          <div class="form-group mt-4">
+            <label for="password" class="mb-2"> Votre mot de passe : </label>
+            <input type="password" id="password" class="form-control" v-model="formData.password">
+          </div>
+
+          <button class="btn mt-5" @click.prevent="sendData"> Se connecter </button>
+        </form>
+
+        <div>
+          <p class="mt-5"> Vous n'avez pas encore de compte ? <router-link to="/inscription"> Cliquez ici.
+            </router-link>
+          </p>
         </div>
-
-        <div class="form-group mt-4">
-          <label for="password" class="mb-2"> Votre mot de passe : </label>
-          <input type="password" id="password" class="form-control" v-model="formData.password">
-        </div>
-
-        <button class="btn btn-primary mt-5" @click.prevent="sendData"> Se connecter </button>
-      </form>
-
-      <div>
-        <p class="mt-5"> Vous n'avez pas encore de compte ? <router-link to="/inscription"> Cliquez ici. </router-link>
-        </p>
       </div>
     </div>
-  </div>
 
 </template>
 
@@ -88,11 +88,12 @@ img {
 .form-p {
   right: 10%;
   background: white;
-  width: 500px;
+  width: 530px;
   height: 550px;
   padding: 40px;
   border-radius: 20px;
   margin-top: 150px;
+  font-size: 20px;
 }
 
 h2 {
@@ -102,4 +103,15 @@ h2 {
 .form-group {
   text-align: left;
 }
+
+.btn {
+  display: block;
+  width: 60%;
+  margin: auto;
+  color: white;
+  background: #D31027;
+  font-size: 20px;
+  padding: 10px 0px 10px 0px;
+}
+
 </style>

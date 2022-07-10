@@ -81,7 +81,7 @@ exports.logOut = (req, res) => {
 }
 
 exports.getAllUser = (req, res) => {
-  db.query("SELECT user.nom, user.prenom, user.email, post.post_content, post.post_imageUrl FROM user LEFT JOIN post ON user.id = post.user_id", [], (error, result) => {
+  db.query("SELECT user.nom, user.prenom, user.email, post.id, post.post_content, post.post_imageUrl, post.user_id FROM user LEFT JOIN post ON user.id = post.user_id ORDER BY post.post_date DESC", [], (error, result) => {
     if (!error) {
       return res.status(200).json({ result });
     }
@@ -91,7 +91,7 @@ exports.getAllUser = (req, res) => {
 
 exports.getOneUser = (req, res) => {
   let id = req.params.id;
-  db.query("SELECT user.nom, user.prenom, user.email, user.user_imageUrl, post.post_content, post.post_imageUrl, post.post_date, comment.comment_content, comment.comment_imageUrl, comment.comment_date FROM user LEFT JOIN post ON user.id = post.user_id LEFT JOIN comment ON user.id = comment.user_id WHERE user.id = ?", [id], (error, result) => {
+  db.query("SELECT user.nom, user.prenom, user.email, user.user_imageUrl, post.id, post.post_content, post.post_imageUrl, post.post_date, post.user_id, comment.comment_content, comment.comment_imageUrl, comment.comment_date FROM user LEFT JOIN post ON user.id = post.user_id LEFT JOIN comment ON user.id = comment.user_id WHERE user.id = ? ORDER BY post.post_date DESC", [id], (error, result) => {
     if (!error) {
       if (result.length == 0) {
         return res.status(401).json({ message: "Aucun utilisateur trouvé !" });

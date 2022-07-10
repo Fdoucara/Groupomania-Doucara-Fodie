@@ -32,7 +32,7 @@
           <input type="password" id="password" class="form-control" v-model="formData.password">
         </div>
 
-        <button class="btn btn-primary mt-4" @click.prevent="sendData"> Créer mon compte </button>
+        <button class="btn mt-4" @click.prevent="sendData"> Créer mon compte </button>
       </form>
 
       <div>
@@ -117,11 +117,12 @@ img {
 
 .form-p {
   background: white;
-  width: 500px;
-  height: 710px;
+  width: 550px;
+  height: 780px;
   padding: 40px;
   border-radius: 20px;
-  margin-top: 100px;
+  margin-top: 60px;
+  font-size: 20px;
 }
 
 h2 {
@@ -140,5 +141,15 @@ h2 {
 textarea {
   padding: 5px;
   resize: none;
+}
+
+.btn {
+  display: block;
+  width: 60%;
+  margin: auto;
+  color: white;
+  background: #D31027;
+  padding: 10px 0px;
+  font-size: 20px;
 }
 </style>

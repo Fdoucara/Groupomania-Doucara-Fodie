@@ -8,7 +8,7 @@
         </div>
         <div class="navbar_item">
           <i class="fas fa-user"></i>
-          <router-link to="/profil" class="navbar_link"> <p> Profil </p> </router-link>
+          <router-link to="/monProfil" class="navbar_link"> <p> Profil </p> </router-link>
         </div>
         <div class="navbar_item">        
           <i class="fas fa-sign-out-alt"></i> 

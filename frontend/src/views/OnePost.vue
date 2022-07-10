@@ -57,11 +57,12 @@ export default {
 
 <style scoped>
 .card {
-  width: 40%;
+  padding: 10px;
+  width: 43%;
   margin: auto;
-  padding-top: 5px;
-  border-radius: 0px;
-  background: #C9D6FF;
+  border: 0px;
+  border-radius: 0px 0px 15px 15px;
+  background: white;
 }
 
 .card-body {
@@ -93,15 +94,14 @@ img {
   text-align: left;
   font-size: 22px;
   margin: 0;
-  padding-top: 25px;
   padding-bottom: 25px;
 }
 
 .card-body-footer {
   display: flex;
   justify-content: space-evenly;
-  border-top: 1px solid grey;
-  padding-top: 20px;
-  font-size: 22px;
+  align-items: center;
+  padding-top: 10px;
+  font-size: 25px;
 }
 </style>

@@ -1,10 +1,7 @@
 <template>
   <div>
 
-    <!-- <div class="loader-container">
-      <div class="loader"></div>
-    </div> -->
-
+    <loader :visible="visible"></loader>
     <navbar></navbar>
     <creation :info="info" @updateList="newList"></creation>
 
@@ -12,8 +9,8 @@
       <router-link :to="`/post/${post.id}`" class="card_link">
         <div class="card-body" :user_id="post.user_id">
           <div class="card-body-header">
-            <router-link :to="`/profil/${post.user_id}`" v-if="post.user_id == userId"> <p class="card-body-header-text bold"> Crée par vous </p> </router-link>
-            <router-link :to="`/profil/${post.user_id}`" v-else> <p class="card-body-header-text bold" > {{ post.nom + ' ' + post.prenom }} </p> </router-link>
+            <router-link to="/monProfil" v-if="post.user_id == userId" class="card-body-header-text bold"> <p> Par vous </p> </router-link>
+            <router-link :to="`/profil/${post.user_id}`" v-else class="card-body-header-text bold"> <p> Par {{ post.nom + ' ' + post.prenom }} </p> </router-link>
             <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
           </div>
           <img :src="post.post_imageUrl" class="card-image">
@@ -35,13 +32,15 @@
 
 import NavbarComponent from '@/components/Navbar.vue'
 import CreationPost from '@/components/CreationPost.vue'
+import LoaderComponent from '@/components/Loader.vue'
 import axios from 'axios'
 
 export default {
   name: 'AccueilComponent',
   components: {
     'navbar': NavbarComponent,
-    'creation': CreationPost
+    'creation': CreationPost,
+    'loader': LoaderComponent
   },
   data() {
     return {
@@ -51,7 +50,7 @@ export default {
       }),
       info: undefined,
       userId: this.$store.state.userId,
-      showYou: false,
+      visible: true,
     }
   },
   methods: {
@@ -72,80 +71,6 @@ export default {
 </script>
 
 <style scoped>
-@keyframes loader {
-  0% {
-    z-index: 2;
-  }
-
-  100% {
-    z-index: -1;
-    opacity: 0;
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.loader-container {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-  background: #232526;
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, #414345, #232526);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #414345, #232526);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  animation: loader 0.01s 2.5s forwards;
-}
-
-.loader {
-  display: block;
-  position: relative;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  border: 7px solid transparent;
-  border-top-color: #606c88;
-  animation: spin 2s linear infinite;
-}
-
-.loader::before,
-.loader::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  border: 7px solid transparent;
-}
-
-.loader::before {
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
-  border-top-color: white;
-  animation: spin 3s linear infinite;
-}
-
-.loader::after {
-  top: 40px;
-  left: 40px;
-  right: 40px;
-  bottom: 40px;
-  border-top-color: #536976;
-  animation: spin 1.5s linear infinite;
-}
 
 .card {
   padding: 10px;
@@ -180,6 +105,8 @@ export default {
 }
 
 .card-body-header-text {
+  text-decoration: none;
+  color: black;
   margin-bottom: 10px;
   font-size: 18px;
 }

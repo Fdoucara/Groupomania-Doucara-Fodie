@@ -66,7 +66,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .bloc-modale {
   position: fixed;
   top: 0;

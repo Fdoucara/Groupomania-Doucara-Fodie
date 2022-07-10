@@ -6,6 +6,10 @@
           <i class="fas fa-home"></i>
           <router-link to="/accueil" class="navbar_link"> <p> Accueil </p> </router-link>
         </div>
+        <div class="navbar_item">
+          <i class="fas fa-home"></i>
+          <router-link to="/accueil" class="navbar_link"> <p> Utilisateurs </p> </router-link>
+        </div>
         <div class="navbar_item">        
           <i class="fas fa-sign-out-alt"></i> 
           <p class="navbar_link" @click="deconnexion"> Deconnexion </p> 

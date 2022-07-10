@@ -1,7 +1,7 @@
 <template>
 
     <div class="container">
-      <img src="../assets/icon-left-font-monochrome-white.png" alt="Groupomania logo">
+      <img src="../assets/icon-left-font-monochrome-black.png" alt="Groupomania logo">
 
       <div class="form-p">
         <form>

@@ -1,6 +1,7 @@
 <template>
 <div>
   <navbar></navbar>
+  <mon-profil></mon-profil>
   <div class="card">
     <div class="card-body" :key="index" v-for="(post, index) in info">
       <div class="card-body-header">
@@ -24,12 +25,14 @@
 <script>
 
 import NavbarComponent from '@/components/Navbar.vue'
+import MyProfilComponent from '@/views/MyProfil.vue'
 import axios from 'axios'
 
 export default {
   name: 'OnePost',
   components: {
-    'navbar': NavbarComponent
+    'navbar': NavbarComponent,
+    'mon-profil': MyProfilComponent
   },
   data() {
     return {
@@ -58,6 +61,7 @@ export default {
 </script>
 
 <style scoped>
+
 .card {
   padding: 10px;
   width: 43%;
@@ -90,10 +94,11 @@ export default {
 img {
   width: 100%;
   height: auto;
+  padding-bottom: 25px;
 }
 
 .card-text {
-  text-align: left;
+ text-align: left;
   font-size: 22px;
   margin: 0;
   padding-bottom: 25px;

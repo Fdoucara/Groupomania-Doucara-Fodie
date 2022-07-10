@@ -1,6 +1,7 @@
 <template>
   <div>
     <navbar></navbar>
+    <mon-profil></mon-profil>
 
     <div class="card mb-3">
       <div class="card_contain">
@@ -46,12 +47,14 @@
 <script>
 
 import NavbarComponent from '@/components/Navbar.vue'
+import MyProfilComponent from '@/views/MyProfil.vue'
 import axios from 'axios'
 
 export default {
   name: 'ProfilComponent',
   components: {
     'navbar': NavbarComponent,
+    'mon-profil': MyProfilComponent
   },
   data() {
     return {
@@ -83,7 +86,7 @@ export default {
         })
     }
   },
-  beforeMount() {
+  mounted() {
     this.getProfile();
   },
 }

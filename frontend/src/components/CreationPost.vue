@@ -20,7 +20,7 @@
               <label for="image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
             </div>
             <div class="card-body-footer-send">
-              <button class="btn btn-primary" @click="sendData"> <i class="fas fa-paper-plane"></i> &nbsp; Publier
+              <button class="btn btn-color" @click="sendData"> <i class="fas fa-paper-plane"></i> &nbsp; Publier
               </button>
             </div>
           </div>
@@ -37,6 +37,7 @@
 <script>
 
 import axios from 'axios'
+import {bus} from '../main'
 
 export default {
   name: 'CreationPost',
@@ -55,7 +56,7 @@ export default {
       },
       filename: '',
       paragraphe: undefined,
-      paragrapheError: undefined,
+      paragrapheError: undefined
     }
   },
   methods: {
@@ -79,8 +80,9 @@ export default {
         })
           .then(reponse => {
             if (reponse.status == 201) {
-              this.$emit('updateList')
-              this.formData.post_content = null
+              this.$emit('updateList');
+              bus.$emit('takeProfil');
+              this.formData.post_content = null;
             }
           })
           .catch(error => {
@@ -93,9 +95,9 @@ export default {
         this.axiosInstance.post('post/create', fb, this.config)
           .catch(() => {
             this.paragrapheError = document.querySelector('.error');
-            this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte !'
-            this.paragrapheError.style.fontSize = '18px'
-            this.paragrapheError.style.color = 'red'
+            this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte !';
+            this.paragrapheError.style.fontSize = '18px';
+            this.paragrapheError.style.color = 'red';
           })
       }
       else {
@@ -105,11 +107,12 @@ export default {
         this.axiosInstance.post('post/create', fd, this.config)
           .then(reponse => {
             if (reponse.status == 201) {
-              this.$emit('updateList')
-              this.formData.selectedFile = null
-              this.paragraphe.textContent = ''
-              this.formData.post_content = null
-               this.paragrapheError.textContent = ''
+              this.$emit('updateList');
+              bus.$emit('takeProfil');
+              this.formData.selectedFile = null;
+              this.paragraphe.textContent = '';
+              this.formData.post_content = null;
+              this.paragrapheError.textContent = '';
             }
           })
           .catch(error => {
@@ -215,7 +218,7 @@ label {
   display: block;
   background-color: #203A43;
   color: white;
-  font-size: 18px;
+  font-size: 20px;
   text-align: center;
   padding: 10px 0px;
   border-radius: 5px;
@@ -226,6 +229,11 @@ label {
 button {
   width: 100%;
   padding: 10px 0px;
-  font-size: 18px;
+  font-size: 20px;
+}
+
+.btn-color {
+  background: #D31027;
+  color: white;
 }
 </style>

@@ -42,6 +42,7 @@
 <script>
 
 import axios from 'axios'
+import { bus } from '../main.js'
 
 export default {
   name: 'MyProfilComponent',
@@ -62,21 +63,21 @@ export default {
   },
   methods: {
     getProfile() {
-      console.log(this.userId)
       this.axiosInstance.get(`user/${this.userId}`)
         .then(reponse => {
-          console.log(reponse);
           this.nom = reponse.data.result[0].nom;
           this.prenom = reponse.data.result[0].prenom;
           this.email = reponse.data.result[0].email;
           this.photo = reponse.data.result[0].user_imageUrl;
           this.info = reponse.data.result;
-          console.log(this.info);
         })
     }
   },
   mounted() {
     this.getProfile();
+    bus.$on('takeProfil', () => {
+      this.getProfile();
+    })
   },
 }
 
@@ -134,7 +135,7 @@ export default {
 }
 
 .post_scroll::-webkit-scrollbar {
-    width: 0px;
+  width: 0px;
 }
 
 .card {

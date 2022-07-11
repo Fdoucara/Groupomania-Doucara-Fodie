@@ -13,8 +13,8 @@
       <img :src="post.post_imageUrl" class="card-image">
       <p class="card-text"> {{ post.post_content }} </p>
       <div class="card-body-footer">
-        <i class="fas fa-comment"></i>
-        <i class="fas fa-heart"></i>
+        <i class="fas fa-comment"> {{ post.totalComment }} </i>
+        <i class="fas fa-heart"> {{ post.post_likes }} </i>
         <i class="fas fa-edit" v-if="post.user_id == userId"></i>
         <i class="fas fa-trash" @click="deletePost" v-if="post.user_id == userId"></i>
       </div>

@@ -15,8 +15,7 @@
           <img :src="comment.comment_imageUrl" class="card-image">
           <p class="card-text"> {{ comment.comment_content }} </p>
           <div class="card-body-footer">
-            <i class="fas fa-comment"> {{ comment.totalComment }}</i>
-            <i class="fas fa-heart"> {{ comment.post_likes }} </i>
+            <i class="fas fa-heart"> {{ comment.comment_likes }} </i>
             <router-link to="/" v-if="comment.user_id == userId" class="logo_link"> <i class="fas fa-edit"></i>
             </router-link>
             <router-link to="/" v-if="comment.user_id == userId" class="logo_link"> <i class="fas fa-trash"></i>

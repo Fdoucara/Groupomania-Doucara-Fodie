@@ -39,7 +39,7 @@ exports.getAllPost = (req, res) => {
 
 exports.getOnePost = (req, res) => {
   const id = req.params.id;
-  db.query("SELECT user.nom, user.prenom, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, post.user_id, comment.comment_content, comment.comment_imageUrl, comment.comment_likes, comment.comment_date FROM post LEFT JOIN user ON post.user_id = user.id LEFT JOIN comment ON post.id = comment.post_id WHERE post.id = ? GROUP BY post.id", [id], (error, result) => {
+  db.query("SELECT user.nom, user.prenom, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, post.user_id, COUNT(comment.comment_content) AS totalComment, comment.comment_likes FROM post LEFT JOIN user ON post.user_id = user.id LEFT JOIN comment ON post.id = comment.post_id WHERE post.id = ? GROUP BY post.id", [id], (error, result) => {
     if (!error) {
       if (result.length == 0) {
         return res.status(401).json({ message: "Post non trouvé !" });

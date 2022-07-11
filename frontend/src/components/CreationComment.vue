@@ -37,7 +37,6 @@
 <script>
 
 import axios from 'axios'
-import {bus} from '../main'
 
 export default {
   name: 'CreationComment',
@@ -78,12 +77,10 @@ export default {
     sendData() {
       if (!this.formData.selectedFile) {
         this.axiosInstance.post('post/create-comment/' + this.post_id, {
-          post_content: this.formData.comment_content
+          comment_content: this.formData.comment_content
         })
           .then(reponse => {
             if (reponse.status == 201) {
-              this.$emit('updateList');
-              bus.$emit('takeProfil');
               this.formData.comment_content = null;
             }
           })
@@ -104,12 +101,10 @@ export default {
       else {
         const fd = new FormData();
         fd.append('image', this.formData.selectedFile, this.filename);
-        fd.append('post_content', this.formData.comment_content);
+        fd.append('comment_content', this.formData.comment_content);
         this.axiosInstance.post('post/create-comment/' + this.post_id, fd, this.config)
           .then(reponse => {
             if (reponse.status == 201) {
-              this.$emit('updateList');
-              bus.$emit('takeProfil');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
               this.formData.comment_content = null;

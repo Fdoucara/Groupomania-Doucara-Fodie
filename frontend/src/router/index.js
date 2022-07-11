@@ -33,7 +33,7 @@ const routes = [
   {
     path: '/post/:id',
     component: OnePost
-  },
+  }
 ]
 
 const router = new VueRouter({

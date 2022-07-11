@@ -3,7 +3,7 @@
     <navbar></navbar>
     <mon-profil></mon-profil>
 
-    <div class="card mb-3">
+    <div class="card_ mb-4">
       <div class="card_contain">
         <div class="card_img">
           <img :src="photo" class="img-fluid rounded-start" alt="`Photo de profil`">
@@ -21,7 +21,7 @@
       <h1> Activité </h1>
     </div>
 
-    <div class="card" :key="index" v-for="(post, index) in info">
+    <div class="card my-4" :key="index" v-for="(post, index) in info">
       <router-link :to="`/post/${post.id}`" class="card_link">
         <div class="card-body">
           <div class="card-body-header">
@@ -95,13 +95,20 @@ export default {
 
 <style scoped>
 
+.card_ {
+  width: 43%;
+  margin: auto;
+  border: 0px;
+  border-radius: 0px;
+  background: white;
+}
 .card_contain {
   width: 70%;
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin: auto;
-  margin-top: 20px;
+  padding-top: 20px;
 }
 
 .img-fluid {
@@ -121,24 +128,31 @@ export default {
 }
 
 .activite {
-  background-color: white;
-  width: 40%;
+  background-color: #D31027;
+  width: 43%;
   margin: auto;
   margin-bottom: 0;
 }
 
 .activite h1 {
+  color: white;
   padding: 15px;
   font-size: 30px;
   margin: 0;
 }
 
 .card {
-  width: 40%;
+  width: 43%;
   margin: auto;
   border: 0px;
-  border-radius: 0px;
+  border-radius: 15px;
   background: white;
+  transition: background 0.5s ease-in-out;
+}
+
+
+.card:hover {
+  background: #eef2f3;
 }
 
 .card_link {
@@ -146,17 +160,11 @@ export default {
   color: black;
   padding: 0;
   margin: 0;
-  transition: background 0.5s ease-in-out;
-}
-
-.card_link:hover {
-  background: #eef2f3;
 }
 
 .card-body {
   width: 100%;
   margin: 0;
-  border-top: 1px solid grey;
 }
 
 .card-body-header {

@@ -6,25 +6,34 @@
     <creation :info="info" @updateList="newList"></creation>
 
     <div class="card my-4" :key="index" v-for="(post, index) in info">
-      <router-link :to="`/post/${post.id}`" class="card_link">
-        <div class="card-body" :user_id="post.user_id">
+
+      <div class="card-body" :user_id="post.user_id">
+        <router-link :to="`/post/${post.id}`" class="card_link">
           <div class="card-body-header">
-            <router-link to="/monProfil" v-if="post.user_id == userId" class="card-body-header-text bold"> <p> Par vous </p> </router-link>
-            <router-link :to="`/profil/${post.user_id}`" v-else class="card-body-header-text bold"> <p> Par {{ post.nom + ' ' + post.prenom }} </p> </router-link>
+            <router-link to="/monProfil" v-if="post.user_id == userId" class="card-body-header-text bold">
+              <p> Par vous </p>
+            </router-link>
+            <router-link :to="`/profil/${post.user_id}`" v-else class="card-body-header-text bold">
+              <p> Par {{ post.nom + ' ' + post.prenom }} </p>
+            </router-link>
             <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
           </div>
           <img :src="post.post_imageUrl" class="card-image">
           <p class="card-text"> {{ post.post_content }} </p>
-          <div class="card-body-footer">
-            <router-link to="/" class="logo_link"> <i class="fas fa-comment"></i> </router-link>
-            <i class="fas fa-heart"></i>
-            <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-edit" ></i> </router-link>
-            <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-trash" ></i> </router-link>
-          </div>
+        </router-link>
+        <div class="card-body-footer">
+          <i class="fas fa-comment" :index="post.id" @click="toggleCommentModale"></i>
+          <i class="fas fa-heart"></i>
+          <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-edit"></i>
+          </router-link>
+          <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-trash"></i>
+          </router-link>
         </div>
-      </router-link>
+      </div>
+
     </div>
 
+    <comment-modale :commentModale="commentModale" :toggleCommentModale="toggleCommentModale"></comment-modale>
   </div>
 </template>
 
@@ -33,6 +42,7 @@
 import NavbarComponent from '@/components/Navbar.vue'
 import CreationPost from '@/components/CreationPost.vue'
 import MyProfilComponent from '@/views/MyProfil.vue'
+import CreateComment from '@/components/CreateComment.vue'
 import axios from 'axios'
 
 export default {
@@ -40,7 +50,8 @@ export default {
   components: {
     'navbar': NavbarComponent,
     'creation': CreationPost,
-    'mon-profil': MyProfilComponent
+    'mon-profil': MyProfilComponent,
+    'comment-modale': CreateComment
   },
   data() {
     return {
@@ -50,6 +61,7 @@ export default {
       }),
       info: undefined,
       userId: this.$store.state.userId,
+      commentModale: false
     }
   },
   methods: {
@@ -62,6 +74,10 @@ export default {
     newList() {
       this.postList();
     },
+    toggleCommentModale() {
+      this.commentModale = !this.commentModale;
+      console.log(this.commentModale);
+    }
   },
   mounted() {
     this.postList();
@@ -70,7 +86,6 @@ export default {
 </script>
 
 <style scoped>
-
 .card {
   padding: 10px;
   width: 43%;

@@ -23,7 +23,7 @@ export default {
   },
   methods: {
   },
-  props: ['registerModale', 'loginModale', 'toggleRegisterModale', 'toggleLoginModale' ]
+  props: ['registerModale', 'toggleRegisterModale' ]
 }
 </script>
 

@@ -1,34 +1,28 @@
 <template>
   <div>
 
-    <navbar></navbar>
-    <mon-profil></mon-profil>
-    <creation :info="info" @updateList="newList"></creation>
-
-    <div class="card my-4" :key="index" v-for="(post, index) in info">
-      <router-link :to="`/post/${post.id}`" class="card_link">
+    <div class="card my-4" :key="index" v-for="(comment, index) in info">
         <div class="card-body">
           <div class="card-body-header">
-            <router-link to="/monProfil" v-if="post.user_id == userId" class="card-body-header-text bold">
+            <router-link to="/monProfil" v-if="comment.user_id == userId" class="card-body-header-text bold">
               <p> Par vous </p>
             </router-link>
-            <router-link :to="`/profil/${post.user_id}`" v-else class="card-body-header-text bold">
-              <p> Par {{ post.nom + ' ' + post.prenom }} </p>
+            <router-link :to="`/profil/${comment.user_id}`" v-else class="card-body-header-text bold">
+              <p> Par {{ comment.nom + ' ' + comment.prenom }} </p>
             </router-link>
-            <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
+            <p class="card-body-header-text"> Le {{ new Date(comment.comment_date).toLocaleString() }} </p>
           </div>
-          <img :src="post.post_imageUrl" class="card-image">
-          <p class="card-text"> {{ post.post_content }} </p>
+          <img :src="comment.comment_imageUrl" class="card-image">
+          <p class="card-text"> {{ comment.comment_content }} </p>
           <div class="card-body-footer">
-            <i class="fas fa-comment"> {{ post.totalComment }}</i>
-            <i class="fas fa-heart"> {{ post.post_likes }} </i>
-            <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-edit"></i>
+            <i class="fas fa-comment"> {{ comment.totalComment }}</i>
+            <i class="fas fa-heart"> {{ comment.post_likes }} </i>
+            <router-link to="/" v-if="comment.user_id == userId" class="logo_link"> <i class="fas fa-edit"></i>
             </router-link>
-            <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-trash"></i>
+            <router-link to="/" v-if="comment.user_id == userId" class="logo_link"> <i class="fas fa-trash"></i>
             </router-link>
           </div>
         </div>
-      </router-link>
     </div>
 
   </div>
@@ -36,17 +30,12 @@
 
 <script>
 
-import NavbarComponent from '@/components/Navbar.vue'
-import CreationPost from '@/components/CreationPost.vue'
-import MyProfilComponent from '@/views/MyProfil.vue'
 import axios from 'axios'
 
 export default {
-  name: 'AccueilComponent',
+  name: 'CommentComponent',
+  props: ['post_id'],
   components: {
-    'navbar': NavbarComponent,
-    'creation': CreationPost,
-    'mon-profil': MyProfilComponent,
   },
   data() {
     return {
@@ -56,22 +45,19 @@ export default {
       }),
       info: undefined,
       userId: this.$store.state.userId,
-      commentTab: []
     }
   },
   methods: {
-    postList() {
-      this.axiosInstance.get('post')
+    commentList() {
+      this.axiosInstance.get('post/comment/' +  this.post_id)
         .then(reponse => {
+          console.log('Les com ', reponse);
           this.info = reponse.data.result;
         })
     },
-    newList() {
-      this.postList();
-    },
   },
   mounted() {
-    this.postList();
+    this.commentList();
   },
 }
 </script>

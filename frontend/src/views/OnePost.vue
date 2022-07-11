@@ -2,6 +2,7 @@
 <div>
   <navbar></navbar>
   <mon-profil></mon-profil>
+
   <div class="card">
     <div class="card-body" :key="index" v-for="(post, index) in info">
       <div class="card-body-header">
@@ -19,6 +20,11 @@
       </div>
     </div>
   </div>
+
+  <create-comment :post_id="index"></create-comment>
+
+  <comment :post_id="index"></comment>
+  
   </div>
 </template>
 
@@ -26,13 +32,17 @@
 
 import NavbarComponent from '@/components/Navbar.vue'
 import MyProfilComponent from '@/views/MyProfil.vue'
+import CreationComment from '@/components/CreationComment.vue'
+import CommentComponent from '@/components/Comment.vue'
 import axios from 'axios'
 
 export default {
   name: 'OnePost',
   components: {
     'navbar': NavbarComponent,
-    'mon-profil': MyProfilComponent
+    'mon-profil': MyProfilComponent,
+    'create-comment': CreationComment,
+    'comment': CommentComponent
   },
   data() {
     return {
@@ -67,7 +77,6 @@ export default {
   width: 43%;
   margin: auto;
   border: 0px;
-  border-radius: 0px 0px 15px 15px;
   background: white;
 }
 

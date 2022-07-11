@@ -17,6 +17,7 @@ router.delete('/delete-anyone-post/:id', verifToken, isModerator, postCtrl.delet
 // CRUD -> CREATE READ UPDATE DELETE <- CRUD -> COMMENT
 router.post('/create-comment/:id', verifToken, multer, postCtrl.createComment);
 router.post('/like-comment/:id', verifToken, postCtrl.likeComment);
+router.get('/comment/:id', verifToken, postCtrl.getAllCommentFromOnePost);
 router.patch('/update-comment/:id', verifToken, multer, postCtrl.updateComment);
 router.delete('/delete-comment/:id', verifToken, postCtrl.deleteComment);
 router.delete('/delete-anyone-comment/:id', verifToken, isModerator, postCtrl.deleteAnyoneComment);

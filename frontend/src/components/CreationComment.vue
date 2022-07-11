@@ -1,26 +1,26 @@
 <template>
-  <div class="bloc-modale" v-if="commentModale">
 
-    <div class="overlay"></div>
-
-    <div class="modale card">
-      <h2 class="modale-title"> Ajouter un commentaire
-        <hr>
-      </h2>
-      <div class="modale-content">
+  <div>
+    <div class="card">
+      <div class="card-body">
+        <div class="card-body-header">
+          <h1 class="card-body-header-text text1"> Ajout d'un commentaire </h1>
+          <i class="fab fa-angellist card-body-header-text"></i>
+        </div>
         <form>
           <div class="card-body-content">
+            <img src="../assets/icon-above-font.png" class="card-image">
             <textarea class="card-body-content-text" id="comment_content" v-model="formData.comment_content"
-              placeholder="Que voulez-vous commenter ?" @keyup="verifWrite" required></textarea>
+              placeholder="Que voulez-vous nous raconter aujourd'hui ?" @keyup="verifWrite" required></textarea>
           </div>
 
           <div class="card-body-footer">
             <div class="card-body-footer-upload">
-              <input type="file" id="comment_image" @change="onFileSelect">
+              <input type="file" id="comment_image" @change="onFile">
               <label for="comment_image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
             </div>
             <div class="card-body-footer-send">
-              <button class="btn btn-color"> <i class="fas fa-paper-plane"></i> &nbsp; Valider
+              <button class="btn btn-color" @click="sendData"> <i class="fas fa-paper-plane"></i> &nbsp; Envoyer
               </button>
             </div>
           </div>
@@ -28,25 +28,25 @@
         <p class="comment_upload-image-name"></p>
         <p class="comment_error"></p>
       </div>
-      <button class="btn btn-float" @click="toggleCommentModale"> X </button>
     </div>
-
   </div>
+
 </template>
+
 
 <script>
 
 import axios from 'axios'
-// import {bus} from '../main'
+import {bus} from '../main'
 
 export default {
-  name: 'CreateComment',
-  props: ['commentModale', 'toggleCommentModale'],
+  name: 'CreationComment',
+  props: ['post_id'],
   data() {
     return {
       formData: {
         comment_content: null,
-        selectedFile: null
+        selectedFile: null,
       },
       axiosInstance: axios.create({
         withCredentials: true,
@@ -61,41 +61,41 @@ export default {
     }
   },
   methods: {
-    onFileSelect(event) {
+    onFile(event) {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
       this.paragraphe = document.querySelector('.comment_upload-image-name');
-      if (this.formData.selectedFile) {
+      if(this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
       } else {
         this.paragraphe.textContent = '';
       }
     },
-    verifWrite() {
+    verifWrite(){
+      this.paragrapheError = document.querySelector('.comment_error');
       this.paragrapheError.textContent = '';
     },
     sendData() {
       if (!this.formData.selectedFile) {
-        this.axiosInstance.post('post/create-comment/', {
-          post_content: this.formData.post_content
+        this.axiosInstance.post('post/create-comment/' + this.post_id, {
+          post_content: this.formData.comment_content
         })
           .then(reponse => {
             if (reponse.status == 201) {
               this.$emit('updateList');
-              // bus.$emit('takeProfil');
-              this.formData.post_content = null;
+              bus.$emit('takeProfil');
+              this.formData.comment_content = null;
             }
           })
           .catch(error => {
             console.log(error);
           })
       }
-      else if (this.formData.post_content == null || this.formData.post_content == '') {
+      else if (this.formData.comment_content == null || this.formData.comment_content == '') {
         const fb = new FormData();
         fb.append('image', this.formData.selectedFile, this.filename);
-        this.axiosInstance.post('post/create-comment/', fb, this.config)
+        this.axiosInstance.post('post/create-comment/' + this.post_id, fb, this.config)
           .catch(() => {
-            this.paragrapheError = document.querySelector('.error');
             this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte !';
             this.paragrapheError.style.fontSize = '18px';
             this.paragrapheError.style.color = 'red';
@@ -104,15 +104,15 @@ export default {
       else {
         const fd = new FormData();
         fd.append('image', this.formData.selectedFile, this.filename);
-        fd.append('post_content', this.formData.post_content);
-        this.axiosInstance.post('post/create-comment/', fd, this.config)
+        fd.append('post_content', this.formData.comment_content);
+        this.axiosInstance.post('post/create-comment/' + this.post_id, fd, this.config)
           .then(reponse => {
             if (reponse.status == 201) {
               this.$emit('updateList');
-              // bus.$emit('takeProfil');
+              bus.$emit('takeProfil');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
-              this.formData.post_content = null;
+              this.formData.comment_content = null;
               this.paragrapheError.textContent = '';
             }
           })
@@ -122,54 +122,51 @@ export default {
       }
     },
   },
+  mounted() {
+    console.log(this.post_id);
+  },
 }
 </script>
 
 <style scoped>
-.bloc-modale {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.card {
+  width: 43%;
+  margin: auto;
+  padding-top: 15px;
+  border: 0;
+  border-radius: 0px 0px 15px 15px;
+  background: white;
+}
+
+.card-body {
   width: 100%;
-  height: 100%;
+  margin: auto;
+}
+
+.card-body-header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  width: 95%;
+  margin: auto;
 }
 
-.overlay {
-  background: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.card-body-header-text {
+  margin-bottom: 5px;
+  font-size: 40px;
 }
 
-.modale {
-  background: #f1f1f1;
-  color: #333;
-  height: 400px;
-  width: 550px;
-  padding: 20px;
-  position: fixed;
-  bottom: 30%;
-  display: flex;
-  justify-content: space-around;
-  border-radius: 10px;
-}
-
-.modale-title {
+.text1 {
   font-size: 25px;
-  text-align: left;
+  font-weight: bold;
 }
 
-.modale-content {
-  font-size: 20px;
+.card-text {
   text-align: left;
-  position: relative;
+  font-size: 22px;
+  margin: 0;
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 
 .card-body-content {
@@ -177,6 +174,12 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+img {
+  width: 13%;
+  height: auto;
+  border-radius: 50%;
 }
 
 .card-body-content-text {
@@ -202,8 +205,8 @@ export default {
   justify-content: space-around;
   align-items: center;
   padding-top: 20px;
-  padding-bottom: 15px;
-  font-size: 20px;
+  padding-bottom: 25px;
+  font-size: 22px;
 }
 
 .card-body-footer-upload,
@@ -219,7 +222,7 @@ label {
   display: block;
   background-color: #203A43;
   color: white;
-  font-size: 18px;
+  font-size: 20px;
   text-align: center;
   padding: 10px 0px;
   border-radius: 5px;
@@ -227,26 +230,14 @@ label {
   cursor: pointer;
 }
 
-.btn-color {
+button {
   width: 100%;
   padding: 10px 0px;
-  font-size: 18px;
+  font-size: 20px;
+}
+
+.btn-color {
   background: #D31027;
   color: white;
-}
-
-.btn-float {
-  background: #203A43;
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  color: white;
-  border-radius: 6px;
-}
-
-p {
-  text-align: center;
-  font-size: center;
-  margin-bottom: 0;
 }
 </style>

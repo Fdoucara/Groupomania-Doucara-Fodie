@@ -25,12 +25,6 @@
             </div>
             <img :src="post.post_imageUrl" class="card-image">
             <p class="card-text"> {{ post.post_content }} </p>
-            <div class="card-body-footer">
-              <i class="fas fa-comment"></i>
-              <i class="fas fa-heart"></i>
-              <i class="fas fa-edit"></i>
-              <i class="fas fa-trash"></i>
-            </div>
           </div>
         </router-link>
       </div>

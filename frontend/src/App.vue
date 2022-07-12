@@ -25,11 +25,9 @@ background: linear-gradient(to right, #E9E4F0, #D3CCE3); /* W3C, IE 10+/ Edge, F
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Nunito', sans-serif;
   text-align: center;
-  color: #2c3e50;
+  color: black;
   padding: 0;
   margin: 0;
 }

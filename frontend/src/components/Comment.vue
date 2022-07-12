@@ -10,16 +10,14 @@
             <router-link :to="`/profil/${comment.user_id}`" v-else class="card-body-header-text bold">
               <p> Par {{ comment.nom + ' ' + comment.prenom }} </p>
             </router-link>
-            <p class="card-body-header-text"> Le {{ new Date(comment.comment_date).toLocaleString() }} </p>
+            <p class="card-body-header-text"> Le {{ new Date(comment.comment_date).toLocaleDateString() }} </p>
           </div>
           <img :src="comment.comment_imageUrl" class="card-image">
           <p class="card-text"> {{ comment.comment_content }} </p>
           <div class="card-body-footer">
             <i class="fas fa-heart"> {{ comment.comment_likes }} </i>
-            <router-link to="/" v-if="comment.user_id == userId" class="logo_link"> <i class="fas fa-edit"></i>
-            </router-link>
-            <router-link to="/" v-if="comment.user_id == userId" class="logo_link"> <i class="fas fa-trash"></i>
-            </router-link>
+            <i class="fas fa-edit" v-if="comment.user_id == userId"></i>
+            <i class="fas fa-trash" v-if="comment.user_id == userId"></i>
           </div>
         </div>
     </div>
@@ -52,7 +50,7 @@ export default {
       this.axiosInstance.get('post/comment/' +  this.post_id)
         .then(reponse => {
           console.log('Les com ', reponse);
-          this.info = reponse.data.result;
+          this.info = reponse.data.result.reverse();
         })
     },
   },
@@ -106,7 +104,7 @@ export default {
 }
 
 .bold {
-  font-weight: bold;
+  font-weight: 700;
 }
 
 img {
@@ -127,11 +125,7 @@ img {
   justify-content: space-evenly;
   align-items: center;
   padding-top: 10px;
-  font-size: 25px;
+  font-size: 20px;
 }
 
-.logo_link {
-  text-decoration: none;
-  color: black;
-}
 </style>

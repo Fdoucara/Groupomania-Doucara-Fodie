@@ -10,6 +10,7 @@
           <h5 class="card-name"> {{ nom }} </h5>
           <p class="card-firstname"> {{ prenom }} </p>
           <p class="card-email"> {{ email }} </p>
+          <p class="card-bio"> {{ bio }} </p>
         </div>
       </div>
       <button class="card_button btn mt-2"> Modifier votre profil </button>
@@ -21,7 +22,7 @@
           <div class="card-body">
             <div class="card-body-header">
               <p class="card-body-header-text bold"> Par vous </p>
-              <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
+              <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleDateString() }} </p>
             </div>
             <img :src="post.post_imageUrl" class="card-image">
             <p class="card-text"> {{ post.post_content }} </p>
@@ -52,6 +53,7 @@ export default {
       prenom: null,
       email: null,
       photo: null,
+      bio: null,
       info: null,
     }
   },
@@ -59,10 +61,12 @@ export default {
     getProfile() {
       this.axiosInstance.get(`user/${this.userId}`)
         .then(reponse => {
+          console.log('bruh ', reponse);
           this.nom = reponse.data.result[0].nom;
           this.prenom = reponse.data.result[0].prenom;
           this.email = reponse.data.result[0].email;
           this.photo = reponse.data.result[0].user_imageUrl;
+          this.bio = reponse.data.result[0].bio;
           this.info = reponse.data.result.reverse();
         })
     }
@@ -166,7 +170,7 @@ export default {
 }
 
 .bold {
-  font-weight: bold;
+  font-weight: 700;
 }
 
 img {

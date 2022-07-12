@@ -16,7 +16,7 @@
             <router-link :to="`/profil/${post.user_id}`" v-else class="card-body-header-text bold">
               <p> Par {{ post.nom + ' ' + post.prenom }} </p>
             </router-link>
-            <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
+            <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleDateString() }} </p>
           </div>
           <img :src="post.post_imageUrl" class="card-image">
           <p class="card-text"> {{ post.post_content }} </p>
@@ -24,10 +24,8 @@
         <div class="card-body-footer">
           <i class="fas fa-comment" :id="post.id" @click="commentPost"> {{ post.totalComment }}</i>
           <i class="fas fa-heart" :id="post.id" @click="likePost"> {{ post.post_likes }} </i>
-          <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-edit"></i>
-          </router-link>
-          <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-trash"></i>
-          </router-link>
+          <i class="fas fa-edit" v-if="post.user_id == userId"></i>
+          <i class="fas fa-trash" v-if="post.user_id == userId"></i>
         </div>
       </div>
     </div>
@@ -142,7 +140,7 @@ export default {
 }
 
 .bold {
-  font-weight: bold;
+  font-weight: 700;
 }
 
 img {
@@ -163,11 +161,6 @@ img {
   justify-content: space-evenly;
   align-items: center;
   padding-top: 10px;
-  font-size: 25px;
-}
-
-.logo_link {
-  text-decoration: none;
-  color: black;
+  font-size: 20px;
 }
 </style>

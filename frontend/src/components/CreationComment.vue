@@ -1,7 +1,7 @@
 <template>
 
   <div>
-    <div class="card">
+    <div class="card mt-2">
       <div class="card-body">
         <div class="card-body-header">
           <h1 class="card-body-header-text text1"> Ajout d'un commentaire </h1>

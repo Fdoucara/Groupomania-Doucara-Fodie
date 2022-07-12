@@ -9,7 +9,7 @@
       <div class="card-body-header">
         <p class="card-body-header-text bold" v-if="post.user_id == userId"> Par vous </p>
         <p class="card-body-header-text bold" v-else> Par {{ post.nom + ' ' + post.prenom }} </p>
-        <p class="card-body-header-text"> {{ new Date(post.post_date).toLocaleString() }} </p>
+        <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleDateString() }} </p>
       </div>
       <img :src="post.post_imageUrl" class="card-image">
       <p class="card-text"> {{ post.post_content }} </p>
@@ -103,7 +103,7 @@ export default {
 }
 
 .bold {
-  font-weight: bold;
+  font-weight: 700;
 }
 
 img {
@@ -124,6 +124,6 @@ img {
   justify-content: space-evenly;
   align-items: center;
   padding-top: 10px;
-  font-size: 25px;
+  font-size: 20px;
 }
 </style>

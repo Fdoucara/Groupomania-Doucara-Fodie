@@ -1,46 +1,43 @@
 <template>
+  <div class="bloc-modale" v-if="updatePostModale">
 
-  <div>
-    <div class="card">
-      <div class="card-body">
-        <div class="card-body-header">
-          <h1 class="card-body-header-text text1"> Accueil </h1>
-          <i class="fab fa-angellist card-body-header-text"></i>
-        </div>
+    <div class="overlay"></div>
+
+    <div class="modale card">
+      <h2 class="modale-title"> Modifier le post <hr></h2>
+      <div class="modale-content">
         <form>
-          <div class="card-body-content">
-            <img src="../assets/icon-above-font.png" class="card-image">
-            <textarea class="card-body-content-text" id="post_content" v-model="formData.post_content"
+          <div class="modale-body-content">
+            <img src="../assets/icon-above-font.png" class="modale-image">
+            <textarea class="modale-body-content-text" id="post_content" v-model="formData.post_content"
               placeholder="Que voulez-vous nous raconter aujourd'hui ?" @keyup="verifWrite" required></textarea>
           </div>
 
-          <div class="card-body-footer">
-            <div class="card-body-footer-upload">
-              <input type="file" id="image" @change="onFileSelected">
-              <label for="image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
+          <div class="modale-body-footer">
+            <div class="modale-body-footer-upload">
+              <input type="file" id="comment_image" @change="onFile">
+              <label for="comment_image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
             </div>
-            <div class="card-body-footer-send">
-              <button class="btn btn-color" @click="sendData"> <i class="fas fa-paper-plane"></i> &nbsp; Publier
-              </button>
+            <div class="modale-body-footer-send">
+              <button class="btn btn-color" @click="sendData"> Valider </button>
             </div>
           </div>
         </form>
-        <p class="upload-image-name"></p>
-        <p class="error"></p>
-      </div>
+        <p class="postModale_upload-image-name"></p>
+        <p class="postModale_error"></p>
+      </div>  
+      <button class="btn-modale btn" @click="togglePostModale"> X </button>
     </div>
+
   </div>
-
 </template>
-
 
 <script>
 
 import axios from 'axios'
-import {bus} from '../main'
 
 export default {
-  name: 'PostUpdateModale',
+  name: 'CommentModale',
   props: ['updatePostModale', 'togglePostModale', 'post_id'],
   data() {
     return {
@@ -57,14 +54,14 @@ export default {
       },
       filename: '',
       paragraphe: undefined,
-      paragrapheError: undefined
+      paragrapheError: undefined,
     }
   },
   methods: {
-    onFileSelected(event) {
+    onFile(event) {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
-      this.paragraphe = document.querySelector('.upload-image-name');
+      this.paragraphe = document.querySelector('.postModale_upload-image-name');
       if(this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
       } else {
@@ -72,19 +69,19 @@ export default {
       }
     },
     verifWrite(){
-      this.paragrapheError = document.querySelector('.error');
+      this.paragrapheError = document.querySelector('.postModale_error');
       this.paragrapheError.textContent = '';
     },
     sendData() {
       if (!this.formData.selectedFile) {
-        this.axiosInstance.post('post/update-post/' + this.post_id, {
+        this.axiosInstance.patch('post/update-post/' + this.post_id, {
           post_content: this.formData.post_content
         })
           .then(reponse => {
             if (reponse.status == 201) {
               this.$emit('updateList');
-              bus.$emit('takeProfil');
               this.formData.post_content = null;
+              this.togglePostModale();
             }
           })
           .catch(error => {
@@ -94,8 +91,9 @@ export default {
       else if (this.formData.post_content == null || this.formData.post_content == '') {
         const fb = new FormData();
         fb.append('image', this.formData.selectedFile, this.filename);
-        this.axiosInstance.post('post/update-post/' + this.post_id, fb, this.config)
+        this.axiosInstance.patch('post/update-post/' + this.post_id, fb, this.config)
           .catch(() => {
+            this.paragrapheError = document.querySelector('.postModale_error')
             this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte !';
             this.paragrapheError.style.fontSize = '18px';
             this.paragrapheError.style.color = 'red';
@@ -105,15 +103,15 @@ export default {
         const fd = new FormData();
         fd.append('image', this.formData.selectedFile, this.filename);
         fd.append('post_content', this.formData.post_content);
-        this.axiosInstance.post('post/update-post/' + this.post_id, fd, this.config)
+        this.axiosInstance.patch('post/update-post/' + this.post_id, fd, this.config)
           .then(reponse => {
             if (reponse.status == 201) {
               this.$emit('updateList');
-              bus.$emit('takeProfil');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
               this.formData.post_content = null;
               this.paragrapheError.textContent = '';
+              this.toggleCommentModale();
             }
           })
           .catch(error => {
@@ -121,51 +119,58 @@ export default {
           })
       }
     },
-  }
+  },
 }
 </script>
 
 <style scoped>
-.card {
-  width: 43%;
-  margin: auto;
-  padding-top: 5px;
-  border: 0;
-  border-radius: 0px 0px 15px 15px;
-  background: white;
-}
 
-.card-body {
+.bloc-modale {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-}
-
-.card-body-header {
+  height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 95%;
-  margin: auto;
+  justify-content: center;
 }
 
-.card-body-header-text {
-  margin-bottom: 5px;
-  font-size: 30px;
+.overlay {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
-.text1 {
+.modale {
+  background: white;
+  color: #333;
+  height: 400px;
+  width: 550px;
+  padding: 20px;
+  position: fixed;
+  bottom: 30%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.modale-title {
   font-size: 25px;
-  font-weight: 700;
-}
-
-.card-text {
   text-align: left;
-  font-size: 22px;
-  margin: 0;
-  padding-top: 25px;
-  padding-bottom: 25px;
 }
 
-.card-body-content {
+.modale-content {
+  font-size: 20px;
+  text-align: left;
+  position: relative;
+}
+
+.modale-body-content {
   margin: 30px;
   display: flex;
   justify-content: space-between;
@@ -178,34 +183,34 @@ img {
   border-radius: 50%;
 }
 
-.card-body-content-text {
+.modale-body-content-text {
   width: 80%;
   height: 90px;
   border: 0;
   padding: 7px;
   background: transparent;
   resize: none;
+  font-size: 20px;
+}
+
+.modale-body-content-text::placeholder {
   font-size: 22px;
 }
 
-.card-body-content-text::placeholder {
-  font-size: 22px;
-}
-
-.card-body-content-text:focus {
+.modale-body-content-text:focus {
   outline: 0;
 }
 
-.card-body-footer {
+.modale-body-footer {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding-top: 10px;
-  font-size: 22px;
+  padding-top: 15px;
+  padding-bottom: 20px;
 }
 
-.card-body-footer-upload,
-.card-body-footer-send {
+.modale-body-footer-upload,
+.modale-body-footer-send {
   width: 40%;
 }
 
@@ -217,7 +222,7 @@ label {
   display: block;
   background-color: #203A43;
   color: white;
-  font-size: 20px;
+  font-size: 18px;
   text-align: center;
   padding: 10px 0px;
   border-radius: 5px;
@@ -228,7 +233,7 @@ label {
 button {
   width: 100%;
   padding: 10px 0px;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .btn-color {
@@ -236,4 +241,21 @@ button {
   color: white;
 }
 
+p {
+  font-size: 16px;
+  text-align: center;
+}
+
+.btn-modale {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #203A43;
+  width: 10%;
+  margin: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 20px;
+  color: white;
+}
 </style>

@@ -96,7 +96,7 @@ exports.updateOnePost = (req, res) => {
             })
           }
         } else {
-          db.query("UPDATE post SET post.content = ? WHERE id = ?", [post.post_content, id], (error, result) => {
+          db.query("UPDATE post SET post_content = ? WHERE id = ?", [post.post_content, id], (error, result) => {
             if (!error) {
               if (result.affectedRows == 0) {
                 return res.status(401).json({ message: "Post non trouvé !" });

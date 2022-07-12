@@ -1,17 +1,13 @@
 <template>
 
   <div>
-    <div class="card mt-2">
+    <div class="card mt-1">
       <div class="card-body">
-        <div class="card-body-header">
-          <h1 class="card-body-header-text text1"> Ajout d'un commentaire </h1>
-          <i class="fab fa-angellist card-body-header-text"></i>
-        </div>
         <form>
           <div class="card-body-content">
             <img src="../assets/icon-above-font.png" class="card-image">
             <textarea class="card-body-content-text" id="comment_content" v-model="formData.comment_content"
-              placeholder="Que voulez-vous nous raconter aujourd'hui ?" @keyup="verifWrite" required></textarea>
+              placeholder="Rédiger votre commentaire ici..." @keyup="verifWrite" required></textarea>
           </div>
 
           <div class="card-body-footer">
@@ -132,7 +128,6 @@ export default {
 .card {
   width: 43%;
   margin: auto;
-  padding-top: 15px;
   border: 0;
   border-radius: 0px 0px 15px 15px;
   background: white;
@@ -140,33 +135,6 @@ export default {
 
 .card-body {
   width: 100%;
-  margin: auto;
-}
-
-.card-body-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 95%;
-  margin: auto;
-}
-
-.card-body-header-text {
-  margin-bottom: 5px;
-  font-size: 40px;
-}
-
-.text1 {
-  font-size: 25px;
-  font-weight: bold;
-}
-
-.card-text {
-  text-align: left;
-  font-size: 22px;
-  margin: 0;
-  padding-top: 25px;
-  padding-bottom: 25px;
 }
 
 .card-body-content {
@@ -189,7 +157,7 @@ img {
   padding: 7px;
   background: transparent;
   resize: none;
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .card-body-content-text::placeholder {
@@ -204,8 +172,7 @@ img {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding-top: 20px;
-  padding-bottom: 25px;
+  padding-top: 10px;
   font-size: 22px;
 }
 
@@ -240,4 +207,5 @@ button {
   background: #D31027;
   color: white;
 }
+
 </style>

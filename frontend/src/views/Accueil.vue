@@ -24,14 +24,16 @@
         <div class="card-body-footer">
           <i class="fas fa-comment" :id="post.id" @click="commentPost"> {{ post.totalComment }}</i>
           <i class="fas fa-heart" :id="post.id" @click="likePost"> {{ post.post_likes }} </i>
-          <i class="fas fa-edit" v-if="post.user_id == userId"></i>
-          <i class="fas fa-trash" v-if="post.user_id == userId"></i>
+          <i class="fas fa-edit" :id="post.id" @click="updatePost" v-if="post.user_id == userId"></i>
+          <i class="fas fa-trash" :id="post.id" @click="deletePost" v-if="post.user_id == userId"></i>
         </div>
       </div>
     </div>
 
     <comment-modale :commentModale="commentModale" :toggleCommentModale="toggleCommentModale" :post_id="postId"
       @updateList="newList"></comment-modale>
+    <update-modale :updatePostModale="updatePostModale" :togglePostModale="togglePostModale" :post_id="postId"
+      @updateList="newList"></update-modale>
   </div>
 </template>
 
@@ -42,6 +44,7 @@ import NavbarComponent from '@/components/Navbar.vue'
 import CreationPost from '@/components/CreationPost.vue'
 import MyProfilComponent from '@/views/MyProfil.vue'
 import CommentModale from '@/components/CommentModale.vue'
+import PostUpdateModale from '@/components/PostUpdate.vue'
 import axios from 'axios'
 
 export default {
@@ -51,7 +54,8 @@ export default {
     'navbar': NavbarComponent,
     'creation': CreationPost,
     'mon-profil': MyProfilComponent,
-    'comment-modale': CommentModale
+    'comment-modale': CommentModale,
+    'update-modale': PostUpdateModale,
   },
   data() {
     return {
@@ -63,6 +67,7 @@ export default {
       userId: this.$store.state.userId,
       postId: null,
       commentModale: false,
+      updatePostModale: false
     }
   },
   methods: {
@@ -75,15 +80,28 @@ export default {
     toggleCommentModale() {
       this.commentModale = !this.commentModale;
     },
+    togglePostModale() {
+      this.updatePostModale = !this.updatePostModale;
+    },
     commentPost(e) {
-      this.commentModale = !this.commentModale;
-      console.log(e.target.id);
       this.postId = e.target.id;
+      this.commentModale = !this.commentModale;
     },
     likePost(e) {
-      console.log(e.target.id);
       this.postId = e.target.id;
       this.axiosInstance.post('post/like-post/' + this.postId)
+        .then(() => {
+          this.postList();
+        })
+    },
+    updatePost(e) {
+      this.postId = e.target.id;
+      this.updatePostModale = !this.updatePostModale;
+    },
+    deletePost(e) {
+      console.log(e.target.id);
+      this.postId = e.target.id;
+      this.axiosInstance.delete('post/delete-post/' + this.postId)
         .then(reponse => {
           console.log('La rep ', reponse);
           this.postList();
@@ -109,21 +127,15 @@ export default {
   background: white;
 }
 
-.card:hover {
-  background: #eef2f3;
-}
-
 .card_link {
   text-decoration: none;
   color: black;
   padding: 0;
   margin: 0;
-  transition: background 0.5s ease-in-out;
 }
 
 .card-body {
   width: 100%;
-  margin: 0;
 }
 
 .card-body-header {
@@ -136,7 +148,7 @@ export default {
   text-decoration: none;
   color: black;
   margin-bottom: 10px;
-  font-size: 18px;
+  font-size: 21px;
 }
 
 .bold {
@@ -151,7 +163,7 @@ img {
 
 .card-text {
   text-align: left;
-  font-size: 22px;
+  font-size: 23px;
   margin: 0;
   padding-bottom: 25px;
 }
@@ -161,6 +173,7 @@ img {
   justify-content: space-evenly;
   align-items: center;
   padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 20px;
 }
 </style>

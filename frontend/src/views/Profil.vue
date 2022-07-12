@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loader></loader>
     <navbar></navbar>
     <mon-profil></mon-profil>
 
@@ -14,7 +15,7 @@
           <p class="card-email"> {{ email }} </p>
         </div>
       </div>
-         <button class="card_button btn btn-primary mt-2" v-if="userId == id"> Modifier votre profil </button>
+      <button class="card_button btn btn-primary mt-2" v-if="userId == id"> Modifier votre profil </button>
     </div>
 
     <div class="activite mt-2">
@@ -22,8 +23,9 @@
     </div>
 
     <div class="card my-4" :key="index" v-for="(post, index) in info">
-      <router-link :to="`/post/${post.id}`" class="card_link">
-        <div class="card-body">
+
+      <div class="card-body">
+        <router-link :to="`/post/${post.id}`" class="card_link">
           <div class="card-body-header">
             <p class="card-body-header-text bold" v-if="post.user_id == userId"> Par vous </p>
             <p class="card-body-header-text bold" v-else> Par {{ post.nom + ' ' + post.prenom }} </p>
@@ -31,21 +33,22 @@
           </div>
           <img :src="post.post_imageUrl" class="card-image">
           <p class="card-text"> {{ post.post_content }} </p>
-          <div class="card-body-footer">
-            <i class="fas fa-comment"></i>
-            <i class="fas fa-heart"></i>
-            <i class="fas fa-edit" v-if="post.user_id == userId"></i>
-            <i class="fas fa-trash" v-if="post.user_id == userId"></i>
-          </div>
+        </router-link>
+        <div class="card-body-footer">
+          <i class="fas fa-comment"></i>
+          <i class="fas fa-heart"></i>
+          <i class="fas fa-edit" v-if="post.user_id == userId"></i>
+          <i class="fas fa-trash" v-if="post.user_id == userId"></i>
         </div>
-      </router-link>
-    </div>
+      </div>
 
+    </div>
   </div>
 </template>
 
 <script>
 
+import LoaderComponent from '@/components/Loader.vue'
 import NavbarComponent from '@/components/Navbar.vue'
 import MyProfilComponent from '@/views/MyProfil.vue'
 import axios from 'axios'
@@ -53,6 +56,7 @@ import axios from 'axios'
 export default {
   name: 'ProfilComponent',
   components: {
+    'loader': LoaderComponent,
     'navbar': NavbarComponent,
     'mon-profil': MyProfilComponent
   },
@@ -94,7 +98,6 @@ export default {
 </script>
 
 <style scoped>
-
 .card_ {
   width: 43%;
   margin: auto;
@@ -102,6 +105,7 @@ export default {
   border-radius: 0px;
   background: white;
 }
+
 .card_contain {
   width: 70%;
   display: flex;
@@ -147,12 +151,6 @@ export default {
   border: 0px;
   border-radius: 15px;
   background: white;
-  transition: background 0.5s ease-in-out;
-}
-
-
-.card:hover {
-  background: #eef2f3;
 }
 
 .card_link {
@@ -164,7 +162,6 @@ export default {
 
 .card-body {
   width: 100%;
-  margin: 0;
 }
 
 .card-body-header {
@@ -179,7 +176,7 @@ export default {
 }
 
 .bold {
-  font-weight: bold;
+  font-weight: 700;
 }
 
 img {
@@ -190,7 +187,7 @@ img {
 
 .card-text {
   text-align: left;
-  font-size: 22px;
+  font-size: 23px;
   margin: 0;
   padding-bottom: 25px;
 }
@@ -198,8 +195,10 @@ img {
 .card-body-footer {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   padding-top: 10px;
-  padding-bottom: 25px;
-  font-size: 22px;
+  padding-bottom: 10px;
+  font-size: 21px;
 }
+
 </style>

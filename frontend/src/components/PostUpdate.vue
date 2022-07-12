@@ -10,7 +10,7 @@
         <form>
           <div class="card-body-content">
             <img src="../assets/icon-above-font.png" class="card-image">
-            <textarea class="card-body-content-text" id="content" v-model="formData.post_content"
+            <textarea class="card-body-content-text" id="post_content" v-model="formData.post_content"
               placeholder="Que voulez-vous nous raconter aujourd'hui ?" @keyup="verifWrite" required></textarea>
           </div>
 
@@ -40,7 +40,8 @@ import axios from 'axios'
 import {bus} from '../main'
 
 export default {
-  name: 'CreationPost',
+  name: 'PostUpdateModale',
+  props: ['updatePostModale', 'togglePostModale', 'post_id'],
   data() {
     return {
       formData: {
@@ -76,7 +77,7 @@ export default {
     },
     sendData() {
       if (!this.formData.selectedFile) {
-        this.axiosInstance.post('post/create', {
+        this.axiosInstance.post('post/update-post/' + this.post_id, {
           post_content: this.formData.post_content
         })
           .then(reponse => {
@@ -93,7 +94,7 @@ export default {
       else if (this.formData.post_content == null || this.formData.post_content == '') {
         const fb = new FormData();
         fb.append('image', this.formData.selectedFile, this.filename);
-        this.axiosInstance.post('post/create', fb, this.config)
+        this.axiosInstance.post('post/update-post/' + this.post_id, fb, this.config)
           .catch(() => {
             this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte !';
             this.paragrapheError.style.fontSize = '18px';
@@ -104,7 +105,7 @@ export default {
         const fd = new FormData();
         fd.append('image', this.formData.selectedFile, this.filename);
         fd.append('post_content', this.formData.post_content);
-        this.axiosInstance.post('post/create', fd, this.config)
+        this.axiosInstance.post('post/update-post/' + this.post_id, fd, this.config)
           .then(reponse => {
             if (reponse.status == 201) {
               this.$emit('updateList');

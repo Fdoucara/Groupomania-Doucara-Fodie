@@ -1,13 +1,14 @@
 <template>
   <div>
 
+    <loader></loader>
     <navbar></navbar>
     <mon-profil></mon-profil>
     <creation :info="info" @updateList="newList"></creation>
 
     <div class="card my-4" :key="index" v-for="(post, index) in info">
-      <router-link :to="`/post/${post.id}`" class="card_link">
-        <div class="card-body">
+      <div class="card-body">
+        <router-link :to="`/post/${post.id}`" class="card_link">
           <div class="card-body-header">
             <router-link to="/monProfil" v-if="post.user_id == userId" class="card-body-header-text bold">
               <p> Par vous </p>
@@ -19,34 +20,40 @@
           </div>
           <img :src="post.post_imageUrl" class="card-image">
           <p class="card-text"> {{ post.post_content }} </p>
-          <div class="card-body-footer">
-            <i class="fas fa-comment"> {{ post.totalComment }}</i>
-            <i class="fas fa-heart" :id='post.id' @click="likePost"> {{ post.post_likes }} </i>
-            <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-edit"></i>
-            </router-link>
-            <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-trash"></i>
-            </router-link>
-          </div>
+        </router-link>
+        <div class="card-body-footer">
+          <i class="fas fa-comment" :id="post.id" @click="commentPost"> {{ post.totalComment }}</i>
+          <i class="fas fa-heart" :id="post.id" @click="likePost"> {{ post.post_likes }} </i>
+          <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-edit"></i>
+          </router-link>
+          <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-trash"></i>
+          </router-link>
         </div>
-      </router-link>
+      </div>
     </div>
 
+    <comment-modale :commentModale="commentModale" :toggleCommentModale="toggleCommentModale" :post_id="postId"
+      @updateList="newList"></comment-modale>
   </div>
 </template>
 
 <script>
 
+import LoaderComponent from '@/components/Loader.vue'
 import NavbarComponent from '@/components/Navbar.vue'
 import CreationPost from '@/components/CreationPost.vue'
 import MyProfilComponent from '@/views/MyProfil.vue'
+import CommentModale from '@/components/CommentModale.vue'
 import axios from 'axios'
 
 export default {
   name: 'AccueilComponent',
   components: {
+    'loader': LoaderComponent,
     'navbar': NavbarComponent,
     'creation': CreationPost,
     'mon-profil': MyProfilComponent,
+    'comment-modale': CommentModale
   },
   data() {
     return {
@@ -56,18 +63,33 @@ export default {
       }),
       info: undefined,
       userId: this.$store.state.userId,
-      commentTab: []
+      postId: null,
+      commentModale: false,
     }
   },
   methods: {
     postList() {
       this.axiosInstance.get('post')
         .then(reponse => {
-          this.info = reponse.data.result;
+          this.info = reponse.data.result.reverse();
         })
+    },
+    toggleCommentModale() {
+      this.commentModale = !this.commentModale;
+    },
+    commentPost(e) {
+      this.commentModale = !this.commentModale;
+      console.log(e.target.id);
+      this.postId = e.target.id;
     },
     likePost(e) {
       console.log(e.target.id);
+      this.postId = e.target.id;
+      this.axiosInstance.post('post/like-post/' + this.postId)
+        .then(reponse => {
+          console.log('La rep ', reponse);
+          this.postList();
+        })
     },
     newList() {
       this.postList();

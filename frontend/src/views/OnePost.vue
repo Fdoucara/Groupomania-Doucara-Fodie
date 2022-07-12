@@ -1,5 +1,6 @@
 <template>
 <div>
+  <loader></loader>
   <navbar></navbar>
   <mon-profil></mon-profil>
 
@@ -30,6 +31,7 @@
 
 <script>
 
+import LoaderComponent from '@/components/Loader.vue'
 import NavbarComponent from '@/components/Navbar.vue'
 import MyProfilComponent from '@/views/MyProfil.vue'
 import CreationComment from '@/components/CreationComment.vue'
@@ -39,6 +41,7 @@ import axios from 'axios'
 export default {
   name: 'OnePost',
   components: {
+    'loader': LoaderComponent,
     'navbar': NavbarComponent,
     'mon-profil': MyProfilComponent,
     'create-comment': CreationComment,

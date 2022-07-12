@@ -1,7 +1,7 @@
 <template>
   <div>
     
-    <div class="loader-container" v-if="visible">
+    <div class="loader-container">
       <div class="loader"></div>
     </div>
 
@@ -11,12 +11,6 @@
 <script>
 export default {
   name: "LoaderComponent",
-  props: ['visible'],
-  data() {
-    return {
-      
-    }
-  },
 }
 </script>
 

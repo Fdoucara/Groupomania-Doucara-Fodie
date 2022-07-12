@@ -29,7 +29,7 @@ exports.createPost = (req, res) => {
 }
 
 exports.getAllPost = (req, res) => {
-  db.query("SELECT user.nom, user.prenom, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, post.user_id, COUNT(comment.comment_content) as totalComment FROM post LEFT JOIN user ON post.user_id = user.id LEFT JOIN comment ON post.id = comment.post_id GROUP BY post.id ORDER BY post.post_date DESC", [], (error, result) => {
+  db.query("SELECT user.nom, user.prenom, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, post.user_id, COUNT(comment.comment_content) as totalComment FROM post LEFT JOIN user ON post.user_id = user.id LEFT JOIN comment ON post.id = comment.post_id GROUP BY post.id", [], (error, result) => {
     if (!error) {
       return res.status(200).json({ result });
     }
@@ -506,7 +506,7 @@ exports.likeComment = (req, res) => {
 
 exports.getAllCommentFromOnePost = (req, res) => {
   let post_id = req.params.id;
-  db.query("SELECT user.nom, user.prenom, comment.id, comment.comment_content, comment.comment_imageUrl, comment.comment_date, comment.comment_likes, comment.user_id FROM comment LEFT JOIN user ON comment.user_id = user.id WHERE comment.post_id = ? ORDER BY comment.comment_date DESC", [post_id], (error, result) => {
+  db.query("SELECT user.nom, user.prenom, comment.id, comment.comment_content, comment.comment_imageUrl, comment.comment_date, comment.comment_likes, comment.user_id FROM comment LEFT JOIN user ON comment.user_id = user.id WHERE comment.post_id = ?", [post_id], (error, result) => {
     if (!error) {
       return res.status(200).json({ result });
     }

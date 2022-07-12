@@ -21,7 +21,7 @@
           <p class="card-text"> {{ post.post_content }} </p>
           <div class="card-body-footer">
             <i class="fas fa-comment"> {{ post.totalComment }}</i>
-            <i class="fas fa-heart"> {{ post.post_likes }} </i>
+            <i class="fas fa-heart" :id='post.id' @click="likePost"> {{ post.post_likes }} </i>
             <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-edit"></i>
             </router-link>
             <router-link to="/" v-if="post.user_id == userId" class="logo_link"> <i class="fas fa-trash"></i>
@@ -65,6 +65,9 @@ export default {
         .then(reponse => {
           this.info = reponse.data.result;
         })
+    },
+    likePost(e) {
+      console.log(e.target.id);
     },
     newList() {
       this.postList();

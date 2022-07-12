@@ -29,6 +29,7 @@
 
 <script>
 
+import {bus} from '../main'
 import axios from 'axios'
 
 export default {
@@ -57,6 +58,9 @@ export default {
   },
   mounted() {
     this.commentList();
+    bus.$on('updateCommentList', () => {
+      this.commentList();
+    })
   },
 }
 </script>

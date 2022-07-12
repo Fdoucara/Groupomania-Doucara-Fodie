@@ -36,6 +36,7 @@
 
 <script>
 
+import {bus} from '../main'
 import axios from 'axios'
 
 export default {
@@ -81,6 +82,8 @@ export default {
         })
           .then(reponse => {
             if (reponse.status == 201) {
+              this.$emit('updatePostInfo');
+              bus.$emit('updateCommentList');
               this.formData.comment_content = null;
             }
           })
@@ -105,6 +108,8 @@ export default {
         this.axiosInstance.post('post/create-comment/' + this.post_id, fd, this.config)
           .then(reponse => {
             if (reponse.status == 201) {
+              this.$emit('updatePostInfo');
+              bus.$emit('updateCommentList');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
               this.formData.comment_content = null;

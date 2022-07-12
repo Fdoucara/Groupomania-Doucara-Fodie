@@ -16,12 +16,12 @@
         <i class="fas fa-comment"> {{ post.totalComment }} </i>
         <i class="fas fa-heart"> {{ post.post_likes }} </i>
         <i class="fas fa-edit" v-if="post.user_id == userId"></i>
-        <i class="fas fa-trash" @click="deletePost" v-if="post.user_id == userId"></i>
+        <i class="fas fa-trash" v-if="post.user_id == userId"></i>
       </div>
     </div>
   </div>
 
-  <create-comment :post_id="index"></create-comment>
+  <create-comment :post_id="index" @updatePostInfo="updatePostInfo"></create-comment>
 
   <comment :post_id="index"></comment>
   
@@ -56,16 +56,19 @@ export default {
     }
   },
   methods: {
-    deletePost(){
-      this.$emit('updateList');
-    },
-  },
-  mounted() {
-    this.axiosInstance.get('post/' + this.index)
+    getPostInfo() {
+      this.axiosInstance.get('post/' + this.index)
       .then(reponse => {
         this.info = reponse.data;
         console.log(this.info);
       })
+    },
+    updatePostInfo() {
+      this.getPostInfo();
+    }
+  },
+  mounted() {
+    this.getPostInfo();
   },
 }
 </script>

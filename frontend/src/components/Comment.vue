@@ -45,13 +45,19 @@ export default {
   },
   methods: {
     commentList() {
-      this.axiosInstance.get('post/comment/' + this.post_id)
+      this.axiosInstance.get('post/comment/' + this.$route.params.id)
         .then(reponse => {
           this.info = reponse.data.result.reverse();
         })
     },
   },
   mounted() {
+    this.$watch(
+      () => this.$route.params.id,
+      () => {
+        this.commentList();
+      }    
+    ),
     this.commentList();
     bus.$on('updateCommentList', () => {
       this.commentList();

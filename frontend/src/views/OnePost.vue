@@ -26,9 +26,9 @@
       </div>
     </div>
 
-    <create-comment :post_id="idPost" @updatePostInfo="updatePostInfo"></create-comment>
+    <create-comment :post_id="this.$route.params.id" @updatePostInfo="updatePostInfo"></create-comment>
 
-    <comment :post_id="idPost"></comment>
+    <comment :post_id="this.$route.params.id"></comment>
 
   </div>
 </template>
@@ -58,13 +58,12 @@ export default {
         baseURL: 'http://localhost:3000/api/'
       }),
       info: null,
-      idPost: this.$route.params.id,
       userId: this.$store.state.userId
     }
   },
   methods: {
     getPostInfo() {
-      this.axiosInstance.get('post/' + this.idPost)
+      this.axiosInstance.get('post/' + this.$route.params.id)
         .then(reponse => {
           this.info = reponse.data;
         })
@@ -74,6 +73,13 @@ export default {
     }
   },
   mounted() {
+    this.$watch(
+      () => this.$route.params.id,
+      () => {
+        console.log(this.$route.params.id);
+        this.getPostInfo();
+      }    
+    ),
     this.getPostInfo();
   },
 }

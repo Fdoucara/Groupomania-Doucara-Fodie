@@ -61,7 +61,6 @@ export default {
     getProfile() {
       this.axiosInstance.get(`user/${this.userId}`)
         .then(reponse => {
-          console.log('bruh ', reponse);
           this.nom = reponse.data.result[0].nom;
           this.prenom = reponse.data.result[0].prenom;
           this.email = reponse.data.result[0].email;
@@ -75,7 +74,10 @@ export default {
     this.getProfile();
     bus.$on('takeProfil', () => {
       this.getProfile();
-    })
+    });
+    bus.$on('listAfterUpdate', () => {
+      this.getProfile();
+    });
   },
 }
 

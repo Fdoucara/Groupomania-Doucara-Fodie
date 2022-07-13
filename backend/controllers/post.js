@@ -66,8 +66,8 @@ exports.updateOnePost = (req, res) => {
       }
       else {
         if (req.file) {
+          const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
           if (resultat[0].post_imageUrl) {
-            const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
             const filename = resultat[0].post_imageUrl.split('/images/')[1];
             fs.unlink(`images/${filename}`, () => {
               db.query("UPDATE post SET post_content = ?, post_imageUrl = ? WHERE id = ?", [post.post_content, imageUrl, id], (error, result) => {
@@ -306,8 +306,8 @@ exports.updateComment = (req, res) => {
       }
       else {
         if (req.file) {
+          const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
           if (resultat[0].comment_imageUrl) {
-            const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
             const filename = resultat[0].comment_imageUrl.split('/images/')[1];
             fs.unlink(`images/${filename}`, () => {
               db.query("UPDATE comment SET comment_content = ?, comment_imageUrl = ? WHERE id = ?", [comment.comment_content, imageUrl, id], (error, result) => {

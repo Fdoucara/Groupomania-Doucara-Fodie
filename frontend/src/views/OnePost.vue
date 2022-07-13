@@ -19,9 +19,9 @@
         <p class="card-text"> {{ post.post_content }} </p>
         <div class="card-body-footer">
           <i class="fas fa-comment"> {{ post.totalComment }} </i>
-          <i class="fas fa-heart"> {{ post.post_likes }} </i>
-          <i class="fas fa-edit" v-if="post.user_id == userId"></i>
-          <i class="fas fa-trash" v-if="post.user_id == userId"></i>
+          <i class="fas fa-heart" :id="post.id" @click="likePost"> {{ post.post_likes }} </i>
+          <i class="fas fa-edit" :id="post.id" @click="updatePost" v-if="post.user_id == userId"></i>
+          <i class="fas fa-trash" :id="post.id" @click="deletePost" v-if="post.user_id == userId"></i>
         </div>
       </div>
     </div>
@@ -29,6 +29,12 @@
     <create-comment :post_id="this.$route.params.id" @updatePostInfo="updatePostInfo"></create-comment>
 
     <comment :post_id="this.$route.params.id"></comment>
+
+    <update-modale :updatePostModale="updatePostModale" :togglePostModale="togglePostModale" :post_id="postId"
+      @updateList="updatePostInfo"></update-modale>
+    <delete-modale :deletePostModale="deletePostModale" :toggleDeletePostModale="toggleDeletePostModale"
+      :post_id="postId" @updateList="updatePostInfo"></delete-modale>
+
 
   </div>
 </template>
@@ -40,6 +46,8 @@ import NavbarComponent from '@/components/Navbar.vue'
 import MyProfilComponent from '@/views/MyProfil.vue'
 import CreationComment from '@/components/CreationComment.vue'
 import CommentComponent from '@/components/Comment.vue'
+import PostUpdateModale from '@/components/PostUpdateModale.vue'
+import DeletePostModale from '@/components/DeletePostModale.vue'
 import axios from 'axios'
 
 export default {
@@ -49,7 +57,9 @@ export default {
     'navbar': NavbarComponent,
     'mon-profil': MyProfilComponent,
     'create-comment': CreationComment,
-    'comment': CommentComponent
+    'comment': CommentComponent,
+    'update-modale': PostUpdateModale,
+    'delete-modale': DeletePostModale,
   },
   data() {
     return {
@@ -58,7 +68,10 @@ export default {
         baseURL: 'http://localhost:3000/api/'
       }),
       info: null,
-      userId: this.$store.state.userId
+      userId: this.$store.state.userId,
+      postId: null,
+      updatePostModale: false,
+      deletePostModale: false
     }
   },
   methods: {
@@ -67,6 +80,27 @@ export default {
         .then(reponse => {
           this.info = reponse.data;
         })
+    },
+    togglePostModale() {
+      this.updatePostModale = !this.updatePostModale;
+    },
+    toggleDeletePostModale() {
+      this.deletePostModale = !this.deletePostModale;
+    },
+    likePost(e) {
+      this.postId = e.target.id;
+      this.axiosInstance.post('post/like-post/' + this.postId)
+        .then(() => {
+          this.getPostInfo();
+        })
+    },
+    updatePost(e) {
+      this.postId = e.target.id;
+      this.updatePostModale = !this.updatePostModale;
+    },
+    deletePost(e) {
+      this.postId = e.target.id;
+      this.deletePostModale = !this.deletePostModale;
     },
     updatePostInfo() {
       this.getPostInfo();
@@ -78,9 +112,9 @@ export default {
       () => {
         console.log(this.$route.params.id);
         this.getPostInfo();
-      }    
+      }
     ),
-    this.getPostInfo();
+      this.getPostInfo();
   },
 }
 </script>
@@ -137,5 +171,4 @@ img {
   padding-bottom: 10px;
   font-size: 21px;
 }
-
 </style>

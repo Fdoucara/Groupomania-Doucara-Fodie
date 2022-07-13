@@ -57,6 +57,7 @@ export default {
           this.$emit('updateList');
           bus.$emit('listAfterDelete');
           this.toggleDeletePostModale();
+          this.$router.push('/accueil');
         })
     }
   },

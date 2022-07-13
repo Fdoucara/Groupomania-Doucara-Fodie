@@ -19,7 +19,7 @@
               <label for="comment_image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
             </div>
             <div class="modale-body-footer-send">
-              <button class="btn btn-color" @click="sendData"> Valider </button>
+              <button class="btn btn-color" @click="sendData"> <i class="fas fa-check"></i> &nbsp; Valider </button>
             </div>
           </div>
         </form>

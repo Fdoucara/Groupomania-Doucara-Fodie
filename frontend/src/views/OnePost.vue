@@ -8,7 +8,6 @@
       <div class="card-body" :key="index" v-for="(post, index) in info">
         <div class="card-body-header">
           <div class="card-body-header-back">
-            
           </div>
           <p v-if="post.user_id == userId" class="card-body-header-text bold"> Par vous </p>
           <router-link :to="`/profil/${post.user_id}`" v-else class="card-body-header-text bold">
@@ -27,9 +26,9 @@
       </div>
     </div>
 
-    <create-comment :post_id="index" @updatePostInfo="updatePostInfo"></create-comment>
+    <create-comment :post_id="idPost" @updatePostInfo="updatePostInfo"></create-comment>
 
-    <comment :post_id="index"></comment>
+    <comment :post_id="idPost"></comment>
 
   </div>
 </template>
@@ -59,16 +58,15 @@ export default {
         baseURL: 'http://localhost:3000/api/'
       }),
       info: null,
-      index: this.$route.params.id,
+      idPost: this.$route.params.id,
       userId: this.$store.state.userId
     }
   },
   methods: {
     getPostInfo() {
-      this.axiosInstance.get('post/' + this.index)
+      this.axiosInstance.get('post/' + this.idPost)
         .then(reponse => {
           this.info = reponse.data;
-          console.log(this.info);
         })
     },
     updatePostInfo() {

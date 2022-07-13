@@ -118,9 +118,6 @@ export default {
       }
     },
   },
-  mounted() {
-    console.log(this.post_id);
-  },
 }
 </script>
 

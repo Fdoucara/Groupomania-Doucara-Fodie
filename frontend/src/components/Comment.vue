@@ -47,7 +47,6 @@ export default {
     commentList() {
       this.axiosInstance.get('post/comment/' + this.post_id)
         .then(reponse => {
-          console.log('Les com ', reponse);
           this.info = reponse.data.result.reverse();
         })
     },

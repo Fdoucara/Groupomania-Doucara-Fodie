@@ -46,8 +46,8 @@ import NavbarComponent from '@/components/Navbar.vue'
 import CreationPost from '@/components/CreationPost.vue'
 import MyProfilComponent from '@/views/MyProfil.vue'
 import CommentModale from '@/components/CommentModale.vue'
-import PostUpdateModale from '@/components/PostUpdate.vue'
-import DeletePostModale from '@/components/DeletePost.vue'
+import PostUpdateModale from '@/components/PostUpdateModale.vue'
+import DeletePostModale from '@/components/DeletePostModale.vue'
 import axios from 'axios'
 
 export default {

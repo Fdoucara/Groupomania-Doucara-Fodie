@@ -51,7 +51,7 @@
 <script>
 
 import axios from 'axios'
-import ModaleComponent from '@/components/Modale.vue'
+import ModaleComponent from '@/components/RegisterModale.vue'
 
 export default {
   name: 'RegisterComponent',

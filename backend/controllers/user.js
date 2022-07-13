@@ -91,7 +91,7 @@ exports.getAllUser = (req, res) => {
 
 exports.getOneUser = (req, res) => {
   let id = req.params.id;
-  db.query("SELECT user.nom, user.prenom, user.email, user.user_imageUrl, user.bio, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, post.user_id, comment.comment_content FROM user LEFT JOIN post ON user.id = post.user_id LEFT JOIN comment ON user.id = comment.user_id WHERE user.id = ?", [id], (error, result) => {
+  db.query("SELECT user.nom, user.prenom, user.email, user.user_imageUrl, user.bio, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, post.user_id, comment.comment_content FROM user LEFT JOIN post ON user.id = post.user_id LEFT JOIN comment ON user.id = comment.user_id WHERE user.id = ? GROUP BY post.id", [id], (error, result) => {
     if (!error) {
       if (result.length == 0) {
         return res.status(401).json({ message: "Aucun utilisateur trouvé !" });

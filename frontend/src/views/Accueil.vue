@@ -34,6 +34,8 @@
       @updateList="newList"></comment-modale>
     <update-modale :updatePostModale="updatePostModale" :togglePostModale="togglePostModale" :post_id="postId"
       @updateList="newList"></update-modale>
+    <delete-modale :deletePostModale="deletePostModale" :toggleDeletePostModale="toggleDeletePostModale" :post_id="postId"
+      @updateList="newList"></delete-modale>
   </div>
 </template>
 
@@ -45,6 +47,7 @@ import CreationPost from '@/components/CreationPost.vue'
 import MyProfilComponent from '@/views/MyProfil.vue'
 import CommentModale from '@/components/CommentModale.vue'
 import PostUpdateModale from '@/components/PostUpdate.vue'
+import DeletePostModale from '@/components/DeletePost.vue'
 import axios from 'axios'
 
 export default {
@@ -56,6 +59,7 @@ export default {
     'mon-profil': MyProfilComponent,
     'comment-modale': CommentModale,
     'update-modale': PostUpdateModale,
+    'delete-modale': DeletePostModale,
   },
   data() {
     return {
@@ -67,7 +71,8 @@ export default {
       userId: this.$store.state.userId,
       postId: null,
       commentModale: false,
-      updatePostModale: false
+      updatePostModale: false,
+      deletePostModale: false
     }
   },
   methods: {
@@ -82,6 +87,9 @@ export default {
     },
     togglePostModale() {
       this.updatePostModale = !this.updatePostModale;
+    },
+    toggleDeletePostModale() {
+      this.deletePostModale = !this.deletePostModale;
     },
     commentPost(e) {
       this.postId = e.target.id;
@@ -99,13 +107,8 @@ export default {
       this.updatePostModale = !this.updatePostModale;
     },
     deletePost(e) {
-      console.log(e.target.id);
       this.postId = e.target.id;
-      this.axiosInstance.delete('post/delete-post/' + this.postId)
-        .then(reponse => {
-          console.log('La rep ', reponse);
-          this.postList();
-        })
+      this.deletePostModale = !this.deletePostModale;
     },
     newList() {
       this.postList();

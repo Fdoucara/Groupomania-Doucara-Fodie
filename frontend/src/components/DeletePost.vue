@@ -1,32 +1,24 @@
 <template>
-  <div class="bloc-modale" v-if="updatePostModale">
+  <div class="bloc-modale" v-if="deletePostModale">
 
     <div class="overlay"></div>
 
     <div class="modale card">
-      <h2 class="modale-title"> Modifier le post <hr></h2>
+      <h2 class="modale-title"> Supprimer ce post
+        <hr>
+      </h2>
       <div class="modale-content">
-        <form>
-          <div class="modale-body-content">
-            <img src="../assets/icon-above-font.png" class="modale-image">
-            <textarea class="modale-body-content-text" id="post_content" v-model="formData.post_content"
-              placeholder="Que voulez-vous nous raconter aujourd'hui ?" @keyup="verifWrite" required></textarea>
-          </div>
-
-          <div class="modale-body-footer">
-            <div class="modale-body-footer-upload">
-              <input type="file" id="comment_image" @change="onFile">
-              <label for="comment_image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
-            </div>
-            <div class="modale-body-footer-send">
-              <button class="btn btn-color" @click="sendData"> Valider </button>
-            </div>
-          </div>
-        </form>
-        <p class="postModale_upload-image-name"></p>
-        <p class="postModale_error"></p>
-      </div>  
-      <button class="btn-modale btn" @click="togglePostModale"> X </button>
+        <p class="modale-content-item"> Êtes-vous certain que vous voulez supprimer ce post ? Il ne peut plus être
+          récupéré ! </p>
+      </div>
+      <div class="modale-body-footer">
+        <div class="modale-body-footer-send">
+          <button class="btn btn-color1" @click="toggleDeletePostModale"> Annuler </button>
+        </div>
+        <div class="modale-body-footer-send">
+          <button class="btn btn-color2" @click="sendData"> Valider </button>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -35,11 +27,11 @@
 <script>
 
 import axios from 'axios'
-import {bus} from '../main'
+import { bus } from '../main'
 
 export default {
-  name: 'CommentModale',
-  props: ['updatePostModale', 'togglePostModale', 'post_id'],
+  name: 'DeletePostModale',
+  props: ['deletePostModale', 'toggleDeletePostModale', 'post_id'],
   data() {
     return {
       formData: {
@@ -59,75 +51,19 @@ export default {
     }
   },
   methods: {
-    onFile(event) {
-      this.formData.selectedFile = event.target.files[0];
-      this.filename = event.target.files[0].name;
-      this.paragraphe = document.querySelector('.postModale_upload-image-name');
-      if(this.formData.selectedFile) {
-        this.paragraphe.textContent = `${this.filename}`;
-      } else {
-        this.paragraphe.textContent = '';
-      }
-    },
-    verifWrite(){
-      this.paragrapheError = document.querySelector('.postModale_error');
-      this.paragrapheError.textContent = '';
-    },
     sendData() {
-      if (!this.formData.selectedFile) {
-        this.axiosInstance.patch('post/update-post/' + this.post_id, {
-          post_content: this.formData.post_content
+      this.axiosInstance.delete('post/delete-post/' + this.post_id)
+        .then(() => {
+          this.$emit('updateList');
+          bus.$emit('listAfterDelete');
+          this.toggleDeletePostModale();
         })
-          .then(reponse => {
-            if (reponse.status == 201) {
-              this.$emit('updateList');
-              bus.$emit('listAfterUpdate');
-              this.formData.post_content = null;
-              this.togglePostModale();
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          })
-      }
-      else if (this.formData.post_content == null || this.formData.post_content == '') {
-        const fb = new FormData();
-        fb.append('image', this.formData.selectedFile, this.filename);
-        this.axiosInstance.patch('post/update-post/' + this.post_id, fb, this.config)
-          .catch(() => {
-            this.paragrapheError = document.querySelector('.postModale_error')
-            this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte !';
-            this.paragrapheError.style.fontSize = '18px';
-            this.paragrapheError.style.color = 'red';
-          })
-      }
-      else {
-        const fd = new FormData();
-        fd.append('image', this.formData.selectedFile, this.filename);
-        fd.append('post_content', this.formData.post_content);
-        this.axiosInstance.patch('post/update-post/' + this.post_id, fd, this.config)
-          .then(reponse => {
-            if (reponse.status == 201) {
-              this.$emit('updateList');
-              bus.$emit('listAfterUpdate');
-              this.formData.selectedFile = null;
-              this.paragraphe.textContent = '';
-              this.formData.post_content = null;
-              this.paragrapheError.textContent = '';
-              this.togglePostModale();
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          })
-      }
-    },
+    }
   },
 }
 </script>
 
 <style scoped>
-
 .bloc-modale {
   position: fixed;
   top: 0;
@@ -180,29 +116,6 @@ export default {
   align-items: center;
 }
 
-img {
-  width: 13%;
-  height: auto;
-  border-radius: 50%;
-}
-
-.modale-body-content-text {
-  width: 80%;
-  height: 90px;
-  border: 0;
-  padding: 7px;
-  background: transparent;
-  resize: none;
-  font-size: 20px;
-}
-
-.modale-body-content-text::placeholder {
-  font-size: 22px;
-}
-
-.modale-body-content-text:focus {
-  outline: 0;
-}
 
 .modale-body-footer {
   display: flex;
@@ -212,25 +125,8 @@ img {
   padding-bottom: 20px;
 }
 
-.modale-body-footer-upload,
 .modale-body-footer-send {
   width: 40%;
-}
-
-input[type="file"] {
-  display: none;
-}
-
-label {
-  display: block;
-  background-color: #203A43;
-  color: white;
-  font-size: 18px;
-  text-align: center;
-  padding: 10px 0px;
-  border-radius: 5px;
-  margin: 0;
-  cursor: pointer;
 }
 
 button {
@@ -239,26 +135,13 @@ button {
   font-size: 18px;
 }
 
-.btn-color {
+.btn-color1 {
+  background: #203A43;
+  color: white;
+}
+.btn-color2 {
   background: #D31027;
   color: white;
 }
 
-p {
-  font-size: 16px;
-  text-align: center;
-}
-
-.btn-modale {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background: #203A43;
-  width: 10%;
-  margin: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 20px;
-  color: white;
-}
 </style>

@@ -25,7 +25,7 @@
             </div>
           </div>
         </form>
-        <p class="upload-image-name"></p>
+        <p class="upload-image-name mt-3"></p>
         <p class="error"></p>
       </div>
     </div>
@@ -95,6 +95,7 @@ export default {
         fb.append('image', this.formData.selectedFile, this.filename);
         this.axiosInstance.post('post/create', fb, this.config)
           .catch(() => {
+            this.paragrapheError = document.querySelector('.error');
             this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte !';
             this.paragrapheError.style.fontSize = '18px';
             this.paragrapheError.style.color = 'red';
@@ -233,6 +234,10 @@ button {
 .btn-color {
   background: #D31027;
   color: white;
+}
+
+.upload-image-name {
+  margin-bottom: 0;
 }
 
 </style>

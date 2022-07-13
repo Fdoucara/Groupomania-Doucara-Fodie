@@ -16,9 +16,9 @@
       <button class="card_button btn mt-2"> Modifier votre profil </button>
     </div>
 
-    <div class="post_scroll">
+    <div class="post_scroll" v-if="showCard">
       <div class="card my-4" :key="index" v-for="(post, index) in info">
-        <router-link :to="`/post/${post.id}`" class="card_link">
+        <router-link :to="`/post/${post.id}`" class="card_link" v-if="post.post_content">
           <div class="card-body">
             <div class="card-body-header">
               <p class="card-body-header-text bold"> Par vous </p>
@@ -55,18 +55,25 @@ export default {
       photo: null,
       bio: null,
       info: null,
+      showCard: true,
     }
   },
   methods: {
     getProfile() {
       this.axiosInstance.get(`user/${this.userId}`)
         .then(reponse => {
+          console.log(reponse);
           this.nom = reponse.data.result[0].nom;
           this.prenom = reponse.data.result[0].prenom;
           this.email = reponse.data.result[0].email;
           this.photo = reponse.data.result[0].user_imageUrl;
           this.bio = reponse.data.result[0].bio;
           this.info = reponse.data.result.reverse();
+          if(this.info[0].post_content == null) {
+            this.showCard = false;
+          } else {
+            this.showCard = true;
+          }
         })
     }
   },
@@ -78,9 +85,11 @@ export default {
     bus.$on('listAfterUpdate', () => {
       this.getProfile();
     });
+    bus.$on('listAfterDelete', () => {
+      this.getProfile();
+    });
   },
 }
-
 </script>
 
 <style scoped>

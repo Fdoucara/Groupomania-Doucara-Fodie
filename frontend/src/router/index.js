@@ -5,6 +5,7 @@ import RegisterComponent from '@/views/Register.vue'
 import AccueilComponent from '@/views/Accueil.vue'
 import ProfilComponent from '@/views/Profil.vue'
 import OnePost from '@/views/OnePost.vue'
+import UsersList from '@/views/UsersList.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,10 @@ const routes = [
   {
     path: '/post/:id',
     component: OnePost
+  },
+  {
+    path: '/utilisateurs',
+    component: UsersList
   }
 ]
 

@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       formData: {
-        post_content: null,
+        post_content: '',
         selectedFile: null,
       },
       axiosInstance: axios.create({
@@ -76,7 +76,7 @@ export default {
     },
     sendData() {
       this.paragrapheError = document.querySelector('.error');
-      if (!this.formData.selectedFile && this.formData.post_content != null || this.formData.post_content != '') {
+      if (!this.formData.selectedFile && this.formData.post_content != '') {
         this.axiosInstance.post('post/create', {
           post_content: this.formData.post_content
         })
@@ -84,19 +84,19 @@ export default {
             if (reponse.status == 201) {
               this.$emit('updateList');
               bus.$emit('takeProfil');
-              this.formData.post_content = null;
+              this.formData.post_content = '';
             }
           })
           .catch(error => {
             console.log(error);
           })
       }
-      else if (!this.formData.selectedFile && this.formData.post_content == null || this.formData.post_content == '') {
+      else if (!this.formData.selectedFile && this.formData.post_content == '') {
         this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte ou ajouter une image !';
         this.paragrapheError.style.fontSize = '18px';
         this.paragrapheError.style.color = 'red';
       }
-      else if (this.formData.selectedFile && this.formData.post_content == null || this.formData.post_content == '') {
+      else if (this.formData.selectedFile && this.formData.post_content == '') {
         const fd = new FormData();
         fd.append('image', this.formData.selectedFile, this.filename);
         this.axiosInstance.post('post/create', fd, this.config)
@@ -106,7 +106,7 @@ export default {
               bus.$emit('takeProfil');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
-              this.formData.post_content = null;
+              this.formData.post_content = '';
               this.paragrapheError.textContent = '';
             }
           })
@@ -125,7 +125,7 @@ export default {
               bus.$emit('takeProfil');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
-              this.formData.post_content = null;
+              this.formData.post_content = '';
               this.paragrapheError.textContent = '';
             }
           })

@@ -18,7 +18,7 @@
 
     <div class="post_scroll" v-if="showCard">
       <div class="card my-4" :key="index" v-for="(post, index) in info">
-        <router-link :to="`/post/${post.id}`" class="card_link" v-if="post.post_content">
+        <router-link :to="`/post/${post.id}`" class="card_link">
           <div class="card-body">
             <div class="card-body-header">
               <p class="card-body-header-text bold"> Par vous </p>
@@ -69,7 +69,9 @@ export default {
           this.photo = reponse.data.result[0].user_imageUrl;
           this.bio = reponse.data.result[0].bio;
           this.info = reponse.data.result.reverse();
-          if(this.info[0].post_content == null) {
+          console.log('Text ', this.info[0].post_content);
+          console.log('Image ', this.info[0].post_imageUrl);
+          if(this.info[0].post_content == null && !this.info[0].post_imageUrl) {
             this.showCard = false;
           } else {
             this.showCard = true;

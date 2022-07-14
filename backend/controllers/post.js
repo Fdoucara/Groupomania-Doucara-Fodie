@@ -68,8 +68,8 @@ exports.updateOnePost = (req, res) => {
       else {
         if (req.file) {
           const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-          const filename = resultat[0].post_imageUrl.split('/images/')[1];
           if (resultat[0].post_imageUrl) {
+            const filename = resultat[0].post_imageUrl.split('/images/')[1];
             if (!post.post_content) {
               fs.unlink(`images/${filename}`, () => {
                 db.query("UPDATE post SET post_imageUrl = ? WHERE id = ?", [imageUrl, id], (error, result) => {

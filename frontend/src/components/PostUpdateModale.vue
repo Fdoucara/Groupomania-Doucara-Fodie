@@ -129,7 +129,7 @@ export default {
               bus.$emit('listAfterUpdate');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
-              this.formData.post_content = null;
+              this.formData.post_content = '';
               this.paragrapheError.textContent = '';
               this.togglePostModale();
             }

@@ -37,7 +37,7 @@
 <script>
 
 import axios from 'axios'
-import {bus} from '../main'
+import { bus } from '../main'
 
 export default {
   name: 'CreationPost',
@@ -64,18 +64,19 @@ export default {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
       this.paragraphe = document.querySelector('.upload-image-name');
-      if(this.formData.selectedFile) {
+      if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
       } else {
         this.paragraphe.textContent = '';
       }
     },
-    verifWrite(){
+    verifWrite() {
       this.paragrapheError = document.querySelector('.error');
       this.paragrapheError.textContent = '';
     },
     sendData() {
-      if (!this.formData.selectedFile) {
+      this.paragrapheError = document.querySelector('.error');
+      if (!this.formData.selectedFile && this.formData.post_content != null || this.formData.post_content != '') {
         this.axiosInstance.post('post/create', {
           post_content: this.formData.post_content
         })
@@ -90,15 +91,27 @@ export default {
             console.log(error);
           })
       }
-      else if (this.formData.post_content == null || this.formData.post_content == '') {
-        const fb = new FormData();
-        fb.append('image', this.formData.selectedFile, this.filename);
-        this.axiosInstance.post('post/create', fb, this.config)
-          .catch(() => {
-            this.paragrapheError = document.querySelector('.error');
-            this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte !';
-            this.paragrapheError.style.fontSize = '18px';
-            this.paragrapheError.style.color = 'red';
+      else if (!this.formData.selectedFile && this.formData.post_content == null || this.formData.post_content == '') {
+        this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte ou ajouter une image !';
+        this.paragrapheError.style.fontSize = '18px';
+        this.paragrapheError.style.color = 'red';
+      }
+      else if (this.formData.selectedFile && this.formData.post_content == null || this.formData.post_content == '') {
+        const fd = new FormData();
+        fd.append('image', this.formData.selectedFile, this.filename);
+        this.axiosInstance.post('post/create', fd, this.config)
+          .then(reponse => {
+            if (reponse.status == 201) {
+              this.$emit('updateList');
+              bus.$emit('takeProfil');
+              this.formData.selectedFile = null;
+              this.paragraphe.textContent = '';
+              this.formData.post_content = null;
+              this.paragrapheError.textContent = '';
+            }
+          })
+          .catch(error => {
+            console.log(error);
           })
       }
       else {
@@ -239,5 +252,4 @@ button {
 .upload-image-name {
   margin-bottom: 0;
 }
-
 </style>

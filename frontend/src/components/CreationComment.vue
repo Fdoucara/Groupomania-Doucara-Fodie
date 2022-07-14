@@ -32,7 +32,7 @@
 
 <script>
 
-import {bus} from '../main'
+import { bus } from '../main'
 import axios from 'axios'
 
 export default {
@@ -61,18 +61,19 @@ export default {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
       this.paragraphe = document.querySelector('.comment_upload-image-name');
-      if(this.formData.selectedFile) {
+      if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
       } else {
         this.paragraphe.textContent = '';
       }
     },
-    verifWrite(){
+    verifWrite() {
       this.paragrapheError = document.querySelector('.comment_error');
       this.paragrapheError.textContent = '';
     },
     sendData() {
-      if (!this.formData.selectedFile) {
+      this.paragrapheError = document.querySelector('.comment_error');
+      if (!this.formData.selectedFile && this.formData.comment_content != null || this.formData.comment_content != '') {
         this.axiosInstance.post('post/create-comment/' + this.post_id, {
           comment_content: this.formData.comment_content
         })
@@ -87,14 +88,27 @@ export default {
             console.log(error);
           })
       }
-      else if (this.formData.comment_content == null || this.formData.comment_content == '') {
-        const fb = new FormData();
-        fb.append('image', this.formData.selectedFile, this.filename);
-        this.axiosInstance.post('post/create-comment/' + this.post_id, fb, this.config)
-          .catch(() => {
-            this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte !';
-            this.paragrapheError.style.fontSize = '18px';
-            this.paragrapheError.style.color = 'red';
+      else if (!this.formData.selectedFile && this.formData.comment_content == null || this.formData.comment_content == '') {
+        this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte ou ajouter une image !';
+        this.paragrapheError.style.fontSize = '18px';
+        this.paragrapheError.style.color = 'red';
+      }
+      else if (this.formData.selectedFile && this.formData.comment_content == null || this.formData.comment_content == '') {
+        const fd = new FormData();
+        fd.append('image', this.formData.selectedFile, this.filename);
+        this.axiosInstance.post('post/create-comment/' + this.post_id, fd, this.config)
+          .then(reponse => {
+            if (reponse.status == 201) {
+              this.$emit('updatePostInfo');
+              bus.$emit('updateCommentList');
+              this.formData.selectedFile = null;
+              this.paragraphe.textContent = '';
+              this.formData.comment_content = null;
+              this.paragrapheError.textContent = '';
+            }
+          })
+          .catch(error => {
+            console.log(error);
           })
       }
       else {
@@ -109,6 +123,7 @@ export default {
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
               this.formData.comment_content = null;
+              this.paragrapheError = document.querySelector('.comment_error');
               this.paragrapheError.textContent = '';
             }
           })
@@ -204,5 +219,4 @@ button {
   background: #D31027;
   color: white;
 }
-
 </style>

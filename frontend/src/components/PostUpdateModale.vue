@@ -10,7 +10,7 @@
           <div class="modale-body-content">
             <img src="../assets/icon-above-font.png" class="modale-image">
             <textarea class="modale-body-content-text" id="post_content" v-model="formData.post_content"
-              placeholder="Que voulez-vous nous raconter aujourd'hui ?" @keyup="verifWrite" required></textarea>
+              placeholder="Que voulez-vous nous raconter aujourd'hui ?" @keyup="verifWrite"></textarea>
           </div>
 
           <div class="modale-body-footer">
@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       formData: {
-        post_content: null,
+        post_content: '',
         selectedFile: null,
       },
       axiosInstance: axios.create({
@@ -74,7 +74,8 @@ export default {
       this.paragrapheError.textContent = '';
     },
     sendData() {
-      if (!this.formData.selectedFile) {
+      this.paragrapheError = document.querySelector('.postModale_error');
+      if (!this.formData.selectedFile && this.formData.post_content != '') {
         this.axiosInstance.patch('post/update-post/' + this.post_id, {
           post_content: this.formData.post_content
         })
@@ -82,24 +83,40 @@ export default {
             if (reponse.status == 201) {
               this.$emit('updateList');
               bus.$emit('listAfterUpdate');
-              this.formData.post_content = null;
+              this.formData.post_content = '';
               this.togglePostModale();
             }
           })
           .catch(error => {
             console.log(error);
           })
+        console.log('1, file ', this.formData.selectedFile, ' post_content ', this.formData.post_content);
       }
-      else if (this.formData.post_content == null || this.formData.post_content == '') {
-        const fb = new FormData();
-        fb.append('image', this.formData.selectedFile, this.filename);
-        this.axiosInstance.patch('post/update-post/' + this.post_id, fb, this.config)
-          .catch(() => {
-            this.paragrapheError = document.querySelector('.postModale_error')
-            this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte !';
-            this.paragrapheError.style.fontSize = '18px';
-            this.paragrapheError.style.color = 'red';
+      else if (!this.formData.selectedFile && this.formData.post_content == '') {
+        this.paragrapheError.textContent = "Aucune modification n'a été effectuée.";
+        this.paragrapheError.style.fontSize = '20px';
+        this.paragrapheError.style.color = 'red';
+        console.log('2, file ', this.formData.selectedFile, ' post_content ', this.formData.post_content);
+      }
+      else if (this.formData.selectedFile && this.formData.post_content == '') {
+        const fd = new FormData(); 
+        fd.append('image', this.formData.selectedFile, this.filename);
+        this.axiosInstance.patch('post/update-post/' + this.post_id, fd, this.config)
+          .then(reponse => {
+            if (reponse.status == 201) {
+              this.$emit('updateList');
+              bus.$emit('listAfterUpdate');
+              this.formData.selectedFile = null;
+              this.paragraphe.textContent = '';
+              this.formData.post_content = '';
+              this.paragrapheError.textContent = '';
+              this.togglePostModale();
+            }
           })
+          .catch(error => {
+            console.log(error);
+          })
+         console.log('3, file ', this.formData.selectedFile, ' post_content ', this.formData.post_content);
       }
       else {
         const fd = new FormData();
@@ -120,6 +137,7 @@ export default {
           .catch(error => {
             console.log(error);
           })
+         console.log('4, file ', this.formData.selectedFile, ' post_content ', this.formData.post_content);
       }
     },
   },

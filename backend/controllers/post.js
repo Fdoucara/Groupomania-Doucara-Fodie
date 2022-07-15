@@ -56,7 +56,7 @@ exports.updateOnePost = (req, res) => {
   const id = req.params.id;
   let post = req.body;
 
-  console.log(!post.post_content);
+  console.log({ req });
   db.query("SELECT * FROM post WHERE id = ?", [id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
@@ -99,6 +99,19 @@ exports.updateOnePost = (req, res) => {
                 })
               })
             }
+          }
+          else if(!resultat[0].post_imageUrl && !post.post_content) {
+            db.query("UPDATE post SET post_imageUrl = ? WHERE id = ?", [imageUrl, id], (error, result) => {
+              if (!error) {
+                if (result.affectedRows == 0) {
+                  return res.status(401).json({ message: "Post non trouvé !" });
+                }
+                return res.status(201).json({ message: "Post bien modifié !" });
+              } else {
+                res.status(400).json({ error });
+                return;
+              }
+            })
           }
           else {
             db.query("UPDATE post SET post_content = ?, post_imageUrl = ? WHERE id = ?", [post.post_content, imageUrl, id], (error, result) => {

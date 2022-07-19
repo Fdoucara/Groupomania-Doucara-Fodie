@@ -13,18 +13,25 @@
         <img :src="comment.comment_imageUrl" class="card-image">
         <p class="card-text"> {{ comment.comment_content }} </p>
         <div class="card-body-footer">
-          <i class="fas fa-heart"> {{ comment.comment_likes }} </i>
-          <i class="fas fa-edit" v-if="comment.user_id == userId"></i>
-          <i class="fas fa-trash" v-if="comment.user_id == userId"></i>
+          <i class="fas fa-heart" :id="comment.id" @click="likeComment"> {{ comment.comment_likes }} </i>
+          <i class="fas fa-edit" :id="comment.id" @click="updateComment" v-if="comment.user_id == userId"></i>
+          <i class="fas fa-trash" :id="comment.id" @click="deleteComment" v-if="comment.user_id == userId"></i>
         </div>
       </div>
     </div>
+
+    <update-modale :updateCommentModale="updateCommentModale" :toggleCommentModale="toggleCommentModale" :comment_id="comment_id"
+      @updateCommentList="updateCommentList"></update-modale>
+    <delete-modale :deleteCommentModale="deleteCommentModale" :toggleDeleteCommentModale="toggleDeleteCommentModale"
+      :comment_id="comment_id" @updateCommentList="updateCommentList"></delete-modale>
 
   </div>
 </template>
 
 <script>
 
+import CommentUpdateModale from '@/components/CommentUpdateModale.vue'
+import DeleteCommentModale from '@/components/DeleteCommentModale.vue'
 import { bus } from '../main'
 import axios from 'axios'
 
@@ -32,6 +39,8 @@ export default {
   name: 'CommentComponent',
   props: ['post_id'],
   components: {
+    'update-modale': CommentUpdateModale,
+    'delete-modale': DeleteCommentModale,
   },
   data() {
     return {
@@ -41,6 +50,9 @@ export default {
       }),
       info: undefined,
       userId: this.$store.state.userId,
+      comment_id: null,
+      updateCommentModale: false,
+      deleteCommentModale: false
     }
   },
   methods: {
@@ -50,6 +62,31 @@ export default {
           this.info = reponse.data.result.reverse();
         })
     },
+    toggleCommentModale() {
+      this.updateCommentModale = !this.updateCommentModale;
+    },
+    toggleDeleteCommentModale() {
+      this.deleteCommentModale = !this.deleteCommentModale;
+    },
+    likeComment(e) {
+      this.comment_id = e.target.id;
+      this.axiosInstance.post('post/like-comment/' + this.comment_id)
+        .then(() => {
+          this.commentList();
+        })
+    },
+    updateComment(e) {
+      this.comment_id = e.target.id;
+      console.log(this.comment_id);
+      this.updateCommentModale = !this.updateCommentModale;
+    },
+    deleteComment(e) {
+      this.comment_id = e.target.id;
+      this.deleteCommentModale = !this.deleteCommentModale;
+    },
+    updateCommentList() {
+      this.commentList();
+    }
   },
   mounted() {
     this.$watch(

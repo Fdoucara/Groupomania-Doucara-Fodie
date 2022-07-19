@@ -69,8 +69,6 @@ export default {
           this.photo = reponse.data.result[0].user_imageUrl;
           this.bio = reponse.data.result[0].bio;
           this.info = reponse.data.result.reverse();
-          console.log('Text ', this.info[0].post_content);
-          console.log('Image ', this.info[0].post_imageUrl);
           if(this.info[0].post_content == null && !this.info[0].post_imageUrl) {
             this.showCard = false;
           } else {

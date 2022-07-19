@@ -1,36 +1,40 @@
 <template>
   <div>
 
-    <div class="card my-4" :key="index" v-for="(user, index) in info">
-      <div class="card-body">
-        <router-link :to="`/post/${user.id}`" class="card_link">
-          <div class="card-body-header">
-            <router-link to="/monProfil" v-if="user.user_id == userId" class="card-body-header-text bold">
-              <p> Par vous </p>
-            </router-link>
-            <router-link :to="`/profil/${user.user_id}`" v-else class="card-body-header-text bold">
-              <p> Par {{ user.nom + ' ' + user.prenom }} </p>
-            </router-link>
-            <p class="card-body-header-text"> Le {{ new Date(user.user_date).toLocaleDateString() }} </p>
-          </div>
-          <img :src="user.user_imageUrl" class="card-image">
-          <p class="card-text"> {{ user.user_content }} </p>
-        </router-link>
-        <div class="card-body-footer">
-          
+    <navbar></navbar>
+    <mon-profil></mon-profil>
+
+    <div class="user_info_contain">
+      <div class="card mt-4" :key="index" v-for="(user, index) in info">
+      <router-link :to="`/post/${user.id}`" class="card_link">
+        <div class="card-body">
+            <div class="card-body-content">
+              <img :src="user.user_imageUrl" class="card-image">
+              <p class="card-text"> {{ user.nom + ' ' + user.prenom}} </p>
+            </div>          
+            <div class="card-body-footer">
+
+            </div>
         </div>
+      </router-link>
       </div>
     </div>
-
+    
   </div>
 </template>
 
 <script>
 
+import NavbarComponent from '@/components/Navbar.vue'
+import MyProfilComponent from '@/views/MyProfil.vue'
 import axios from 'axios'
 
 export default {
   name: 'UsersList',
+  components: {
+    'navbar': NavbarComponent,
+    'mon-profil': MyProfilComponent,
+  },
   data() {
     return {
       axiosInstance: axios.create({
@@ -42,7 +46,7 @@ export default {
     }
   },
   methods: {
-    UserstList() {
+    usersInfoList() {
       this.axiosInstance.get('user')
         .then(reponse => {
           this.info = reponse.data.result.reverse();
@@ -51,12 +55,16 @@ export default {
     },
   },
   mounted() {
-    this.UsersList();
+    this.usersInfoList();
   },
 }
 </script>
 
 <style scoped>
+
+.user_info_contain {
+  padding: 4px;;
+}
 .card {
   padding: 10px;
   width: 43%;

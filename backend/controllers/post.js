@@ -56,7 +56,6 @@ exports.updateOnePost = (req, res) => {
   const id = req.params.id;
   let post = req.body;
 
-  console.log({ req });
   db.query("SELECT * FROM post WHERE id = ?", [id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
@@ -84,7 +83,8 @@ exports.updateOnePost = (req, res) => {
                   }
                 })
               })
-            } else {
+            }
+            else {
               fs.unlink(`images/${filename}`, () => {
                 db.query("UPDATE post SET post_content = ?, post_imageUrl = ? WHERE id = ?", [post.post_content, imageUrl, id], (error, result) => {
                   if (!error) {
@@ -100,7 +100,7 @@ exports.updateOnePost = (req, res) => {
               })
             }
           }
-          else if(!resultat[0].post_imageUrl && !post.post_content) {
+          else if (!resultat[0].post_imageUrl && !post.post_content) {
             db.query("UPDATE post SET post_imageUrl = ? WHERE id = ?", [imageUrl, id], (error, result) => {
               if (!error) {
                 if (result.affectedRows == 0) {
@@ -340,26 +340,57 @@ exports.updateComment = (req, res) => {
           const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
           if (resultat[0].comment_imageUrl) {
             const filename = resultat[0].comment_imageUrl.split('/images/')[1];
-            fs.unlink(`images/${filename}`, () => {
-              db.query("UPDATE comment SET comment_content = ?, comment_imageUrl = ? WHERE id = ?", [comment.comment_content, imageUrl, id], (error, result) => {
-                if (!error) {
-                  if (result.affectedRows == 0) {
-                    return res.status(401).json({ message: "Commentaire non trouvé !" });
+            if (!comment.comment_content) {
+              fs.unlink(`images/${filename}`, () => {
+                db.query("UPDATE comment SET comment_imageUrl = ? WHERE id = ?", [imageUrl, id], (error, result) => {
+                  if (!error) {
+                    if (result.affectedRows == 0) {
+                      return res.status(401).json({ message: "Commentaire non trouvé !" });
+                    }
+                    return res.status(201).json({ message: "Commentaire bien modifié !" });
+                  } else {
+                    res.status(400).json({ error });
+                    return;
                   }
-                  return res.status(201).json({ message: "Commentaire bien modifié !" });
-                } else {
-                  res.status(400).json({ error });
-                  return;
-                }
+                })
               })
+            }
+            else {
+              fs.unlink(`images/${filename}`, () => {
+                db.query("UPDATE comment SET comment_content = ?, comment_imageUrl = ? WHERE id = ?", [comment.comment_content, imageUrl, id], (error, result) => {
+                  if (!error) {
+                    if (result.affectedRows == 0) {
+                      return res.status(401).json({ message: "Commentaire non trouvé !" });
+                    }
+                    return res.status(201).json({ message: "Commentaire bien modifié !" });
+                  } else {
+                    res.status(400).json({ error });
+                    return;
+                  }
+                })
+              })
+            }
+          }
+          else if (!resultat[0].comment_imageUrl && !post.comment_content) {
+            db.query("UPDATE comment SET comment_imageUrl = ? WHERE id = ?", [imageUrl, id], (error, result) => {
+              if (!error) {
+                if (result.affectedRows == 0) {
+                  return res.status(401).json({ message: "Commentaire non trouvé !" });
+                }
+                return res.status(201).json({ message: "Commentaire bien modifié !" });
+              } else {
+                res.status(400).json({ error });
+                return;
+              }
             })
-          } else {
+          }
+          else {
             db.query("UPDATE comment SET comment_content = ?, comment_imageUrl = ? WHERE id = ?", [comment.comment_content, imageUrl, id], (error, result) => {
               if (!error) {
                 if (result.affectedRows == 0) {
-                  return res.status(401).json({ message: "Post non trouvé !" });
+                  return res.status(401).json({ message: "Commentaire non trouvé !" });
                 }
-                return res.status(201).json({ message: "Post bien modifié !" });
+                return res.status(201).json({ message: "Commentaire bien modifié !" });
               } else {
                 res.status(400).json({ error });
                 return;
@@ -367,7 +398,7 @@ exports.updateComment = (req, res) => {
             })
           }
         } else {
-          db.query("UPDATE comment SET comment_content = ? WHERE id = ?", [comment.comment_content, id], (error, result) => {
+          db.query("UPDATE post SET comment_content = ? WHERE id = ?", [comment.comment_content, id], (error, result) => {
             if (!error) {
               if (result.affectedRows == 0) {
                 return res.status(401).json({ message: "Commentaire non trouvé !" });

@@ -1,32 +1,34 @@
 <template>
-  <div class="bloc-modale" v-if="updatePostModale">
+  <div class="bloc-modale" v-if="updateCommentModale">
 
     <div class="overlay"></div>
 
     <div class="modale card">
-      <h2 class="modale-title"> Modifier le post <hr></h2>
+      <h2 class="modale-title"> Modifier le commentaire
+        <hr>
+      </h2>
       <div class="modale-content">
         <form>
           <div class="modale-body-content">
             <img src="../assets/icon-above-font.png" class="modale-image">
-            <textarea class="modale-body-content-text" id="post_content" v-model="formData.post_content"
-              placeholder="Vous voulez modifier votre post. Que voulez écrire de nouveau ?" @keyup="verifWrite"></textarea>
+            <textarea class="modale-body-content-text" id="comment_content" v-model="formData.comment_content"
+              placeholder="Que voulez écrire de nouveau ?" @keyup="verifWrite"></textarea>
           </div>
 
           <div class="modale-body-footer">
             <div class="modale-body-footer-upload">
-              <input type="file" id="post_image" @change="onFile">
-              <label for="post_image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
+              <input type="file" id="comment_update_image" @change="onFile">
+              <label for="comment_update_image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
             </div>
             <div class="modale-body-footer-send">
               <button class="btn btn-color" @click="sendData"> <i class="fas fa-check"></i> &nbsp; Valider </button>
             </div>
           </div>
         </form>
-        <p class="postModale_upload-image-name"></p>
-        <p class="postModale_error"></p>
-      </div>  
-      <button class="btn-modale btn" @click="togglePostModale"> X </button>
+        <p class="commentmodale_upload"></p>
+        <p class="commentModale_error"></p>
+      </div>
+      <button class="btn-modale btn" @click="toggleCommentModale"> X </button>
     </div>
 
   </div>
@@ -35,15 +37,15 @@
 <script>
 
 import axios from 'axios'
-import {bus} from '../main'
+import { bus } from '../main'
 
 export default {
-  name: 'PostUpdateModale',
-  props: ['updatePostModale', 'togglePostModale', 'post_id'],
+  name: 'CommentUpdateModale',
+  props: ['updateCommentModale', 'toggleCommentModale', 'comment_id'],
   data() {
     return {
       formData: {
-        post_content: null,
+        comment_content: null,
         selectedFile: null,
       },
       axiosInstance: axios.create({
@@ -62,53 +64,53 @@ export default {
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
-      this.paragraphe = document.querySelector('.postModale_upload-image-name');
-      if(this.formData.selectedFile) {
+      this.paragraphe = document.querySelector('.commentmodale_upload');
+      if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
       } else {
         this.paragraphe.textContent = '';
       }
     },
-    verifWrite(){
-      this.paragrapheError = document.querySelector('.postModale_error');
+    verifWrite() {
+      this.paragrapheError = document.querySelector('.commentModale_error');
       this.paragrapheError.textContent = '';
     },
     sendData() {
-      this.paragrapheError = document.querySelector('.postModale_error');
-      if (!this.formData.selectedFile && this.formData.post_content != '') {
-        this.axiosInstance.patch('post/update-post/' + this.post_id, {
-          post_content: this.formData.post_content
+      this.paragrapheError = document.querySelector('.commentModale_error');
+      if (!this.formData.selectedFile && this.formData.comment_content != '') {
+        this.axiosInstance.patch('post/update-comment/' + this.comment_id, {
+          comment_content: this.formData.comment_content
         })
           .then(reponse => {
             if (reponse.status == 201) {
-              this.$emit('updateList');
-              bus.$emit('listAfterUpdate');
-              this.formData.post_content = '';
-              this.togglePostModale();
+              this.$emit('updateCommentList');
+              bus.$emit('postAfterUpdate');
+              this.formData.comment_content = '';
+              this.toggleCommentModale();
             }
           })
           .catch(error => {
             console.log(error);
           })
       }
-      else if (!this.formData.selectedFile && this.formData.post_content == '') {
+      else if (!this.formData.selectedFile && this.formData.comment_content == '') {
         this.paragrapheError.textContent = "Aucune modification n'a été effectuée.";
         this.paragrapheError.style.fontSize = '20px';
         this.paragrapheError.style.color = 'red';
       }
-      else if (this.formData.selectedFile && this.formData.post_content == '') {
-        const fd = new FormData(); 
+      else if (this.formData.selectedFile && this.formData.comment_content == '') {
+        const fd = new FormData();
         fd.append('image', this.formData.selectedFile, this.filename);
-        this.axiosInstance.patch('post/update-post/' + this.post_id, fd, this.config)
+        this.axiosInstance.patch('post/update-comment/' + this.comment_id, fd, this.config)
           .then(reponse => {
             if (reponse.status == 201) {
-              this.$emit('updateList');
-              bus.$emit('listAfterUpdate');
+              this.$emit('updateCommentList');
+              bus.$emit('postAfterUpdate');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
-              this.formData.post_content = '';
+              this.formData.comment_content = '';
               this.paragrapheError.textContent = '';
-              this.togglePostModale();
+              this.toggleCommentModale();
             }
           })
           .catch(error => {
@@ -118,17 +120,17 @@ export default {
       else {
         const fd = new FormData();
         fd.append('image', this.formData.selectedFile, this.filename);
-        fd.append('post_content', this.formData.post_content);
-        this.axiosInstance.patch('post/update-post/' + this.post_id, fd, this.config)
+        fd.append('comment_content', this.formData.comment_content);
+        this.axiosInstance.patch('post/update-comment/' + this.comment_id, fd, this.config)
           .then(reponse => {
             if (reponse.status == 201) {
-              this.$emit('updateList');
-              bus.$emit('listAfterUpdate');
+              this.$emit('updateCommentList');
+              bus.$emit('postAfterUpdate');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
-              this.formData.post_content = '';
+              this.formData.comment_content = '';
               this.paragrapheError.textContent = '';
-              this.togglePostModale();
+              this.toggleCommentModale();
             }
           })
           .catch(error => {
@@ -136,12 +138,11 @@ export default {
           })
       }
     },
-  },
+  }
 }
 </script>
 
 <style scoped>
-
 .bloc-modale {
   position: fixed;
   top: 0;

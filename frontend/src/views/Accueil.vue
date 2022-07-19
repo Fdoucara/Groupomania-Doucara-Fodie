@@ -30,11 +30,11 @@
       </div>
     </div>
 
-    <comment-modale :commentModale="commentModale" :toggleCommentModale="toggleCommentModale" :post_id="postId"
+    <comment-modale :commentModale="commentModale" :toggleCommentModale="toggleCommentModale" :post_id="post_id"
       @updateList="newList"></comment-modale>
-    <update-modale :updatePostModale="updatePostModale" :togglePostModale="togglePostModale" :post_id="postId"
+    <update-modale :updatePostModale="updatePostModale" :togglePostModale="togglePostModale" :post_id="post_id"
       @updateList="newList"></update-modale>
-    <delete-modale :deletePostModale="deletePostModale" :toggleDeletePostModale="toggleDeletePostModale" :post_id="postId"
+    <delete-modale :deletePostModale="deletePostModale" :toggleDeletePostModale="toggleDeletePostModale" :post_id="post_id"
       @updateList="newList"></delete-modale>
   </div>
 </template>
@@ -69,7 +69,7 @@ export default {
       }),
       info: undefined,
       userId: this.$store.state.userId,
-      postId: null,
+      post_id: null,
       commentModale: false,
       updatePostModale: false,
       deletePostModale: false
@@ -92,22 +92,22 @@ export default {
       this.deletePostModale = !this.deletePostModale;
     },
     commentPost(e) {
-      this.postId = e.target.id;
+      this.post_id = e.target.id;
       this.commentModale = !this.commentModale;
     },
     likePost(e) {
-      this.postId = e.target.id;
-      this.axiosInstance.post('post/like-post/' + this.postId)
+      this.post_id = e.target.id;
+      this.axiosInstance.post('post/like-post/' + this.post_id)
         .then(() => {
           this.postList();
         })
     },
     updatePost(e) {
-      this.postId = e.target.id;
+      this.post_id = e.target.id;
       this.updatePostModale = !this.updatePostModale;
     },
     deletePost(e) {
-      this.postId = e.target.id;
+      this.post_id = e.target.id;
       this.deletePostModale = !this.deletePostModale;
     },
     newList() {

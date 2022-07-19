@@ -30,10 +30,10 @@
 
     <comment :post_id="this.$route.params.id"></comment>
 
-    <update-modale :updatePostModale="updatePostModale" :togglePostModale="togglePostModale" :post_id="postId"
+    <update-modale :updatePostModale="updatePostModale" :togglePostModale="togglePostModale" :post_id="post_id"
       @updateList="updatePostInfo"></update-modale>
     <delete-modale :deletePostModale="deletePostModale" :toggleDeletePostModale="toggleDeletePostModale"
-      :post_id="postId" @updateList="updatePostInfo"></delete-modale>
+      :post_id="post_id" @updateList="updatePostInfo"></delete-modale>
 
 
   </div>
@@ -48,6 +48,7 @@ import CreationComment from '@/components/CreationComment.vue'
 import CommentComponent from '@/components/Comment.vue'
 import PostUpdateModale from '@/components/PostUpdateModale.vue'
 import DeletePostModale from '@/components/DeletePostModale.vue'
+import {bus} from '../main'
 import axios from 'axios'
 
 export default {
@@ -69,7 +70,7 @@ export default {
       }),
       info: null,
       userId: this.$store.state.userId,
-      postId: null,
+      post_id: null,
       updatePostModale: false,
       deletePostModale: false
     }
@@ -88,18 +89,18 @@ export default {
       this.deletePostModale = !this.deletePostModale;
     },
     likePost(e) {
-      this.postId = e.target.id;
-      this.axiosInstance.post('post/like-post/' + this.postId)
+      this.post_id = e.target.id;
+      this.axiosInstance.post('post/like-post/' + this.post_id)
         .then(() => {
           this.getPostInfo();
         })
     },
     updatePost(e) {
-      this.postId = e.target.id;
+      this.post_id = e.target.id;
       this.updatePostModale = !this.updatePostModale;
     },
     deletePost(e) {
-      this.postId = e.target.id;
+      this.post_id = e.target.id;
       this.deletePostModale = !this.deletePostModale;
     },
     updatePostInfo() {
@@ -115,6 +116,12 @@ export default {
       }
     ),
       this.getPostInfo();
+      bus.$on('postAfterUpdate', () => {
+        this.getPostInfo();
+      });
+      bus.$on('postAfterDelete', () => {
+      this.getPostInfo();
+    })
   },
 }
 </script>

@@ -6,20 +6,27 @@
 
     <div class="user_info_contain">
       <div class="card mt-4" :key="index" v-for="(user, index) in info">
-      <router-link :to="`/post/${user.id}`" class="card_link">
-        <div class="card-body">
+        <router-link :to="`/profil/${user.id}`" class="card_link">
+          <div class="card-body">
             <div class="card-body-content">
               <img :src="user.user_imageUrl" class="card-image">
-              <p class="card-text"> {{ user.nom + ' ' + user.prenom}} </p>
-            </div>          
-            <div class="card-body-footer">
+              <div class="card-text">
+                <p> {{ user.nom + ' ' + user.prenom }} </p>
+                <p class="bio" v-if="user.bio != '' && user.bio != null"><q> {{ user.bio }} </q></p>
+                <p class="role" v-if="user.role_id == '1'"> Administrateur </p>
+                <p class="role" v-if="user.role_id == '4'"> Modérateur </p>
+                <p class="role" v-if="user.role_id == '3'"> Utilisateur </p>
+              </div>
 
             </div>
-        </div>
-      </router-link>
+          </div>
+          <div class="card-body-footer" v-if="roleId == '1'">
+            <button class="btn btn-color"> <i class="fas fa-check"></i> &nbsp; Changer son role </button>
+          </div>
+        </router-link>
       </div>
     </div>
-    
+
   </div>
 </template>
 
@@ -43,13 +50,15 @@ export default {
       }),
       info: undefined,
       userId: this.$store.state.userId,
+      roleId: this.$store.state.roleId
     }
   },
   methods: {
     usersInfoList() {
       this.axiosInstance.get('user')
         .then(reponse => {
-          this.info = reponse.data.result.reverse();
+          console.log(reponse);
+          this.info = reponse.data.result;
         })
     },
   },
@@ -60,13 +69,13 @@ export default {
 </script>
 
 <style scoped>
-
 .user_info_contain {
-  padding: 4px;;
+  padding: 4px;
 }
+
 .card {
   padding: 10px;
-  width: 43%;
+  width: 35%;
   margin: auto;
   border: 0px;
   border-radius: 15px;
@@ -84,34 +93,31 @@ export default {
   width: 100%;
 }
 
-.card-body-header {
+.card-body-content {
   display: flex;
+  justify-content: space-around;
   align-items: center;
-  justify-content: space-between;
 }
 
-.card-body-header-text {
-  text-decoration: none;
-  color: black;
-  margin-bottom: 10px;
-  font-size: 21px;
-}
-
-.bold {
-  font-weight: 700;
-}
-
-img {
-  width: 100%;
-  height: auto;
-  padding-bottom: 25px;
+.card-image {
+  width: 20%;
 }
 
 .card-text {
-  text-align: left;
+  text-align: justify;
   font-size: 23px;
   margin: 0;
-  padding-bottom: 25px;
+  width: 40%;
+}
+
+.bio {
+  font-style: italic;
+  font-size: 22px;
+}
+
+.role {
+  font-style: oblique;
+  font-size: 22px;
 }
 
 .card-body-footer {
@@ -120,6 +126,12 @@ img {
   align-items: center;
   padding-top: 10px;
   padding-bottom: 10px;
-  font-size: 20px;
+  font-size: 22px;
+}
+
+.btn-color {
+  background: #D31027;
+  color: white;
+  width: 100%;
 }
 </style>

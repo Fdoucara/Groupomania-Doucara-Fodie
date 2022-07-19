@@ -80,7 +80,7 @@ exports.logOut = (req, res) => {
 }
 
 exports.getAllUser = (req, res) => {
-  db.query("SELECT user.nom, user.prenom, user.email, post.id, post.post_content, post.post_imageUrl, post.user_id FROM user LEFT JOIN post ON user.id = post.user_id", [], (error, result) => {
+  db.query("SELECT user.id, user.nom, user.prenom, user.email, user.user_imageUrl, user.bio, user.role_id FROM user", [], (error, result) => {
     if (!error) {
       return res.status(200).json({ result });
     }

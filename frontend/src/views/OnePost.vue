@@ -7,8 +7,7 @@
     <div class="card">
       <div class="card-body" :key="index" v-for="(post, index) in info">
         <div class="card-body-header">
-          <div class="card-body-header-back">
-          </div>
+          <router-link to="/accueil"> <i class="fas fa-chevron-circle-left card-body-header-text back" ></i> </router-link>
           <p v-if="post.user_id == userId" class="card-body-header-text bold"> Par vous </p>
           <router-link :to="`/profil/${post.user_id}`" v-else class="card-body-header-text bold">
             <p> Par {{ post.nom + ' ' + post.prenom }} </p>
@@ -143,17 +142,26 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .card-body-header-text {
   text-decoration: none;
   color: black;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   font-size: 21px;
+}
+
+p {
+  margin-bottom: 0;
 }
 
 .bold {
   font-weight: 700;
+}
+
+.back {
+  font-size: 25px;
 }
 
 img {

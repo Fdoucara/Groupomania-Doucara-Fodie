@@ -77,6 +77,7 @@ export default {
     },
     sendData() {
       this.paragrapheError = document.querySelector('.commentModale_error');
+      console.log(this.comment_id);
       if (!this.formData.selectedFile && this.formData.comment_content != '') {
         this.axiosInstance.patch('post/update-comment/' + this.comment_id, {
           comment_content: this.formData.comment_content

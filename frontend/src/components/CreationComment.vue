@@ -81,7 +81,7 @@ export default {
             if (reponse.status == 201) {
               this.$emit('updatePostInfo');
               bus.$emit('updateCommentList');
-              this.formData.comment_content = null;
+              this.formData.comment_content = '';
             }
           })
           .catch(error => {
@@ -103,7 +103,7 @@ export default {
               bus.$emit('updateCommentList');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
-              this.formData.comment_content = null;
+              this.formData.comment_content = '';
               this.paragrapheError.textContent = '';
             }
           })
@@ -122,7 +122,7 @@ export default {
               bus.$emit('updateCommentList');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
-              this.formData.comment_content = null;
+              this.formData.comment_content = '';
               this.paragrapheError = document.querySelector('.comment_error');
               this.paragrapheError.textContent = '';
             }

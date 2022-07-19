@@ -77,16 +77,13 @@ export default {
   },
   methods: {
     getProfile() {
-      console.log(this.userId)
       this.axiosInstance.get(`user/${this.id}`)
         .then(reponse => {
-          console.log(reponse);
           this.nom = reponse.data.result[0].nom;
           this.prenom = reponse.data.result[0].prenom;
           this.email = reponse.data.result[0].email;
           this.photo = reponse.data.result[0].user_imageUrl;
           this.info = reponse.data.result;
-          console.log(this.info);
         })
     }
   },

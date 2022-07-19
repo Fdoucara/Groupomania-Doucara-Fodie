@@ -7,7 +7,7 @@
           <div class="card-body-content">
             <img src="../assets/icon-above-font.png" class="card-image">
             <textarea class="card-body-content-text" id="comment_content" v-model="formData.comment_content"
-              placeholder="Rédiger votre commentaire ici..." @keyup="verifWrite" required></textarea>
+              placeholder="Rédiger votre commentaire ici..." @keyup="verifWrite"></textarea>
           </div>
 
           <div class="card-body-footer">
@@ -21,7 +21,7 @@
             </div>
           </div>
         </form>
-        <p class="comment_upload-image-name"></p>
+        <p class="comment_upload-image-name mt-3"></p>
         <p class="comment_error"></p>
       </div>
     </div>
@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       formData: {
-        comment_content: null,
+        comment_content: '',
         selectedFile: null,
       },
       axiosInstance: axios.create({
@@ -73,7 +73,7 @@ export default {
     },
     sendData() {
       this.paragrapheError = document.querySelector('.comment_error');
-      if (!this.formData.selectedFile && this.formData.comment_content != null || this.formData.comment_content != '') {
+      if (!this.formData.selectedFile && this.formData.comment_content !='') {
         this.axiosInstance.post('post/create-comment/' + this.post_id, {
           comment_content: this.formData.comment_content
         })
@@ -88,12 +88,12 @@ export default {
             console.log(error);
           })
       }
-      else if (!this.formData.selectedFile && this.formData.comment_content == null || this.formData.comment_content == '') {
+      else if (!this.formData.selectedFile && this.formData.comment_content == '') {
         this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte ou ajouter une image !';
         this.paragrapheError.style.fontSize = '18px';
         this.paragrapheError.style.color = 'red';
       }
-      else if (this.formData.selectedFile && this.formData.comment_content == null || this.formData.comment_content == '') {
+      else if (this.formData.selectedFile && this.formData.comment_content == '') {
         const fd = new FormData();
         fd.append('image', this.formData.selectedFile, this.filename);
         this.axiosInstance.post('post/create-comment/' + this.post_id, fd, this.config)

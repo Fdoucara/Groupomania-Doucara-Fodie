@@ -50,7 +50,6 @@ export default {
       this.axiosInstance.get('user')
         .then(reponse => {
           this.info = reponse.data.result.reverse();
-          console.log(this.info);
         })
     },
   },

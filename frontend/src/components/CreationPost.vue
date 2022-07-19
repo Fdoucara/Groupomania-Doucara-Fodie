@@ -11,7 +11,7 @@
           <div class="card-body-content">
             <img src="../assets/icon-above-font.png" class="card-image">
             <textarea class="card-body-content-text" id="content" v-model="formData.post_content"
-              placeholder="Que voulez-vous nous raconter aujourd'hui ?" @keyup="verifWrite" required></textarea>
+              placeholder="Que voulez-vous nous raconter aujourd'hui ?" @keyup="verifWrite"></textarea>
           </div>
 
           <div class="card-body-footer">

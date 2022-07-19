@@ -111,7 +111,6 @@ export default {
     this.$watch(
       () => this.$route.params.id,
       () => {
-        console.log(this.$route.params.id);
         this.getPostInfo();
       }
     ),

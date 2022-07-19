@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       formData: {
-        post_content: null,
+        post_content: '',
         selectedFile: null,
       },
       axiosInstance: axios.create({

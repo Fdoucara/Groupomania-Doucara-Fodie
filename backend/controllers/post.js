@@ -327,7 +327,6 @@ exports.createComment = (req, res) => {
 exports.updateComment = (req, res) => {
   let id = req.params.id;
   let comment = req.body;
-
   db.query("SELECT * FROM comment WHERE id = ?", [id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
@@ -398,7 +397,7 @@ exports.updateComment = (req, res) => {
             })
           }
         } else {
-          db.query("UPDATE post SET comment_content = ? WHERE id = ?", [comment.comment_content, id], (error, result) => {
+          db.query("UPDATE comment SET comment_content = ? WHERE id = ?", [comment.comment_content, id], (error, result) => {
             if (!error) {
               if (result.affectedRows == 0) {
                 return res.status(401).json({ message: "Commentaire non trouvé !" });
@@ -423,7 +422,6 @@ exports.deleteComment = (req, res) => {
   db.query("SELECT * FROM comment WHERE id = ?", [id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
-      console.log(resultat[0].user_id);
 
       if (req.auth !== resultat[0].user_id) {
         res.status(401).json({ message: 'Requête non autorisée !' });

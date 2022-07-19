@@ -10,7 +10,7 @@
           <div class="modale-body-content">
             <img src="../assets/icon-above-font.png" class="modale-image">
             <textarea class="modale-body-content-text" id="comment_content" v-model="formData.comment_content"
-              placeholder="Rédiger votre commentaire ici..." @keyup="verifWrite" required></textarea>
+              placeholder="Rédiger votre commentaire ici..." @keyup="verifWrite"></textarea>
           </div>
 
           <div class="modale-body-footer">

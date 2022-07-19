@@ -77,7 +77,6 @@ export default {
     },
     updateComment(e) {
       this.comment_id = e.target.id;
-      console.log(this.comment_id);
       this.updateCommentModale = !this.updateCommentModale;
     },
     deleteComment(e) {

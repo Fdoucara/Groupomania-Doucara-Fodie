@@ -62,7 +62,6 @@ export default {
     getProfile() {
       this.axiosInstance.get(`user/${this.userId}`)
         .then(reponse => {
-          console.log(reponse);
           this.nom = reponse.data.result[0].nom;
           this.prenom = reponse.data.result[0].prenom;
           this.email = reponse.data.result[0].email;

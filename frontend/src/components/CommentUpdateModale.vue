@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       formData: {
-        comment_content: null,
+        comment_content: '',
         selectedFile: null,
       },
       axiosInstance: axios.create({

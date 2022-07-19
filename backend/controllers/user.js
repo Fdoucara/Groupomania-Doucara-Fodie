@@ -5,7 +5,6 @@ const fs = require('fs');
 require('dotenv').config({ path: './config/.env' });
 
 exports.register = (req, res) => {
-  console.log(req.body.user);
   let user = {
     nom: req.body.nom,
     prenom: req.body.prenom,

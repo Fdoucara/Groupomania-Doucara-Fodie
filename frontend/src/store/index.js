@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
+    connected: null,
     userId: null,
     roleUser: null,
     userPicture: null
@@ -14,11 +15,17 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
+    UPDATE_USER_STATUS(state, status) {
+      state.connected = status;
+    },
     UPDATE_USER_ID(state, id) {
       state.userId = id;
     },
     UPDATE_ROLE_USER(state, role) {
       state.roleUser = role;
+    },
+    REMOVE_USER_STATUS(state) {
+      state.connected = null;
     },
     REMOVE_USER_ID(state) {
       state.userId = null;

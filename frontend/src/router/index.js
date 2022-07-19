@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store/index'
 import LoginComponent from '@/views/Login.vue'
 import RegisterComponent from '@/views/Register.vue'
 import AccueilComponent from '@/views/Accueil.vue'
@@ -12,27 +13,71 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    redirect: {
+      name: 'connexion'
+    }
+  },
+  {
+    path: '/connexion',
+    name: 'connexion',
     component: LoginComponent
   },
   {
     path: '/inscription',
+    name: 'inscription',
     component: RegisterComponent
   },
   {
     path: '/accueil',
-    component: AccueilComponent
+    name: 'accueil',
+    component: AccueilComponent,
+    beforeEnter: (to, from, next) => {
+      if(store.state.connected == true) {
+        next();
+      }
+      else {
+        next(false);
+      }
+    }
   },
   {
     path: '/profil/:id',
-    component: ProfilComponent
+    name: 'utilisateur-profil',
+    component: ProfilComponent,
+    beforeEnter: (to, from, next) => {
+      if(store.state.connected == true) {
+        next();
+      }
+      else {
+        next(false);
+      }
+    }
   },
   {
     path: '/post/:id',
-    component: OnePost
+    name: 'utilisateur-post',
+    component: OnePost,
+    beforeEnter: (to, from, next) => {
+      if(store.state.connected == true) {
+        next();
+      }
+      else {
+        next(false);
+      }
+    }
   },
   {
     path: '/utilisateurs',
-    component: UsersList
+    name: 'utilisateurs',
+    component: UsersList,
+    beforeEnter: (to, from, next) => {
+      if(store.state.connected == true) {
+        next();
+      }
+      else {
+        next(false);
+      }
+    }
   }
 ]
 

@@ -1,11 +1,23 @@
 <template>
   <div>
-
+    <loader></loader>
     <navbar></navbar>
     <mon-profil></mon-profil>
 
+    <div class="card" v-if="roleId == '1'">
+      <div class="card-body-content">
+        <p class="card-body-content-text">
+          Bonjour, vous êtes l'administrateur de ce réseau social. Sur cette page, vous pouvez changer les rôles des
+          utilisateurs comme vous le souhaitez. En effet, vous avez la possibilité de les nommer modérateurs afin qu'il
+          puisse contrôler les différents posts et commentaires des autres utilisateurs afin d'assurer le bon respect
+          des règles. Ou de les laisser utilisateurs simples où ils pourront seulement ajouter, commenter, supprimer et
+          modifier leurs propres posts et commentaires.
+        </p>
+      </div>
+    </div>
+
     <div class="user_info_contain">
-      <div class="card mt-4" :key="index" v-for="(user, index) in info">
+      <div class="card card_user my-4" :key="index" v-for="(user, index) in info">
         <router-link :to="`/profil/${user.id}`" class="card_link">
           <div class="card-body">
             <div class="card-body-content">
@@ -32,6 +44,7 @@
 
 <script>
 
+import LoaderComponent from '@/components/Loader.vue'
 import NavbarComponent from '@/components/Navbar.vue'
 import MyProfilComponent from '@/views/MyProfil.vue'
 import axios from 'axios'
@@ -39,6 +52,7 @@ import axios from 'axios'
 export default {
   name: 'UsersList',
   components: {
+    'loader': LoaderComponent,
     'navbar': NavbarComponent,
     'mon-profil': MyProfilComponent,
   },
@@ -69,17 +83,44 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  width: 43%;
+  margin: auto;
+  padding-top: 5px;
+  border: 0;
+  border-radius: 0px 0px 15px 15px;
+  background: white;
+}
+
+.card-body {
+  width: 100%;
+}
+
+.card-text {
+  text-align: left;
+  font-size: 22px;
+  margin: 0;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.card-body-content {
+  margin: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-body-content-text {
+  font-size: 22px;
+}
+
 .user_info_contain {
   padding: 4px;
 }
 
-.card {
-  padding: 10px;
-  width: 35%;
-  margin: auto;
-  border: 0px;
+.card_user {
   border-radius: 15px;
-  background: white;
 }
 
 .card_link {

@@ -15,11 +15,11 @@
           <p class="card-email"> {{ email }} </p>
         </div>
       </div>
-      <button class="card_button btn btn-primary mt-2" v-if="userId == id"> Modifier votre profil </button>
+      <!-- <button class="card_button btn mt-2" v-if="userId == id"> Modifier votre profil </button> -->
     </div>
 
     <div class="activite mt-2">
-      <h1> Activité </h1>
+      <h1> Mon activité </h1>
     </div>
 
     <div class="card my-4" :key="index" v-for="(post, index) in info">
@@ -126,6 +126,8 @@ export default {
   font-size: 20px;
   width: 100%;
   border-radius: 0;
+  background-color: #D31027;
+  color: white;
 }
 
 .activite {
@@ -137,8 +139,8 @@ export default {
 
 .activite h1 {
   color: white;
-  padding: 15px;
-  font-size: 30px;
+  padding: 10px;
+  font-size: 23px;
   margin: 0;
 }
 

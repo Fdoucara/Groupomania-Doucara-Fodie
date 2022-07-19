@@ -1,7 +1,7 @@
 <template>
   <div class="big_contain">
 
-    <div class="card_ mb-3">
+    <div class="card_ mb-2">
       <div class="card_contain">
         <div class="card_img">
           <img :src="photo" class="img-fluid rounded-start" alt="`Photo de profil`">
@@ -16,8 +16,12 @@
       <button class="card_button btn mt-2"> Modifier votre profil </button>
     </div>
 
+    <div class="activite mt-3 mb-2">
+      <h1> Mon activité </h1>
+    </div>
+
     <div class="post_scroll" v-if="showCard">
-      <div class="card my-4" :key="index" v-for="(post, index) in info">
+      <div class="card my-2" :key="index" v-for="(post, index) in info">
         <router-link :to="`/post/${post.id}`" class="card_link">
           <div class="card-body">
             <div class="card-body-header">
@@ -134,6 +138,20 @@ export default {
   border-radius: 0;
   background-color: #D31027;
   color: white;
+}
+
+.activite {
+  background-color: white;
+  width: 95%;
+  margin: auto;
+  margin-bottom: 0;
+}
+
+.activite h1 {
+  color: black;
+  padding: 10px;
+  font-size: 23px;
+  margin: 0;
 }
 
 .post_scroll {

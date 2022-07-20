@@ -19,7 +19,7 @@
     </div>
 
     <div class="activite mt-2">
-      <h1> Mon activité </h1>
+      <h1> Activité </h1>
     </div>
 
     <div class="card my-4" :key="index" v-for="(post, index) in info">

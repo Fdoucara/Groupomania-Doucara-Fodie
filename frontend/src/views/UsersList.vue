@@ -7,11 +7,8 @@
     <div class="card" v-if="roleId == '1'">
       <div class="card-body-content">
         <p class="card-body-content-text">
-          Bonjour, vous êtes l'administrateur de ce réseau social. Sur cette page, vous pouvez changer les rôles des
-          utilisateurs comme vous le souhaitez. En effet, vous avez la possibilité de les nommer modérateurs afin qu'il
-          puisse contrôler les différents posts et commentaires des autres utilisateurs afin d'assurer le bon respect
-          des règles. Ou de les laisser utilisateurs simples où ils pourront seulement ajouter, commenter, supprimer et
-          modifier leurs propres posts et commentaires.
+          Salut {{ adminName + ' ' + adminFirstname }}, tu es l'administrateur de ce réseau social. Sur cette page, vous pouvez changer les rôles des
+          utilisateurs comme vous le souhaitez. En effet, vous avez la possibilité de les nommer modérateurs ou de les laisser utilisateurs simples.
         </p>
       </div>
     </div>
@@ -28,12 +25,10 @@
                 <p class="role" v-if="user.role_id == '1'"> Administrateur </p>
                 <p class="role" v-if="user.role_id == '4'"> Modérateur </p>
                 <p class="role" v-if="user.role_id == '3'"> Utilisateur </p>
+                <button class="btn btn-color" v-if="roleId == '1' && user.id != userId"> Changer son role </button>
               </div>
 
             </div>
-          </div>
-          <div class="card-body-footer" v-if="roleId == '1'">
-            <button class="btn btn-color"> <i class="fas fa-check"></i> &nbsp; Changer son role </button>
           </div>
         </router-link>
       </div>
@@ -64,19 +59,30 @@ export default {
       }),
       info: undefined,
       userId: this.$store.state.userId,
-      roleId: this.$store.state.roleId
+      roleId: this.$store.state.roleUser,
+      adminName: null,
+      adminFirstname: null
     }
   },
   methods: {
+    getAdminInfo() {
+      if(this.userId == 49) {
+        this.axiosInstance.get('user/' + this.userId)
+        .then(reponse => {
+          this.adminName = reponse.data.result[0].nom;
+          this.adminFirstname = reponse.data.result[0].prenom ;
+        })
+      }  
+    },
     usersInfoList() {
       this.axiosInstance.get('user')
         .then(reponse => {
-          console.log(reponse);
           this.info = reponse.data.result;
         })
     },
   },
   mounted() {
+    this.getAdminInfo();
     this.usersInfoList();
   },
 }
@@ -112,7 +118,7 @@ export default {
 }
 
 .card-body-content-text {
-  font-size: 22px;
+  font-size: 23px;
 }
 
 .user_info_contain {
@@ -161,18 +167,10 @@ export default {
   font-size: 22px;
 }
 
-.card-body-footer {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  font-size: 22px;
-}
-
 .btn-color {
+  font-size: 20px;
   background: #D31027;
   color: white;
-  width: 100%;
+  width: 80%;
 }
 </style>

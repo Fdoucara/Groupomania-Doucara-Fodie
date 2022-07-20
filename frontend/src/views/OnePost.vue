@@ -7,7 +7,6 @@
     <div class="card">
       <div class="card-body" :key="index" v-for="(post, index) in info">
         <div class="card-body-header">
-          <router-link to="/accueil"> <i class="fas fa-chevron-circle-left card-body-header-text back" ></i> </router-link>
           <p v-if="post.user_id == userId" class="card-body-header-text bold"> Par vous </p>
           <router-link :to="`/profil/${post.user_id}`" v-else class="card-body-header-text bold">
             <p> Par {{ post.nom + ' ' + post.prenom }} </p>

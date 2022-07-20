@@ -370,7 +370,7 @@ exports.updateComment = (req, res) => {
               })
             }
           }
-          else if (!resultat[0].comment_imageUrl && !post.comment_content) {
+          else if (!resultat[0].comment_imageUrl && !comment.comment_content) {
             db.query("UPDATE comment SET comment_imageUrl = ? WHERE id = ?", [imageUrl, id], (error, result) => {
               if (!error) {
                 if (result.affectedRows == 0) {

@@ -27,7 +27,7 @@
           <input type="email" id="email" class="form-control" v-model="formData.email">
         </div>
 
-        <div class="form-group mt-4">
+        <div class="form-group mt-4 mb-3">
           <label for="password" class="mb-2"> Votre mot de passe : </label>
           <input type="password" id="password" class="form-control" v-model="formData.password">
         </div>
@@ -139,8 +139,14 @@ h2 {
 }
 
 textarea {
-  padding: 5px;
+  padding: 6px 12px;
   resize: none;
+  border: 1px solid #ced4da;
+  font-size: 18px;
+}
+
+textarea:focus {
+  outline: 0;
 }
 
 .btn {

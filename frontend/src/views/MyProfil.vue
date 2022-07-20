@@ -17,8 +17,12 @@
       <button class="card_button new btn mt-3" @click="deleteProfil"> Supprimer mon profil </button>
     </div>
 
-    <div class="activite mt-3 mb-2">
+    <div class="activite mt-5 mb-2">
       <h1> Mon activité </h1>
+    </div>
+
+    <div>
+      <h3 v-if="!showCard" class="none"> Vous n'avez encore aucun post ! </h3>
     </div>
 
     <div class="post_scroll" v-if="showCard">
@@ -169,6 +173,11 @@ export default {
   padding: 10px;
   font-size: 23px;
   margin: 0;
+}
+
+.none {
+  margin-top: 100px;
+  color: white;
 }
 
 .post_scroll {

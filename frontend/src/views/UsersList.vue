@@ -20,8 +20,8 @@
             <div class="card-body-content">
               <img :src="user.user_imageUrl" class="card-image">
               <div class="card-text">
-                <p v-if="roleId == '1' && user.id != userId"> {{ user.nom + ' ' + user.prenom }} </p>
-                <p v-else> {{ user.nom + ' ' + user.prenom }} (Vous)</p>
+                <p v-if="user.id == userId"> {{ user.nom + ' ' + user.prenom }} (Vous)</p>
+                <p v-else> {{ user.nom + ' ' + user.prenom }} </p>
                 <p class="bio" v-if="user.bio != '' && user.bio != null"><q> {{ user.bio }} </q></p>
                 <p class="role" v-if="user.role_id == '1'"> Administrateur </p>
                 <p class="role" v-if="user.role_id == '4'"> Modérateur </p>

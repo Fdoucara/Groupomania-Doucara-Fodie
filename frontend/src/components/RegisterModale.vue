@@ -7,7 +7,7 @@
       <h2 class="modale-title"> Inscription réussie <hr></h2>
       <div class="modale-content">
         <p> Votre compte a bien été créé. </p>
-        <button class="btn-modale btn btn-secondary" @click="toggleRegisterModale"> Fermer </button>
+        <button class="btn-modale btn" @click="toggleRegisterModale"> Fermer </button>
       </div>  
     </div>
 
@@ -79,5 +79,7 @@ export default {
   margin: auto;
   margin-top: 0;
   margin-bottom: 0;
+  background-color: #D31027;
+  color: white;
 }
 </style>

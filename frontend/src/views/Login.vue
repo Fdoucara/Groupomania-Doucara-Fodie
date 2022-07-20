@@ -85,7 +85,6 @@ img {
 }
 
 .form-p {
-  /* position: relative; */
   right: 10%;
   background: white;
   width: 530px;

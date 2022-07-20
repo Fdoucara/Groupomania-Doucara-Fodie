@@ -10,10 +10,11 @@
           <h5 class="card-name"> {{ nom }} </h5>
           <p class="card-firstname"> {{ prenom }} </p>
           <p class="card-email"> {{ email }} </p>
-          <p class="card-bio"> {{ bio }} </p>
+          <p class="card-bio" v-if="bio != '' && bio != null"> <q> {{ bio }} </q> </p>
         </div>
       </div>
-      <button class="card_button btn mt-2"> Modifier votre profil </button>
+      <button class="card_button btn mt-2" @click="updateProfil"> Modifier mon profil </button>
+      <button class="card_button new btn mt-3" @click="deleteProfil"> Supprimer mon profil </button>
     </div>
 
     <div class="activite mt-3 mb-2">
@@ -72,12 +73,18 @@ export default {
           this.photo = reponse.data.result[0].user_imageUrl;
           this.bio = reponse.data.result[0].bio;
           this.info = reponse.data.result.reverse();
-          if(this.info[0].post_content == null && !this.info[0].post_imageUrl) {
+          if (this.info[0].post_content == null && !this.info[0].post_imageUrl) {
             this.showCard = false;
           } else {
             this.showCard = true;
           }
         })
+    },
+    updateProfil() {
+      bus.$emit('updateProfil');
+    },
+    deleteProfil() {
+      bus.$emit('deleteProfil');
     }
   },
   mounted() {
@@ -122,6 +129,12 @@ export default {
   background: white;
 }
 
+.card_img {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+}
+
 .img-fluid {
   width: 100%;
   height: auto;
@@ -138,6 +151,10 @@ export default {
   border-radius: 0;
   background-color: #D31027;
   color: white;
+}
+
+.new {
+  background-color: #203A43;
 }
 
 .activite {
@@ -209,7 +226,7 @@ img {
 
 .card-text {
   text-align: left;
-  font-size: 22px;
+  font-size: 20px;
   margin: 0;
   padding-bottom: 25px;
 }

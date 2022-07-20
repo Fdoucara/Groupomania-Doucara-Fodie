@@ -9,7 +9,7 @@
         </div>
         <form>
           <div class="card-body-content">
-            <img src="../assets/icon-above-font.png" class="card-image">
+            <img :src="userImage" class="card-image">
             <textarea class="card-body-content-text" id="content" v-model="formData.post_content"
               placeholder="Que voulez-vous nous raconter aujourd'hui ?" @keyup="verifWrite"></textarea>
           </div>
@@ -56,10 +56,17 @@ export default {
       },
       filename: '',
       paragraphe: undefined,
-      paragrapheError: undefined
+      paragrapheError: undefined,
+      userImage: null
     }
   },
   methods: {
+    getUserImage() {
+      this.axiosInstance.get('user/' + this.$store.state.userId)
+        .then(reponse => {
+          this.userImage = reponse.data.result[0].user_imageUrl;
+        })
+    },
     onFileSelected(event) {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
@@ -134,7 +141,10 @@ export default {
           })
       }
     },
-  }
+  },
+  mounted() {
+    this.getUserImage();
+  },
 }
 </script>
 

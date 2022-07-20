@@ -36,6 +36,8 @@
       @updateList="newList"></update-modale>
     <delete-modale :deletePostModale="deletePostModale" :toggleDeletePostModale="toggleDeletePostModale" :post_id="post_id"
       @updateList="newList"></delete-modale>
+    <profil-update-modale :profilModale="profilModale" :toggleProfilModale="toggleProfilModale"></profil-update-modale>
+    <profil-delete-modale :deleteProfilModale="deleteProfilModale" :toggleDeleteProfilModale="toggleDeleteProfilModale"></profil-delete-modale>
   </div>
 </template>
 
@@ -48,7 +50,10 @@ import MyProfilComponent from '@/views/MyProfil.vue'
 import CommentModale from '@/components/CommentModale.vue'
 import PostUpdateModale from '@/components/PostUpdateModale.vue'
 import DeletePostModale from '@/components/DeletePostModale.vue'
+import UpdateProfilModale from '@/components/UpdateProfilModale.vue'
+import DeleteProfilModale from '@/components/DeleteProfilModale.vue'
 import axios from 'axios'
+import {bus} from '../main'
 
 export default {
   name: 'AccueilComponent',
@@ -60,6 +65,8 @@ export default {
     'comment-modale': CommentModale,
     'update-modale': PostUpdateModale,
     'delete-modale': DeletePostModale,
+    'profil-update-modale': UpdateProfilModale,
+    'profil-delete-modale': DeleteProfilModale
   },
   data() {
     return {
@@ -72,7 +79,9 @@ export default {
       post_id: null,
       commentModale: false,
       updatePostModale: false,
-      deletePostModale: false
+      deletePostModale: false,
+      profilModale: false,
+      deleteProfilModale: false
     }
   },
   methods: {
@@ -90,6 +99,12 @@ export default {
     },
     toggleDeletePostModale() {
       this.deletePostModale = !this.deletePostModale;
+    },
+     toggleProfilModale() {
+      this.profilModale = !this.profilModale;
+    },
+    toggleDeleteProfilModale() {
+      this.deleteProfilModale = !this.deleteProfilModale;
     },
     commentPost(e) {
       this.post_id = e.target.id;
@@ -116,6 +131,12 @@ export default {
   },
   mounted() {
     this.postList();
+    bus.$on('updateProfil', () => {
+      this.toggleProfilModale();
+    });
+    bus.$on('deleteProfil', () => {
+      this.toggleDeleteProfilModale();
+    });
   },
 }
 </script>

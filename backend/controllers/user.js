@@ -76,7 +76,7 @@ exports.logIn = (req, res) => {
 
 exports.logOut = (req, res) => {
   res.cookie('jwt', '', { maxAge: 1 });
-  res.status(200).json({ message: 'Vous êtes deconnecté !'})
+  res.status(200).json({ message: 'Vous êtes deconnecté !' })
 }
 
 exports.getAllUser = (req, res) => {
@@ -186,20 +186,34 @@ exports.deleteProfil = (req, res) => {
       else {
         if (resultat[0].user_imageUrl) {
           const filename = resultat[0].user_imageUrl.split('/images/')[1];
-          fs.unlink(`images/${filename}`, () => {
+          if (filename == 'user.png') {
             db.query("DELETE FROM user WHERE id = ?", [id], (error, result) => {
               if (!error) {
-                return res.status(200).json({ message: "Utilisateur bien supprimé !" });
+                res.cookie('jwt', '', { maxAge: 1 });
+                return res.status(200).json({ message: 'Utilisateur bien supprimé !' });
               }
               else {
                 return res.status(400).json({ error });
               }
             })
-          })
+          } else {
+            fs.unlink(`images/${filename}`, () => {
+              db.query("DELETE FROM user WHERE id = ?", [id], (error, result) => {
+                if (!error) {
+                  res.cookie('jwt', '', { maxAge: 1 });
+                  return res.status(200).json({ message: 'Utilisateur bien supprimé !' });
+                }
+                else {
+                  return res.status(400).json({ error });
+                }
+              })
+            })
+          }
         } else {
           db.query("DELETE FROM user WHERE id = ?", [id], (error, result) => {
             if (!error) {
-              return res.status(200).json({ message: "Utilisateur bien supprimé !" });
+              res.cookie('jwt', '', { maxAge: 1 });
+              return res.status(200).json({ message: 'Utilisateur bien supprimé !' });
             }
             else {
               return res.status(400).json({ error });

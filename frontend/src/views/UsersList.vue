@@ -35,6 +35,8 @@
       </div>
     </div>
 
+      <profil-update-modale :profilModale="profilModale" :toggleProfilModale="toggleProfilModale"></profil-update-modale>
+      <profil-delete-modale :deleteProfilModale="deleteProfilModale" :toggleDeleteProfilModale="toggleDeleteProfilModale"></profil-delete-modale>
   </div>
 </template>
 
@@ -43,7 +45,10 @@
 import LoaderComponent from '@/components/Loader.vue'
 import NavbarComponent from '@/components/Navbar.vue'
 import MyProfilComponent from '@/views/MyProfil.vue'
+import UpdateProfilModale from '@/components/UpdateProfilModale.vue'
+import DeleteProfilModale from '@/components/DeleteProfilModale.vue'
 import axios from 'axios'
+import {bus} from '../main'
 
 export default {
   name: 'UsersList',
@@ -51,6 +56,8 @@ export default {
     'loader': LoaderComponent,
     'navbar': NavbarComponent,
     'mon-profil': MyProfilComponent,
+    'profil-update-modale': UpdateProfilModale,
+    'profil-delete-modale': DeleteProfilModale
   },
   data() {
     return {
@@ -62,7 +69,9 @@ export default {
       userId: this.$store.state.userId,
       roleId: this.$store.state.roleUser,
       adminName: null,
-      adminFirstname: null
+      adminFirstname: null,
+      profilModale: false,
+      deleteProfilModale: false,
     }
   },
   methods: {
@@ -81,10 +90,22 @@ export default {
           this.info = reponse.data.result;
         })
     },
+    toggleProfilModale() {
+      this.profilModale = !this.profilModale;
+    },
+    toggleDeleteProfilModale() {
+      this.deleteProfilModale = !this.deleteProfilModale;
+    },
   },
   mounted() {
     this.getAdminInfo();
     this.usersInfoList();
+    bus.$on('updateProfil', () => {
+      this.toggleProfilModale();
+    });
+    bus.$on('deleteProfil', () => {
+      this.toggleDeleteProfilModale();
+    });
   },
 }
 </script>

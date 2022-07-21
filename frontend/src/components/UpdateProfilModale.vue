@@ -15,11 +15,14 @@
             <div class="modale-body-content-image">
               <img :src="userImage" class="modale-image">
 
-              <div class="form-group my-4">
-                <input type="file" id="profil_update_image">
-                <label for="profil_update_image" class="label_image"> <i class="fas fa-upload"></i> &nbsp; Modifier
-                  l'image de profil
-                </label>
+              <div class="modale-content-image-button">
+                <div class="form-group my-4">
+                  <input type="file" id="profil_update_image" @change="changeFile">
+                  <label for="profil_update_image" class="label_image"> <i class="fas fa-upload"></i> &nbsp; Modifier
+                    l'image de profil
+                  </label>
+                </div>
+                <p class="profilmodale_upload"></p>
               </div>
             </div>
 
@@ -47,12 +50,11 @@
           </div>
 
           <div class="modale-body-footer">
-            <button class="btn btn-color"> <i class="fas fa-check" @click="sendData"></i> &nbsp; Valider </button>
+            <button class="btn btn-color" @click="sendData"> <i class="fas fa-check"></i> &nbsp; Valider </button>
           </div>
 
         </form>
 
-        <p class="profilmodale_upload"></p>
         <p class="profilModale_error"></p>
       </div>
       <button class="btn-modale btn" @click="toggleProfilModale"> X </button>
@@ -64,21 +66,28 @@
 <script>
 
 import axios from 'axios'
+import { bus } from '../main'
 
 export default {
   name: 'UpdateProfilModale',
   props: ['profilModale', 'toggleProfilModale'],
   data() {
     return {
-       axiosInstance: axios.create({
+      axiosInstance: axios.create({
         withCredentials: true,
         baseURL: 'http://localhost:3000/api/',
       }),
+      config: {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      },
       userImage: null,
       nom: null,
       prenom: null,
       bio: null,
-      email: null
+      email: null,
+      selectedFile: null,
+      paragraphe: null,
+      paragrapheError: null
     }
   },
   methods: {
@@ -93,8 +102,73 @@ export default {
           this.email = reponse.data.result[0].email;
         })
     },
+    changeFile(e) {
+      this.selectedFile = e.target.files[0];
+      this.filename = e.target.files[0].name;
+      this.paragraphe = document.querySelector('.profilmodale_upload');
+      if (this.selectedFile) {
+        this.paragraphe.textContent = `${this.filename}`;
+      } else {
+        this.paragraphe.textContent = '';
+      }
+    },
     sendData() {
-      
+      this.paragrapheError = document.querySelector('.profilModale_error');
+      if (!this.selectedFile && this.nom != '' && this.prenom != '' && this.email != '') {
+        this.axiosInstance.patch('user/update-profil', {
+          nom : this.nom,
+          prenom : this.prenom,
+          bio : this.bio,
+          email : this.email,
+        })
+          .then(reponse => {
+            if (reponse.status == 200) {
+              console.log(reponse);
+              bus.$emit('profilAfterUpdate');
+              this.toggleProfilModale();
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      }
+      else if (!this.selectedFile && this.nom == '' || this.prenom == '' || this.email == '') {
+        console.log('connard')
+        this.axiosInstance.patch('user/update-profil', {
+          nom : this.nom,
+          prenom : this.prenom,
+          bio : this.bio,
+          email : this.email,
+        })
+        .then(reponse => {
+          console.log(reponse);
+        })
+        // this.paragrapheError.textContent = "Aucune modification n'a été effectuée.";
+        // this.paragrapheError.style.fontSize = '20px';
+        // this.paragrapheError.style.color = 'red';
+      }
+      else {
+        const fd = new FormData();
+        fd.append('image', this.selectedFile, this.filename);
+        fd.append('nom', this.nom);
+        fd.append('prenom', this.prenom);
+        fd.append('bio', this.bio);
+        fd.append('email', this.email);
+        this.axiosInstance.patch('user/update-profil', fd, this.config)
+          .then(reponse => {
+            if (reponse.status == 200) {
+              console.log(reponse);
+              bus.$emit('profilAfterUpdate');
+              this.selectedFile = null;
+              this.paragraphe.textContent = '';
+              this.paragrapheError.textContent = '';
+              this.toggleProfilModale();
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      }
     }
   },
   mounted() {
@@ -167,6 +241,10 @@ img {
   width: 25%;
   height: auto;
   border-radius: 50%;
+}
+
+.modale-content-image-button {
+  width: 60%;
 }
 
 input[type="file"] {

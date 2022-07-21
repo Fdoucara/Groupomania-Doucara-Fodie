@@ -7,7 +7,7 @@
     <creation :info="info" @updateList="newList"></creation>
 
     <div class="card my-4" :key="index" v-for="(post, index) in info">
-      <div class="card-body">
+      <div class="card-body" v-if="showText != true">
         <router-link :to="`/post/${post.id}`" class="card_link">
           <div class="card-body-header">
             <router-link to="/monProfil" v-if="post.user_id == userId" class="card-body-header-text bold">
@@ -29,6 +29,8 @@
         </div>
       </div>
     </div>
+
+    <h2 v-if="showText" class="none"> Il n'y a aucun post pour le moment. <br> Publier le premier post. </h2>
 
     <comment-modale :commentModale="commentModale" :toggleCommentModale="toggleCommentModale" :post_id="post_id"
       @updateList="newList"></comment-modale>
@@ -81,7 +83,8 @@ export default {
       updatePostModale: false,
       deletePostModale: false,
       profilModale: false,
-      deleteProfilModale: false
+      deleteProfilModale: false,
+      showText: false
     }
   },
   methods: {
@@ -89,6 +92,11 @@ export default {
       this.axiosInstance.get('post')
         .then(reponse => {
           this.info = reponse.data.result.reverse();
+          if(this.info.length == 0){
+            this.showText = true;
+          } else {
+            this.showText = false;
+          }
         })
     },
     toggleCommentModale() {
@@ -142,11 +150,12 @@ export default {
 </script>
 
 <style scoped>
+
 .card {
   padding: 10px;
   width: 43%;
   margin: auto;
-  border: 0px;
+  border: 0;
   border-radius: 15px;
   background: white;
 }
@@ -199,5 +208,10 @@ img {
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 20px;
+}
+
+.none {
+  color: white;
+  margin-top: 150px;
 }
 </style>

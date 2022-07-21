@@ -15,6 +15,6 @@ router.get('/', verifToken, userCtrl.getAllUser);
 router.get('/:id', verifToken, userCtrl.getOneUser);
 router.patch('/update-profil', verifToken, multer, userCtrl.updateProfil);
 router.delete('/delete-profil', verifToken, userCtrl.deleteProfil);
-router.delete('/delete-anyone-profil', verifToken, isAdmin, userCtrl.deleteAnyoneProfil);
+router.delete('/delete-anyone-profil/:id', verifToken, isAdmin, userCtrl.deleteAnyoneProfil);
 
 module.exports = router;

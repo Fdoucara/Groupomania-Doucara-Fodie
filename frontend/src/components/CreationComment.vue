@@ -1,7 +1,7 @@
 <template>
 
   <div>
-    <div class="card mt-1">
+    <div class="card mt-1 mb-3">
       <div class="card-body">
         <form>
           <div class="card-body-content">

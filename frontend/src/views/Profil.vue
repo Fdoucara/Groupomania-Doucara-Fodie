@@ -13,36 +13,44 @@
           <h5 class="card-name"> {{ nom }} </h5>
           <p class="card-firstname"> {{ prenom }} </p>
           <p class="card-email"> {{ email }} </p>
+          <p class="card-bio" v-if="bio != '' && bio != null"> <q> {{ bio }} </q> </p>
         </div>
       </div>
-      <!-- <button class="card_button btn mt-2" v-if="userId == id"> Modifier votre profil </button> -->
     </div>
 
     <div class="activite mt-2">
       <h1> Activité </h1>
     </div>
 
-    <div class="card my-4" :key="index" v-for="(post, index) in info">
+    <h3 v-if="!showCard && id == userId" class="none"> Vous n'avez aucun post pour le moment ! </h3>
+    <h3 v-else-if="!showCard" class="none"> Cet utilisateur n'a aucun post pour le moment ! </h3>
 
-      <div class="card-body">
-        <router-link :to="`/post/${post.id}`" class="card_link">
-          <div class="card-body-header">
-            <p class="card-body-header-text bold" v-if="post.user_id == userId"> Par vous </p>
-            <p class="card-body-header-text bold" v-else> Par {{ post.nom + ' ' + post.prenom }} </p>
-            <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
+    <div v-if="showCard">
+      <div class="card my-4" :key="index" v-for="(post, index) in info">
+
+        <div class="card-body">
+          <router-link :to="`/post/${post.id}`" class="card_link">
+            <div class="card-body-header">
+              <p class="card-body-header-text bold" v-if="post.user_id == userId"> Par vous </p>
+              <p class="card-body-header-text bold" v-else> Par {{ post.nom + ' ' + post.prenom }} </p>
+              <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
+            </div>
+            <img :src="post.post_imageUrl" class="card-image">
+            <p class="card-text"> {{ post.post_content }} </p>
+          </router-link>
+          <div class="card-body-footer">
+            <i class="fas fa-comment"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-edit" v-if="post.user_id == userId"></i>
+            <i class="fas fa-trash" v-if="post.user_id == userId"></i>
           </div>
-          <img :src="post.post_imageUrl" class="card-image">
-          <p class="card-text"> {{ post.post_content }} </p>
-        </router-link>
-        <div class="card-body-footer">
-          <i class="fas fa-comment"></i>
-          <i class="fas fa-heart"></i>
-          <i class="fas fa-edit" v-if="post.user_id == userId"></i>
-          <i class="fas fa-trash" v-if="post.user_id == userId"></i>
         </div>
       </div>
-
     </div>
+
+    <profil-update-modale :profilModale="profilModale" :toggleProfilModale="toggleProfilModale"></profil-update-modale>
+    <profil-delete-modale :deleteProfilModale="deleteProfilModale" :toggleDeleteProfilModale="toggleDeleteProfilModale">
+    </profil-delete-modale>
   </div>
 </template>
 
@@ -51,14 +59,19 @@
 import LoaderComponent from '@/components/Loader.vue'
 import NavbarComponent from '@/components/Navbar.vue'
 import MyProfilComponent from '@/views/MyProfil.vue'
+import UpdateProfilModale from '@/components/UpdateProfilModale.vue'
+import DeleteProfilModale from '@/components/DeleteProfilModale.vue'
 import axios from 'axios'
+import { bus } from '../main'
 
 export default {
   name: 'ProfilComponent',
   components: {
     'loader': LoaderComponent,
     'navbar': NavbarComponent,
-    'mon-profil': MyProfilComponent
+    'mon-profil': MyProfilComponent,
+    'profil-update-modale': UpdateProfilModale,
+    'profil-delete-modale': DeleteProfilModale
   },
   data() {
     return {
@@ -73,6 +86,10 @@ export default {
       email: null,
       photo: null,
       info: null,
+      bio: null,
+      profilModale: false,
+      deleteProfilModale: false,
+      showCard: true
     }
   },
   methods: {
@@ -83,12 +100,30 @@ export default {
           this.prenom = reponse.data.result[0].prenom;
           this.email = reponse.data.result[0].email;
           this.photo = reponse.data.result[0].user_imageUrl;
+          this.bio = reponse.data.result[0].bio;
           this.info = reponse.data.result;
+          if(this.info.post_content == '' || this.info.post_content == null) {
+            this.showCard = false;
+          } else {
+            this.showCard = true;
+          }
         })
-    }
+    },
+    toggleProfilModale() {
+      this.profilModale = !this.profilModale;
+    },
+    toggleDeleteProfilModale() {
+      this.deleteProfilModale = !this.deleteProfilModale;
+    },
   },
   mounted() {
     this.getProfile();
+    bus.$on('updateProfil', () => {
+      this.toggleProfilModale();
+    });
+    bus.$on('deleteProfil', () => {
+      this.toggleDeleteProfilModale();
+    });
   },
 }
 
@@ -110,6 +145,10 @@ export default {
   align-items: center;
   margin: auto;
   padding-top: 20px;
+}
+
+.card_img {
+  width: 25%;
 }
 
 .img-fluid {
@@ -142,6 +181,11 @@ export default {
   padding: 10px;
   font-size: 23px;
   margin: 0;
+}
+
+.none {
+  margin-top: 100px;
+  color: white;
 }
 
 .card {
@@ -199,5 +243,4 @@ img {
   padding-bottom: 10px;
   font-size: 21px;
 }
-
 </style>

@@ -3,30 +3,30 @@
 
     <div class="card_ mb-2">
       <div class="card_contain">
-        <div class="card_img">
-          <img :src="photo" class="img-fluid rounded-start" alt="`Photo de profil`">
+        <div class="card_contain_img_body">
+          <div class="card_img">
+            <img :src="photo" class="img-fluid rounded-start" alt="`Photo de profil`">
+          </div>
+          <div class="card_body">
+            <h5 class="card-name"> {{ nom }} </h5>
+            <p class="card-firstname"> {{ prenom }} </p>
+            <p class="card-email"> {{ email }} </p>
+          </div>
         </div>
-        <div class="card_body">
-          <h5 class="card-name"> {{ nom }} </h5>
-          <p class="card-firstname"> {{ prenom }} </p>
-          <p class="card-email"> {{ email }} </p>
-          <p class="card-bio" v-if="bio != '' && bio != null"> <q> {{ bio }} </q> </p>
-        </div>
+        <p class="card-bio" v-if="bio != '' && bio != null"> <q> {{ bio }} </q> </p>
       </div>
       <button class="card_button btn mt-2" @click="updateProfil"> Modifier mon profil </button>
       <button class="card_button new btn mt-3" @click="deleteProfil"> Supprimer mon profil </button>
     </div>
 
-    <div class="activite mt-5 mb-2">
+    <div class="activite mt-4 mb-1">
       <h1> Mon activité </h1>
     </div>
 
-    <div>
-      <h3 v-if="!showCard" class="none"> Vous n'avez encore aucun post ! </h3>
-    </div>
+    <h3 v-if="!showCard" class="none"> Vous n'avez aucun post pour le moment ! </h3>
 
     <div class="post_scroll" v-if="showCard">
-      <div class="card my-2" :key="index" v-for="(post, index) in info">
+      <div class="card my-3" :key="index" v-for="(post, index) in info">
         <router-link :to="`/post/${post.id}`" class="card_link">
           <div class="card-body">
             <div class="card-body-header">
@@ -102,6 +102,9 @@ export default {
     bus.$on('listAfterDelete', () => {
       this.getProfile();
     });
+    bus.$on('profilAfterUpdate', () => {
+      this.getProfile();
+    });
   },
 }
 </script>
@@ -118,11 +121,14 @@ export default {
 
 .card_contain {
   width: 90%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.card_contain_img_body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: auto;
-  margin-top: 20px;
 }
 
 .card_ {
@@ -237,7 +243,7 @@ img {
   text-align: left;
   font-size: 20px;
   margin: 0;
-  padding-bottom: 25px;
+  padding-bottom: 0;
 }
 
 .card-body-footer {

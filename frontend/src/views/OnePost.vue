@@ -32,7 +32,8 @@
       @updateList="updatePostInfo"></update-modale>
     <delete-modale :deletePostModale="deletePostModale" :toggleDeletePostModale="toggleDeletePostModale"
       :post_id="post_id" @updateList="updatePostInfo"></delete-modale>
-
+    <profil-update-modale :profilModale="profilModale" :toggleProfilModale="toggleProfilModale"></profil-update-modale>
+    <profil-delete-modale :deleteProfilModale="deleteProfilModale" :toggleDeleteProfilModale="toggleDeleteProfilModale"></profil-delete-modale>
 
   </div>
 </template>
@@ -46,6 +47,8 @@ import CreationComment from '@/components/CreationComment.vue'
 import CommentComponent from '@/components/Comment.vue'
 import PostUpdateModale from '@/components/PostUpdateModale.vue'
 import DeletePostModale from '@/components/DeletePostModale.vue'
+import UpdateProfilModale from '@/components/UpdateProfilModale.vue'
+import DeleteProfilModale from '@/components/DeleteProfilModale.vue'
 import {bus} from '../main'
 import axios from 'axios'
 
@@ -59,6 +62,8 @@ export default {
     'comment': CommentComponent,
     'update-modale': PostUpdateModale,
     'delete-modale': DeletePostModale,
+    'profil-update-modale': UpdateProfilModale,
+    'profil-delete-modale': DeleteProfilModale
   },
   data() {
     return {
@@ -70,7 +75,9 @@ export default {
       userId: this.$store.state.userId,
       post_id: null,
       updatePostModale: false,
-      deletePostModale: false
+      deletePostModale: false,
+      profilModale: false,
+      deleteProfilModale: false,
     }
   },
   methods: {
@@ -85,6 +92,11 @@ export default {
     },
     toggleDeletePostModale() {
       this.deletePostModale = !this.deletePostModale;
+    }, toggleProfilModale() {
+      this.profilModale = !this.profilModale;
+    },
+    toggleDeleteProfilModale() {
+      this.deleteProfilModale = !this.deleteProfilModale;
     },
     likePost(e) {
       this.post_id = e.target.id;
@@ -118,7 +130,13 @@ export default {
       });
       bus.$on('postAfterDelete', () => {
       this.getPostInfo();
-    })
+    });
+    bus.$on('updateProfil', () => {
+      this.toggleProfilModale();
+    });
+    bus.$on('deleteProfil', () => {
+      this.toggleDeleteProfilModale();
+    });
   },
 }
 </script>
@@ -141,26 +159,17 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
 }
 
 .card-body-header-text {
   text-decoration: none;
   color: black;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
   font-size: 21px;
-}
-
-p {
-  margin-bottom: 0;
 }
 
 .bold {
   font-weight: 700;
-}
-
-.back {
-  font-size: 25px;
 }
 
 img {

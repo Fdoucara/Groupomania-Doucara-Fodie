@@ -28,14 +28,17 @@
                 <p class="role" v-if="user.role_id == '3'"> Utilisateur </p>
               </div>
               </router-link>
-              <button class="btn btn-color" :id='user.id' v-if="roleId == '1' && user.id != userId" @click="changeRole"> Changer son role </button>
+              <div class="btn_group">
+                  <button class="btn btn-color" :id='user.id' v-if="roleId == '1' && user.id != userId" @click="changeRole"> Changer son role </button>
+                  <button class="btn btn-color black" :id='user.id' v-if="roleId == '1' && user.id != userId" @click="deleteAnyoneProfil"> Supprmer cet utilisateur </button>
+              </div> 
             </div>
           </div>
       </div>
     </div>
 
       <profil-update-modale :profilModale="profilModale" :toggleProfilModale="toggleProfilModale"></profil-update-modale>
-      <profil-delete-modale :deleteProfilModale="deleteProfilModale" :toggleDeleteProfilModale="toggleDeleteProfilModale"></profil-delete-modale>
+      <profil-delete-modale :deleteProfilModale="deleteProfilModale" :deleteAnyoneProfilModale="deleteAnyoneProfilModale" :toggleDeleteProfilModale="toggleDeleteProfilModale" :toggleDeleteAnyoneProfilModale="toggleDeleteAnyoneProfilModale" :user_id="user_id"></profil-delete-modale>
   </div>
 </template>
 
@@ -71,7 +74,8 @@ export default {
       adminFirstname: null,
       profilModale: false,
       deleteProfilModale: false,
-      id_user: null
+      deleteAnyoneProfilModale: false,
+      user_id: null
     }
   },
   methods: {
@@ -106,6 +110,13 @@ export default {
           console.log('Soon ', reponse);
         }
       })
+    },
+    toggleDeleteAnyoneProfilModale() {
+      this.deleteAnyoneProfilModale = !this.deleteAnyoneProfilModale;
+    },
+    deleteAnyoneProfil(e) {
+      this.user_id = e.target.id;
+      this.deleteAnyoneProfilModale = !this.deleteAnyoneProfilModale;
     }
   },
   mounted() {
@@ -118,6 +129,9 @@ export default {
       this.toggleDeleteProfilModale();
     });
     bus.$on('profilAfterUpdate', () => {
+      this.usersInfoList();
+    });
+    bus.$on('updateUsersList', () => {
       this.usersInfoList();
     });
   },
@@ -207,12 +221,22 @@ export default {
   font-size: 22px;
 }
 
+.btn_group {
+  width: 100%;
+  display: flex;
+}
+
 .btn-color {
   font-size: 20px;
   background: #D31027;
   color: white;
-  width: 80%;
+  width: 40%;
+  margin: auto;
   margin-bottom: 5px;
   border-radius: 25px;
+}
+
+.black {
+  background:  #203A43;
 }
 </style>

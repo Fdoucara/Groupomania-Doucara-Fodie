@@ -1,36 +1,64 @@
 <template>
-  <div class="bloc-modale" v-if="deleteProfilModale">
+  <div>
 
-    <div class="overlay"></div>
+    <div class="bloc-modale" v-if="deleteProfilModale">
 
-    <div class="modale card">
-      <h2 class="modale-title"> Supprimer mon profil
-        <hr>
-      </h2>
-      <div class="modale-content">
-        <p class="modale-content-item"> Êtes-vous certain que vous voulez supprimer votre profil ? Il ne peut plus être
-          récupéré ! </p>
-      </div>
-      <div class="modale-body-footer">
-        <div class="modale-body-footer-send">
-          <button class="btn btn-color1" @click="toggleDeleteProfilModale"> Annuler </button>
+      <div class="overlay"></div>
+      <div class="modale card">
+        <h2 class="modale-title"> Supprimer mon profil
+          <hr>
+        </h2>
+        <div class="modale-content">
+          <p class="modale-content-item"> Êtes-vous certain que vous voulez supprimer votre profil ? Il ne peut plus
+            être
+            récupéré ! </p>
         </div>
-        <div class="modale-body-footer-send">
-          <button class="btn btn-color2" @click="deleteProfil"> Valider </button>
+        <div class="modale-body-footer">
+          <div class="modale-body-footer-send">
+            <button class="btn btn-color1" @click="toggleDeleteProfilModale"> Annuler </button>
+          </div>
+          <div class="modale-body-footer-send">
+            <button class="btn btn-color2" @click="deleteProfil"> Valider </button>
+          </div>
         </div>
       </div>
+
     </div>
+    <div class="bloc-modale" v-if="deleteAnyoneProfilModale">
 
+      <div class="overlay"></div>
+      <div class="modale card">
+        <h2 class="modale-title"> Supprimer le profil de cet utilisateur
+          <hr>
+        </h2>
+        <div class="modale-content">
+          <p class="modale-content-item"> Êtes-vous certain que vous voulez supprimer le compte de cet
+            utilisateur
+            ? Il ne pourra plus être
+            récupéré ! </p>
+        </div>
+        <div class="modale-body-footer">
+          <div class="modale-body-footer-send">
+            <button class="btn btn-color1" @click="toggleDeleteAnyoneProfilModale"> Annuler </button>
+          </div>
+          <div class="modale-body-footer-send">
+            <button class="btn btn-color2" @click="deleteAnyoneProfil"> Valider </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </template>
 
 <script>
 
 import axios from 'axios'
+import { bus } from '../main'
 
 export default {
   name: 'DeleteProfilModale',
-  props: ['deleteProfilModale', 'toggleDeleteProfilModale', 'comment_id'],
+  props: ['deleteProfilModale', 'toggleDeleteProfilModale', 'deleteAnyoneProfilModale', 'toggleDeleteAnyoneProfilModale', 'user_id'],
   data() {
     return {
       axiosInstance: axios.create({
@@ -48,6 +76,13 @@ export default {
           this.$store.commit('REMOVE_ROLE_USER');
           this.toggleDeleteProfilModale();
           this.$router.push('/');
+        })
+    },
+    deleteAnyoneProfil() {
+      this.axiosInstance.delete('user/delete-anyone-profil/' + this.user_id)
+        .then(() => {
+          bus.$emit('updateUsersList');
+          this.toggleDeleteAnyoneProfilModale();
         })
     }
   },
@@ -130,9 +165,9 @@ button {
   background: #203A43;
   color: white;
 }
+
 .btn-color2 {
   background: #D31027;
   color: white;
 }
-
 </style>

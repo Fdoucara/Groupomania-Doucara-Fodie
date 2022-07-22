@@ -251,7 +251,7 @@ exports.deleteProfil = (req, res) => {
 }
 
 exports.deleteAnyoneProfil = (req, res) => {
-  let id = req.parms.id;
+  let id = req.params.id;
   db.query("SELECT * FROM user WHERE id = ?", [id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));

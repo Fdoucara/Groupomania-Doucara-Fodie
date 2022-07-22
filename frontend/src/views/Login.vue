@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="container">
     <img src="../assets/icon-left-font-monochrome-white.png" alt="Groupomania logo">
 
@@ -24,6 +25,7 @@
         </p>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

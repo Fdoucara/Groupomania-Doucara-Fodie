@@ -67,7 +67,6 @@ export default {
       this.axiosInstance.get('user/' + this.$store.state.userId)
         .then(reponse => {
           this.userImage = reponse.data.result[0].user_imageUrl;
-          console.log(this.userImage);
         })
     },
     onFile(event) {
@@ -211,6 +210,7 @@ export default {
 }
 
 img {
+  margin-right: 10px;
   width: 90px;
   height: 90px;
   border-radius: 50%;

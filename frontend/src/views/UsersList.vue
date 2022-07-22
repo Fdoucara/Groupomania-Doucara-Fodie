@@ -15,9 +15,9 @@
 
     <div class="user_info_contain">
       <div class="card card_user my-4" :key="index" v-for="(user, index) in info">
-        <router-link :to="`/profil/${user.id}`" class="card_link">
           <div class="card-body">
             <div class="card-body-content">
+              <router-link :to="`/profil/${user.id}`" class="card_link">
               <img :src="user.user_imageUrl" class="card-image">
               <div class="card-text">
                 <p v-if="user.id == userId"> {{ user.nom + ' ' + user.prenom }} (Vous)</p>
@@ -26,12 +26,11 @@
                 <p class="role" v-if="user.role_id == '1'"> Administrateur </p>
                 <p class="role" v-if="user.role_id == '4'"> Modérateur </p>
                 <p class="role" v-if="user.role_id == '3'"> Utilisateur </p>
-                <button class="btn btn-color" v-if="roleId == '1' && user.id != userId"> Changer son role </button>
               </div>
-
+              </router-link>
+              <button class="btn btn-color" :id='user.id' v-if="roleId == '1' && user.id != userId" @click="changeRole"> Changer son role </button>
             </div>
           </div>
-        </router-link>
       </div>
     </div>
 
@@ -96,6 +95,9 @@ export default {
     toggleDeleteProfilModale() {
       this.deleteProfilModale = !this.deleteProfilModale;
     },
+    changeRole(e) {
+      console.log(e.target.id);
+    }
   },
   mounted() {
     this.getAdminInfo();
@@ -127,23 +129,17 @@ export default {
   width: 100%;
 }
 
-.card-text {
-  text-align: left;
-  font-size: 22px;
-  margin: 0;
-  padding-top: 25px;
-  padding-bottom: 25px;
-}
-
 .card-body-content {
   margin: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .card-body-content-text {
   font-size: 23px;
+  padding: 40px;
 }
 
 .user_info_contain {
@@ -151,14 +147,18 @@ export default {
 }
 
 .card_user {
-  border-radius: 50px;
+  border-radius: 20px;
 }
 
 .card_link {
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   text-decoration: none;
   color: black;
   padding: 0;
-  margin: 0;
+  margin: auto;
 }
 
 .card-body {
@@ -180,10 +180,12 @@ export default {
 }
 
 .card-text {
-  text-align: justify;
-  font-size: 23px;
+  text-align: left;
+  font-size: 22px;
   margin: 0;
-  width: 40%;
+  width: 60%;
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 
 .bio {
@@ -201,5 +203,7 @@ export default {
   background: #D31027;
   color: white;
   width: 80%;
+  margin-bottom: 5px;
+  border-radius: 25px;
 }
 </style>

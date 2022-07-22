@@ -94,7 +94,6 @@ export default {
     getUserInfo() {
       this.axiosInstance.get('user/' + this.$store.state.userId)
         .then(reponse => {
-          console.log(reponse);
           this.userImage = reponse.data.result[0].user_imageUrl;
           this.nom = reponse.data.result[0].nom;
           this.prenom = reponse.data.result[0].prenom;
@@ -123,7 +122,6 @@ export default {
         })
           .then(reponse => {
             if (reponse.status == 200) {
-              console.log(reponse);
               bus.$emit('profilAfterUpdate');
               this.toggleProfilModale();
               this.getUserInfo();
@@ -134,19 +132,17 @@ export default {
           })
       }
       else if (!this.selectedFile && this.nom == '' || this.prenom == '' || this.email == '') {
-        console.log('connard')
         this.axiosInstance.patch('user/update-profil', {
           nom : this.nom,
           prenom : this.prenom,
           bio : this.bio,
           email : this.email,
         })
-        .then(reponse => {
-          console.log(reponse);
+        .then(() => {
+          this.paragrapheError.textContent = "Le nom, le prenom ainsi que l'email de l'utilisateur ne peuvent pas être vide. Veuillez a les verifier !";
+          this.paragrapheError.style.fontSize = '20px';
+          this.paragrapheError.style.color = 'red';
         })
-        // this.paragrapheError.textContent = "Aucune modification n'a été effectuée.";
-        // this.paragrapheError.style.fontSize = '20px';
-        // this.paragrapheError.style.color = 'red';
       }
       else {
         const fd = new FormData();
@@ -158,7 +154,6 @@ export default {
         this.axiosInstance.patch('user/update-profil', fd, this.config)
           .then(reponse => {
             if (reponse.status == 200) {
-              console.log(reponse);
               bus.$emit('profilAfterUpdate');
               this.selectedFile = null;
               this.paragraphe.textContent = '';

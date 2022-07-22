@@ -125,7 +125,7 @@ exports.updateProfil = (req, res) => {
                 return res.status(400).json({ message: "Le nom d'utilisateur, le prenom ou l' email est vide. Veuillez a les completer !" })
               }
               else {
-                db.query("UPDATE user SET  nom = ?, prenom = ?, bio = ?, email = ?, user_imageUrl = ? WHERE id = ?", [user.nom, user.prenom, user.email, imageUrl, id], (error, result) => {
+                db.query("UPDATE user SET  nom = ?, prenom = ?, bio = ?, email = ?, user_imageUrl = ? WHERE id = ?", [user.nom, user.prenom, user.bio, user.email, imageUrl, id], (error, result) => {
                   if (!error) {
                     return res.status(200).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
                   }

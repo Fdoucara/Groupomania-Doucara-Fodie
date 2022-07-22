@@ -106,6 +106,9 @@ export default {
     bus.$on('deleteProfil', () => {
       this.toggleDeleteProfilModale();
     });
+    bus.$on('profilAfterUpdate', () => {
+      this.usersInfoList();
+    });
   },
 }
 </script>
@@ -148,7 +151,7 @@ export default {
 }
 
 .card_user {
-  border-radius: 15px;
+  border-radius: 50px;
 }
 
 .card_link {
@@ -163,13 +166,17 @@ export default {
 }
 
 .card-body-content {
+  margin: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
 .card-image {
-  width: 18%;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .card-text {
@@ -181,7 +188,7 @@ export default {
 
 .bio {
   font-style: italic;
-  font-size: 22px;
+  font-size: 20px;
 }
 
 .role {

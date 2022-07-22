@@ -45,7 +45,7 @@
 
             <div class="form-group mt-4">
               <label for="profil_email" class="mb-2"> Votre adresse email : </label>
-              <input type="email" id="profil_email" v-model="email" class="form-control">
+              <input type="email" id="profil_email" v-model="email" class="form-control" required>
             </div>
           </div>
 
@@ -126,6 +126,7 @@ export default {
               console.log(reponse);
               bus.$emit('profilAfterUpdate');
               this.toggleProfilModale();
+              this.getUserInfo();
             }
           })
           .catch(error => {
@@ -163,6 +164,7 @@ export default {
               this.paragraphe.textContent = '';
               this.paragrapheError.textContent = '';
               this.toggleProfilModale();
+              this.getUserInfo();
             }
           })
           .catch(error => {
@@ -238,9 +240,10 @@ form {
 }
 
 img {
-  width: 25%;
-  height: auto;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .modale-content-image-button {
@@ -282,7 +285,7 @@ textarea {
   padding: 6px 12px;
   resize: none;
   border: 1px solid #ced4da;
-  font-size: 18px;
+  font-size: 1rem;
 }
 
 textarea:focus {

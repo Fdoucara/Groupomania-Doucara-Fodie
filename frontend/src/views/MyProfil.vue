@@ -5,7 +5,7 @@
       <div class="card_contain">
         <div class="card_contain_img_body">
           <div class="card_img">
-            <img :src="photo" class="img-fluid rounded-start" alt="`Photo de profil`">
+            <img :src="photo" class="img-fluid" alt="`Photo de profil`">
           </div>
           <div class="card_body">
             <h5 class="card-name"> {{ nom }} </h5>
@@ -126,8 +126,10 @@ export default {
 }
 
 .card_contain_img_body {
+  width: 80%;
+  margin: auto;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -140,18 +142,23 @@ export default {
 }
 
 .card_img {
-  width: 25%;
+  max-width: 110px;
   display: flex;
   justify-content: center;
 }
 
 .img-fluid {
-  width: 100%;
-  height: auto;
+  margin-bottom: 15px;
+  padding: 0;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .card_body {
-  font-size: 20px;
+  width: 50%;
+  font-size: 18px;
   text-align: left;
 }
 
@@ -188,7 +195,7 @@ export default {
 
 .post_scroll {
   overflow-y: scroll;
-  height: 600px;
+  height: 450px;
   scrollbar-width: none;
 }
 

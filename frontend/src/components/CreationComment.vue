@@ -5,7 +5,7 @@
       <div class="card-body">
         <form>
           <div class="card-body-content">
-            <img src="../assets/icon-above-font.png" class="card-image">
+            <img :src="userImage" class="card-image">
             <textarea class="card-body-content-text" id="comment_content" v-model="formData.comment_content"
               placeholder="Rédiger votre commentaire ici..." @keyup="verifWrite"></textarea>
           </div>
@@ -53,10 +53,17 @@ export default {
       },
       filename: '',
       paragraphe: undefined,
-      paragrapheError: undefined
+      paragrapheError: undefined,
+      userImage: null
     }
   },
   methods: {
+    getUserImage() {
+      this.axiosInstance.get('user/' + this.$store.state.userId)
+        .then(reponse => {
+          this.userImage = reponse.data.result[0].user_imageUrl;
+        })
+    },
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
@@ -133,6 +140,12 @@ export default {
       }
     },
   },
+  mounted() {
+    this.getUserImage();
+    bus.$on('profilAfterUpdate', () => {
+      this.getUserImage();
+    });
+  }
 }
 </script>
 
@@ -157,9 +170,10 @@ export default {
 }
 
 img {
-  width: 13%;
-  height: auto;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .card-body-content-text {

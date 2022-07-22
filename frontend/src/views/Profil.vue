@@ -7,7 +7,7 @@
     <div class="card_ mb-4">
       <div class="card_contain">
         <div class="card_img">
-          <img :src="photo" class="img-fluid rounded-start" alt="`Photo de profil`">
+          <img :src="photo" class="img-fluid" alt="`Photo de profil`">
         </div>
         <div class="card_body">
           <h5 class="card-name"> {{ nom }} </h5>
@@ -124,6 +124,9 @@ export default {
     bus.$on('deleteProfil', () => {
       this.toggleDeleteProfilModale();
     });
+    bus.$on('profilAfterUpdate', () => {
+      this.getProfile();
+    });
   },
 }
 
@@ -139,24 +142,30 @@ export default {
 }
 
 .card_contain {
-  width: 70%;
+  width: 85%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin: auto;
   padding-top: 20px;
+  padding-bottom: 10px;
 }
 
 .card_img {
-  width: 25%;
+  max-width: 150px;
 }
 
 .img-fluid {
-  width: 100%;
-  height: auto;
+  margin-bottom: 15px;
+  padding: 0;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .card_body {
+  width: 60%;
   font-size: 20px;
   text-align: left;
 }

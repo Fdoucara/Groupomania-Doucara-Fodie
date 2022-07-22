@@ -144,6 +144,9 @@ export default {
   },
   mounted() {
     this.getUserImage();
+    bus.$on('profilAfterUpdate', () => {
+      this.getUserImage();
+    });
   },
 }
 </script>
@@ -196,9 +199,10 @@ export default {
 }
 
 img {
-  width: 13%;
-  height: auto;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .card-body-content-text {

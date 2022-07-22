@@ -71,6 +71,7 @@ export default {
       adminFirstname: null,
       profilModale: false,
       deleteProfilModale: false,
+      id_user: null
     }
   },
   methods: {
@@ -96,7 +97,15 @@ export default {
       this.deleteProfilModale = !this.deleteProfilModale;
     },
     changeRole(e) {
-      console.log(e.target.id);
+      this.id_user = e.target.id;
+      console.log(this.id_user);
+      this.axiosInstance.post('user/change-role/' + this.id_user)
+      .then(reponse => {
+        if(reponse.status == 200) {
+          this.usersInfoList();
+          console.log('Soon ', reponse);
+        }
+      })
     }
   },
   mounted() {

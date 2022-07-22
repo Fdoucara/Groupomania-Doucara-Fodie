@@ -157,7 +157,6 @@ export default {
 
 .card-body-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
 

@@ -90,7 +90,7 @@ exports.getAllUser = (req, res) => {
 
 exports.getOneUser = (req, res) => {
   let id = req.params.id;
-  db.query("SELECT user.nom, user.prenom, user.email, user.user_imageUrl, user.bio, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, post.user_id, comment.comment_content FROM user LEFT JOIN post ON user.id = post.user_id LEFT JOIN comment ON user.id = comment.user_id WHERE user.id = ? GROUP BY post.id", [id], (error, result) => {
+  db.query("SELECT user.nom, user.prenom, user.email, user.user_imageUrl, user.bio, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, post.user_id FROM user LEFT JOIN post ON user.id = post.user_id WHERE user.id = ?", [id], (error, result) => {
     if (!error) {
       if (result.length == 0) {
         return res.status(401).json({ message: "Aucun utilisateur trouvé !" });
@@ -297,13 +297,15 @@ exports.deleteAnyoneProfil = (req, res) => {
 }
 
 exports.changeRole = (req, res) => {
-  let id = req.params.id;
-  db.query("SELECT * FROM user WHERE user.id = ?", [id], (error, result) => {
+  let user_id = req.params.id;
+  db.query("SELECT * FROM user WHERE user.id = ?", [user_id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
-      if (resultat[0].role_id === process.env.MODERATOR) {
+      console.log(resultat);
+      if (resultat[0].role_id == process.env.MODERATOR) {
         const role_id = process.env.USER;
-        db.query("UPDATE user SET role_id = ? WHERE id = ?", [role_id, id], (error, result) => {
+        console.log(role_id);
+        db.query("UPDATE user SET role_id = ? WHERE id = ?", [role_id, user_id], (error, result) => {
           if (!error) {
             return res.status(200).json({ message: "Passage de modérateur à utilisateur normal !" });
           }
@@ -312,9 +314,9 @@ exports.changeRole = (req, res) => {
           }
         })
       }
-      else if (resultat[0].role_id === process.env.USER) {
+      else if (resultat[0].role_id == process.env.USER) {
         const role_id = process.env.MODERATOR;
-        db.query("UPDATE user SET role_id = ? WHERE id = ?", [role_id, id], (error, result) => {
+        db.query("UPDATE user SET role_id = ? WHERE id = ?", [role_id, user_id], (error, result) => {
           if (!error) {
             return res.status(200).json({ message: "Passage d'utilisateur normal à modérateur !" });
           }

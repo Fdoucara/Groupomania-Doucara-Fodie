@@ -23,7 +23,8 @@
     </div>
 
     <h3 v-if="showCard == false && id == userId" class="none"> Vous n'avez aucun post pour le moment ! </h3>
-    <h3 v-else-if="showCard == false && id != userId" class="none"> Cet utilisateur n'a aucun post pour le moment ! </h3>
+    <h3 v-else-if="showCard == false && id != userId" class="none"> Cet utilisateur n'a aucun post pour le moment !
+    </h3>
 
     <div v-if="showCard">
       <div class="card my-4" :key="index" v-for="(post, index) in info">
@@ -33,17 +34,11 @@
             <div class="card-body-header">
               <p class="card-body-header-text bold" v-if="post.user_id == userId"> Par vous </p>
               <p class="card-body-header-text bold" v-else> Par {{ post.nom + ' ' + post.prenom }} </p>
-              <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleString() }} </p>
+              <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleDateString() }} </p>
             </div>
             <img :src="post.post_imageUrl" class="card-image">
             <p class="card-text"> {{ post.post_content }} </p>
           </router-link>
-          <div class="card-body-footer">
-            <i class="fas fa-comment"></i>
-            <i class="fas fa-heart"></i>
-            <i class="fas fa-edit" v-if="post.user_id == userId"></i>
-            <i class="fas fa-trash" v-if="post.user_id == userId"></i>
-          </div>
         </div>
       </div>
     </div>
@@ -71,7 +66,7 @@ export default {
     'navbar': NavbarComponent,
     'mon-profil': MyProfilComponent,
     'profil-update-modale': UpdateProfilModale,
-    'profil-delete-modale': DeleteProfilModale
+    'profil-delete-modale': DeleteProfilModale,
   },
   data() {
     return {
@@ -96,13 +91,14 @@ export default {
     getProfile() {
       this.axiosInstance.get(`user/${this.id}`)
         .then(reponse => {
+          console.log(reponse);
           this.nom = reponse.data.result[0].nom;
           this.prenom = reponse.data.result[0].prenom;
           this.email = reponse.data.result[0].email;
           this.photo = reponse.data.result[0].user_imageUrl;
           this.bio = reponse.data.result[0].bio;
-          this.info = reponse.data.result;
-          if(this.info[0].post_content == '' || this.info[0].post_content == null) {
+          this.info = reponse.data.result.reverse();
+          if (this.info[0].post_content == '' || this.info[0].post_content == null && this.info[0].post_imageUrl == '' || this.info[0].post_imageUrl == null) {
             this.showCard = false;
           } else {
             this.showCard = true;
@@ -224,7 +220,7 @@ export default {
 
 .card-body-header-text {
   margin-bottom: 10px;
-  font-size: 18px;
+  font-size: 21px;
 }
 
 .bold {
@@ -240,8 +236,8 @@ img {
   text-align: left;
   font-size: 23px;
   margin: 0;
-  padding-top: 25px;
-  padding-bottom: 25px;
+  padding-top: 15px;
+  padding-bottom: 10px;
 }
 
 .card-body-footer {

@@ -4,11 +4,13 @@
     <div class="overlay"></div>
 
     <div class="modale card">
-      <h2 class="modale-title"> Ajout d'un commentaire <hr></h2>
+      <h2 class="modale-title"> Ajout d'un commentaire
+        <hr>
+      </h2>
       <div class="modale-content">
         <form>
           <div class="modale-body-content">
-            <img src="../assets/icon-above-font.png" class="modale-image">
+            <img :src="userImage" class="modale-image">
             <textarea class="modale-body-content-text" id="comment_content" v-model="formData.comment_content"
               placeholder="Rédiger votre commentaire ici..." @keyup="verifWrite"></textarea>
           </div>
@@ -19,13 +21,13 @@
               <label for="comment_image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
             </div>
             <div class="modale-body-footer-send">
-              <button class="btn btn-color" @click="sendData">  <i class="fas fa-check"></i> &nbsp; Valider </button>
+              <button class="btn btn-color" @click="sendData"> <i class="fas fa-check"></i> &nbsp; Valider </button>
             </div>
           </div>
         </form>
         <p class="commentModale_upload-image-name"></p>
         <p class="commentModale_error"></p>
-      </div>  
+      </div>
       <button class="btn-modale btn" @click="toggleCommentModale"> X </button>
     </div>
 
@@ -35,6 +37,7 @@
 <script>
 
 import axios from 'axios'
+import { bus } from '../main'
 
 export default {
   name: 'CommentModale',
@@ -55,20 +58,28 @@ export default {
       filename: '',
       paragraphe: undefined,
       paragrapheError: undefined,
+      userImage: null
     }
   },
   methods: {
+    getUserImage() {
+      this.axiosInstance.get('user/' + this.$store.state.userId)
+        .then(reponse => {
+          this.userImage = reponse.data.result[0].user_imageUrl;
+          console.log(this.userImage);
+        })
+    },
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
       this.paragraphe = document.querySelector('.commentModale_upload-image-name');
-      if(this.formData.selectedFile) {
+      if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
       } else {
         this.paragraphe.textContent = '';
       }
     },
-    verifWrite(){
+    verifWrite() {
       this.paragrapheError = document.querySelector('.commentModale_error');
       this.paragrapheError.textContent = '';
     },
@@ -120,11 +131,16 @@ export default {
       }
     },
   },
+  mounted() {
+    this.getUserImage();
+    bus.$on('profilAfterUpdate', () => {
+      this.getUserImage();
+    });
+  }
 }
 </script>
 
 <style scoped>
-
 .bloc-modale {
   position: fixed;
   top: 0;
@@ -178,9 +194,10 @@ export default {
 }
 
 img {
-  width: 13%;
-  height: auto;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .modale-body-content-text {

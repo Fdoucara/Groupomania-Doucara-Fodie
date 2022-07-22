@@ -190,6 +190,7 @@ export default {
 
 .none {
   margin-top: 100px;
+  font-size: 24px;
   color: white;
 }
 

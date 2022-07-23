@@ -15,14 +15,15 @@
         <div class="card-body-footer">
           <i class="fas fa-heart" :id="comment.id" @click="likeComment"> {{ comment.comment_likes }} </i>
           <i class="fas fa-edit" :id="comment.id" @click="updateComment" v-if="comment.user_id == userId"></i>
-          <i class="fas fa-trash" :id="comment.id" @click="deleteComment" v-if="comment.user_id == userId"></i>
+          <i class="fas fa-trash" :id="comment.id" @click="deleteComment" v-if="comment.user_id == userId && roleId == 3"></i>
+          <i class="fas fa-trash" :id="comment.id" @click="deleteAnyoneComment" v-if="comment.user_id == userId && roleId == 1 || roleId == 4"></i>
         </div>
       </div>
     </div>
 
     <update-modale :updateCommentModale="updateCommentModale" :toggleCommentModale="toggleCommentModale" :comment_id="comment_id"
       @updateCommentList="updateCommentList"></update-modale>
-    <delete-modale :deleteCommentModale="deleteCommentModale" :toggleDeleteCommentModale="toggleDeleteCommentModale"
+    <delete-modale :deleteCommentModale="deleteCommentModale" :deleteAnyoneCommentModale="deleteAnyoneCommentModale" :toggleDeleteCommentModale="toggleDeleteCommentModale" :toggleDeleteAnyoneCommentModale="toggleDeleteAnyoneCommentModale"
       :comment_id="comment_id" @updateCommentList="updateCommentList"></delete-modale>
 
   </div>
@@ -50,9 +51,11 @@ export default {
       }),
       info: undefined,
       userId: this.$store.state.userId,
+      roleId: this.$store.state.roleUser,
       comment_id: null,
       updateCommentModale: false,
-      deleteCommentModale: false
+      deleteCommentModale: false,
+      deleteAnyoneCommentModale: false
     }
   },
   methods: {
@@ -68,6 +71,9 @@ export default {
     toggleDeleteCommentModale() {
       this.deleteCommentModale = !this.deleteCommentModale;
     },
+    toggleDeleteAnyoneCommentModale() {
+      this.deleteAnyoneCommentModale = !this.deleteAnyoneCommentModale;
+    },
     likeComment(e) {
       this.comment_id = e.target.id;
       this.axiosInstance.post('post/like-comment/' + this.comment_id)
@@ -82,6 +88,10 @@ export default {
     deleteComment(e) {
       this.comment_id = e.target.id;
       this.deleteCommentModale = !this.deleteCommentModale;
+    },
+    deleteAnyoneComment(e) {
+      this.comment_id = e.target.id;
+      this.deleteAnyoneCommentModale = !this.deleteAnyoneCommentModale;
     },
     updateCommentList() {
       this.commentList();

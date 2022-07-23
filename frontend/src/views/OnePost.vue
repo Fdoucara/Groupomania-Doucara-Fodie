@@ -19,7 +19,8 @@
           <i class="fas fa-comment"> {{ post.totalComment }} </i>
           <i class="fas fa-heart" :id="post.id" @click="likePost"> {{ post.post_likes }} </i>
           <i class="fas fa-edit" :id="post.id" @click="updatePost" v-if="post.user_id == userId"></i>
-          <i class="fas fa-trash" :id="post.id" @click="deletePost" v-if="post.user_id == userId"></i>
+          <i class="fas fa-trash" :id="post.id" @click="deletePost" v-if="post.user_id == userId && roleId == 3"></i>
+          <i class="fas fa-trash" :id="post.id" @click="deleteAnyonePost" v-if="post.user_id == userId && roleId == 1 || roleId == 4"></i>
         </div>
       </div>
     </div>
@@ -30,7 +31,7 @@
 
     <update-modale :updatePostModale="updatePostModale" :togglePostModale="togglePostModale" :post_id="post_id"
       @updateList="updatePostInfo"></update-modale>
-    <delete-modale :deletePostModale="deletePostModale" :toggleDeletePostModale="toggleDeletePostModale"
+    <delete-modale :deletePostModale="deletePostModale" :deleteAnyonePostModale="deleteAnyonePostModale" :toggleDeletePostModale="toggleDeletePostModale" :toggleDeleteAnyonePostModale="toggleDeleteAnyonePostModale"
       :post_id="post_id" @updateList="updatePostInfo"></delete-modale>
     <profil-update-modale :profilModale="profilModale" :toggleProfilModale="toggleProfilModale"></profil-update-modale>
     <profil-delete-modale :deleteProfilModale="deleteProfilModale" :toggleDeleteProfilModale="toggleDeleteProfilModale"></profil-delete-modale>
@@ -73,11 +74,13 @@ export default {
       }),
       info: null,
       userId: this.$store.state.userId,
+      roleId: this.$store.state.roleUser,
       post_id: null,
       updatePostModale: false,
       deletePostModale: false,
       profilModale: false,
       deleteProfilModale: false,
+      deleteAnyonePostModale: false
     }
   },
   methods: {
@@ -92,7 +95,11 @@ export default {
     },
     toggleDeletePostModale() {
       this.deletePostModale = !this.deletePostModale;
-    }, toggleProfilModale() {
+    }, 
+    toggleDeleteAnyonePostModale() {
+      this.deleteAnyonePostModale = !this.deleteAnyonePostModale;
+    },
+    toggleProfilModale() {
       this.profilModale = !this.profilModale;
     },
     toggleDeleteProfilModale() {
@@ -112,6 +119,10 @@ export default {
     deletePost(e) {
       this.post_id = e.target.id;
       this.deletePostModale = !this.deletePostModale;
+    },
+    deleteAnyonePost(e) {
+      this.post_id = e.target.id;
+      this.deleteAnyonePostModale = !this.deleteAnyonePostModale;
     },
     updatePostInfo() {
       this.getPostInfo();

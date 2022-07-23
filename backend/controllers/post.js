@@ -156,6 +156,7 @@ exports.deleteOnePost = (req, res) => {
         res.status(401).json({ message: 'Aucun post trouvé !' });
       }
       else if (req.auth !== resultat[0].user_id) {
+        console.log(resultat[0]);
         res.status(401).json({ message: 'Requête non autorisée !' });
         return;
       }
@@ -304,23 +305,38 @@ exports.createComment = (req, res) => {
     const comment = JSON.parse(JSON.stringify(req.body));
     const comment_content = comment.comment_content;
     const comment_imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-    db.query("INSERT INTO comment (comment_content, comment_imageUrl, post_id, user_id) VALUES (?, ?, ?, ?)", [comment_content, comment_imageUrl, post_id, user_id], (error, result) => {
-      if (!error) {
-        return res.status(201).json({ message: "Commentaire bien ajouté !" });
-      } else {
-        res.status(400).json({ message: "Post non existant !" });
-      }
-    })
+    if (comment_content == '') {
+      db.query("INSERT INTO comment (comment_imageUrl, post_id, user_id) VALUES (?, ?, ?)", [comment_imageUrl, post_id, user_id], (error, result) => {
+        if (!error) {
+          return res.status(201).json({ message: "Commentaire bien ajouté !" });
+        } else {
+          res.status(400).json({ message: "Post non existant !" });
+        }
+      })
+    } else {
+      db.query("INSERT INTO comment (comment_content, comment_imageUrl, post_id, user_id) VALUES (?, ?, ?, ?)", [comment_content, comment_imageUrl, post_id, user_id], (error, result) => {
+        if (!error) {
+          return res.status(201).json({ message: "Commentaire bien ajouté !" });
+        } else {
+          res.status(400).json({ message: "Post non existant !" });
+        }
+      })
+    }
   }
   else {
     const comment_content = req.body.comment_content;
-    db.query("INSERT INTO comment (comment_content, post_id, user_id) VALUES (?, ?, ?)", [comment_content, post_id, user_id], (error, result) => {
-      if (!error) {
-        return res.status(201).json({ message: "Commentaire bien ajouté !" });
-      } else {
-        res.status(400).json({ message: "Post non existant !" });
-      }
-    })
+    if (comment_content != '') {
+      db.query("INSERT INTO comment (comment_content, post_id, user_id) VALUES (?, ?, ?)", [comment_content, post_id, user_id], (error, result) => {
+        if (!error) {
+          return res.status(201).json({ message: "Commentaire bien ajouté !" });
+        } else {
+          res.status(400).json({ message: "Post non existant !" });
+        }
+      })
+    } else {
+      res.status(400).json({ message: "Vous ne pouvez pas réaliser un commentaire vide !" });
+    }
+
   }
 }
 

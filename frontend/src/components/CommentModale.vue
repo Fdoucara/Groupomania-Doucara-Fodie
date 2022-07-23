@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       formData: {
-        comment_content: null,
+        comment_content: '',
         selectedFile: null,
       },
       axiosInstance: axios.create({
@@ -83,14 +83,15 @@ export default {
       this.paragrapheError.textContent = '';
     },
     sendData() {
-      if (!this.formData.selectedFile) {
+      this.paragrapheError = document.querySelector('.commentModale_error');
+      if (!this.formData.selectedFile && this.formData.comment_content != '') {
         this.axiosInstance.post('post/create-comment/' + this.post_id, {
           comment_content: this.formData.comment_content
         })
           .then(reponse => {
             if (reponse.status == 201) {
               this.$emit('updateList');
-              this.formData.comment_content = null;
+              this.formData.comment_content = '';
               this.toggleCommentModale();
             }
           })
@@ -98,15 +99,25 @@ export default {
             console.log(error);
           })
       }
-      else if (this.formData.comment_content == null || this.formData.comment_content == '') {
+      else if (!this.formData.selectedFile && this.formData.comment_content == '') {
+        this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte ou ajouter une image !';
+        this.paragrapheError.style.fontSize = '18px';
+        this.paragrapheError.style.color = 'red';
+      }
+      else if (this.formData.selectedFile && this.formData.comment_content == '') {
         const fb = new FormData();
         fb.append('image', this.formData.selectedFile, this.filename);
         this.axiosInstance.post('post/create-comment/' + this.post_id, fb, this.config)
-          .catch(() => {
-            this.paragrapheError = document.querySelector('.commentModale_error')
-            this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte !';
-            this.paragrapheError.style.fontSize = '18px';
-            this.paragrapheError.style.color = 'red';
+           .then(reponse => {
+            if (reponse.status == 201) {
+              this.$emit('updateList');
+              this.formData.selectedFile = null;
+              this.paragraphe.textContent = '';
+              this.toggleCommentModale();
+            }
+          })
+          .catch(error => {
+            console.log(error);
           })
       }
       else {
@@ -119,7 +130,7 @@ export default {
               this.$emit('updateList');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
-              this.formData.comment_content = null;
+              this.formData.comment_content = '';
               this.paragrapheError.textContent = '';
               this.toggleCommentModale();
             }

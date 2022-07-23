@@ -10,7 +10,7 @@
       <div class="modale-content">
         <form>
           <div class="modale-body-content">
-            <img src="../assets/icon-above-font.png" class="modale-image">
+            <img :src="userImage" class="modale-image">
             <textarea class="modale-body-content-text" id="comment_content" v-model="formData.comment_content"
               placeholder="Que voulez écrire de nouveau ?" @keyup="verifWrite"></textarea>
           </div>
@@ -58,9 +58,16 @@ export default {
       filename: '',
       paragraphe: undefined,
       paragrapheError: undefined,
+      userImage: null
     }
   },
   methods: {
+      getUserImage() {
+      this.axiosInstance.get('user/' + this.$store.state.userId)
+        .then(reponse => {
+          this.userImage = reponse.data.result[0].user_imageUrl;
+        })
+    },
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
@@ -138,7 +145,13 @@ export default {
           })
       }
     },
-  }
+  },
+  mounted() {
+    this.getUserImage();
+    bus.$on('profilAfterUpdate', () => {
+      this.getUserImage();
+    });
+  },
 }
 </script>
 
@@ -196,9 +209,11 @@ export default {
 }
 
 img {
-  width: 13%;
-  height: auto;
+  margin-right: 10px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .modale-body-content-text {

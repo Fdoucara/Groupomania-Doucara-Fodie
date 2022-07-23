@@ -42,7 +42,7 @@ import { bus } from '../main'
 
 export default {
   name: 'PostUpdateModale',
-  props: ['updatePostModale', 'togglePostModale', 'post_id'],
+  props: ['updatePostModale', 'togglePostModale', 'post_id', 'dataPost'],
   data() {
     return {
       formData: {
@@ -56,6 +56,7 @@ export default {
       config: {
         headers: { 'Content-Type': 'multipart/form-data' }
       },
+      old_post_content: '',
       filename: '',
       paragraphe: undefined,
       paragrapheError: undefined,
@@ -68,6 +69,12 @@ export default {
         .then(reponse => {
           this.userImage = reponse.data.result[0].user_imageUrl;
         })
+    },
+    getPostInfo() {
+      console.log(this.post_id);
+      this.formData.post_content = this.dataPost.post_content;
+      this.old_post_content = this.formData.post_content;
+      console.log('ok', this.post_content);
     },
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];
@@ -85,15 +92,16 @@ export default {
     },
     sendData() {
       this.paragrapheError = document.querySelector('.postModale_error');
-      if (!this.formData.selectedFile && this.formData.post_content != '') {
+      if (!this.formData.selectedFile && this.formData.post_content != this.old_post_content) {
         this.axiosInstance.patch('post/update-post/' + this.post_id, {
           post_content: this.formData.post_content
         })
           .then(reponse => {
             if (reponse.status == 201) {
+              this.old_post_content = this.formData.post_content;
+              console.log(this.old_post_content);
               this.$emit('updateList');
               bus.$emit('listAfterUpdate');
-              this.formData.post_content = '';
               this.togglePostModale();
             }
           })
@@ -101,7 +109,7 @@ export default {
             console.log(error);
           })
       }
-      else if (!this.formData.selectedFile && this.formData.post_content == '') {
+      else if (!this.formData.selectedFile && this.formData.post_content == this.old_post_content) {
         this.paragrapheError.textContent = "Aucune modification n'a été effectuée.";
         this.paragrapheError.style.fontSize = '20px';
         this.paragrapheError.style.color = 'red';
@@ -116,7 +124,6 @@ export default {
               bus.$emit('listAfterUpdate');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
-              this.formData.post_content = '';
               this.paragrapheError.textContent = '';
               this.togglePostModale();
             }
@@ -149,6 +156,7 @@ export default {
   },
   mounted() {
     this.getUserImage();
+    this.getPostInfo();
     bus.$on('profilAfterUpdate', () => {
       this.getUserImage();
     });

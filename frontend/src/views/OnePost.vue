@@ -29,8 +29,8 @@
 
     <comment :post_id="this.$route.params.id"></comment>
 
-    <update-modale :updatePostModale="updatePostModale" :togglePostModale="togglePostModale" :post_id="post_id"
-      @updateList="updatePostInfo"></update-modale>
+    <update-modale :updatePostModale="updatePostModale" :togglePostModale="togglePostModale" v-if="dataPost && post_id" :post_id="post_id"
+      @updateList="updatePostInfo" :dataPost="dataPost"></update-modale>
     <delete-modale :deletePostModale="deletePostModale" :deleteAnyonePostModale="deleteAnyonePostModale" :toggleDeletePostModale="toggleDeletePostModale" :toggleDeleteAnyonePostModale="toggleDeleteAnyonePostModale"
       :post_id="post_id" @updateList="updatePostInfo"></delete-modale>
     <profil-update-modale :profilModale="profilModale" :toggleProfilModale="toggleProfilModale"></profil-update-modale>
@@ -73,6 +73,7 @@ export default {
         baseURL: 'http://localhost:3000/api/'
       }),
       info: null,
+      dataPost: null,
       userId: this.$store.state.userId,
       roleId: this.$store.state.roleUser,
       post_id: null,
@@ -87,7 +88,6 @@ export default {
     getPostInfo() {
       this.axiosInstance.get('post/' + this.$route.params.id)
         .then(reponse => {
-          console.log(reponse);
           this.info = reponse.data;
         })
     },
@@ -116,6 +116,10 @@ export default {
     updatePost(e) {
       this.post_id = e.target.id;
       this.updatePostModale = !this.updatePostModale;
+      this.axiosInstance.get('post/' + this.post_id)
+        .then(reponse => {
+          this.dataPost = reponse.data[0];
+        })
     },
     deletePost(e) {
       this.post_id = e.target.id;

@@ -71,10 +71,8 @@ export default {
         })
     },
     getPostInfo() {
-      console.log(this.post_id);
       this.formData.post_content = this.dataPost.post_content;
       this.old_post_content = this.formData.post_content;
-      console.log('ok', this.post_content);
     },
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];
@@ -114,7 +112,7 @@ export default {
         this.paragrapheError.style.fontSize = '20px';
         this.paragrapheError.style.color = 'red';
       }
-      else if (this.formData.selectedFile && this.formData.post_content == '') {
+      else if (this.formData.selectedFile && this.formData.post_content == this.old_post_content) {
         const fd = new FormData();
         fd.append('image', this.formData.selectedFile, this.filename);
         this.axiosInstance.patch('post/update-post/' + this.post_id, fd, this.config)
@@ -141,9 +139,9 @@ export default {
             if (reponse.status == 201) {
               this.$emit('updateList');
               bus.$emit('listAfterUpdate');
+              this.old_post_content = this.formData.post_content;
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
-              this.formData.post_content = '';
               this.paragrapheError.textContent = '';
               this.togglePostModale();
             }

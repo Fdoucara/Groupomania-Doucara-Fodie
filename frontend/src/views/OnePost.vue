@@ -16,7 +16,7 @@
         <img :src="post.post_imageUrl" class="card-image">
         <p class="card-text"> {{ post.post_content }} </p>
         <div class="card-body-footer">
-          <i class="fas fa-comment"> {{ post.totalComment }} </i>
+          <i class="fas fa-comment"> {{ post.totalComment1 + post.totalComment2 + post.totalComment3 }} </i>
           <i class="fas fa-heart" :id="post.id" @click="likePost"> {{ post.post_likes }} </i>
           <i class="fas fa-edit" :id="post.id" @click="updatePost" v-if="post.user_id == userId"></i>
           <i class="fas fa-trash" :id="post.id" @click="deletePost" v-if="post.user_id == userId && roleId == 3"></i>
@@ -87,6 +87,7 @@ export default {
     getPostInfo() {
       this.axiosInstance.get('post/' + this.$route.params.id)
         .then(reponse => {
+          console.log(reponse);
           this.info = reponse.data;
         })
     },

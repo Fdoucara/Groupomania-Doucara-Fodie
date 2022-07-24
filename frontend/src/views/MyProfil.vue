@@ -157,7 +157,7 @@ export default {
 }
 
 .card_body {
-  width: 50%;
+  width: 55%;
   font-size: 18px;
   text-align: left;
 }

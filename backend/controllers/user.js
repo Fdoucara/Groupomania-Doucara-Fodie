@@ -89,7 +89,7 @@ exports.getAllUser = (req, res) => {
         return res.status(404).json({ message: "Aucun utilisateur trouvé !" });
       } else {
         return res.status(200).json({ result });
-      }   
+      }
     }
     res.status(400).json({ error });
   })
@@ -113,7 +113,6 @@ exports.getOneUser = (req, res) => {
 exports.updateProfil = (req, res) => {
   const id = req.auth;
   let user = req.body;
-
   db.query("SELECT * FROM user WHERE id = ?", [id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
@@ -128,42 +127,7 @@ exports.updateProfil = (req, res) => {
             const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
             const filename = resultat[0].user_imageUrl.split('/images/')[1];
             if (filename == 'user.png') {
-              if (user.nom == '' || user.prenom == '' || user.email == '') {
-                return res.status(400).json({ message: "Le nom d'utilisateur, le prenom ou l' email est vide. Veuillez a les completer !" })
-              }
-              else {
-                db.query("UPDATE user SET  nom = ?, prenom = ?, bio = ?, email = ?, user_imageUrl = ? WHERE id = ?", [user.nom, user.prenom, user.bio, user.email, imageUrl, id], (error, result) => {
-                  if (!error) {
-                    return res.status(201).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
-                  }
-                  else {
-                    return res.status(400).json({ error });
-                  }
-                })
-              }
-            } else {
-              if (user.nom == '' || user.prenom == '' || user.email == '') {
-                return res.status(400).json({ message: "Le nom d'utilisateur, le prenom ou l' email est vide. Veuillez a les completer !" })
-              }
-              else {
-                fs.unlink(`images/${filename}`, () => {
-                  db.query("UPDATE user SET nom = ?, prenom = ?, bio = ?, email = ?, user_imageUrl = ? WHERE id = ?", [user.nom, user.prenom, user.bio, user.email, imageUrl, id], (error, result) => {
-                    if (!error) {
-                      return res.status(201).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
-                    }
-                    else {
-                      return res.status(400).json({ error });
-                    }
-                  })
-                })
-              }
-            }
-          } else {
-            if (user.nom == '' || user.prenom == '' || user.email == '') {
-              return res.status(400).json({ message: "Le nom d'utilisateur, le prenom ou l' email est vide. Veuillez a les completer !" })
-            }
-            else {
-              db.query("UPDATE user SET nom = ?, prenom = ?, bio = ?, email = ?, user_imageUrl = ? WHERE id = ?", [user.nom, user.prenom, user.bio, user.email, imageUrl, id], (error, result) => {
+              db.query("UPDATE user SET  nom = ?, prenom = ?, bio = ?, email = ?, user_imageUrl = ? WHERE id = ?", [user.nom, user.prenom, user.bio, user.email, imageUrl, id], (error, result) => {
                 if (!error) {
                   return res.status(201).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
                 }
@@ -171,15 +135,20 @@ exports.updateProfil = (req, res) => {
                   return res.status(400).json({ error });
                 }
               })
+            } else {
+              fs.unlink(`images/${filename}`, () => {
+                db.query("UPDATE user SET nom = ?, prenom = ?, bio = ?, email = ?, user_imageUrl = ? WHERE id = ?", [user.nom, user.prenom, user.bio, user.email, imageUrl, id], (error, result) => {
+                  if (!error) {
+                    return res.status(201).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
+                  }
+                  else {
+                    return res.status(400).json({ error });
+                  }
+                })
+              })
             }
-          }
-        }
-        else {
-          if (user.nom == '' || user.prenom == '' || user.email == '') {
-            return res.status(400).json({ message: "Le nom d'utilisateur, le prenom ou l' email est vide. Veuillez a les completer !" })
-          }
-          else {
-            db.query("UPDATE user SET nom = ?, prenom = ?, bio = ?, email = ? WHERE id = ?", [user.nom, user.prenom, user.bio, user.email, id], (error, result) => {
+          } else {
+            db.query("UPDATE user SET nom = ?, prenom = ?, bio = ?, email = ?, user_imageUrl = ? WHERE id = ?", [user.nom, user.prenom, user.bio, user.email, imageUrl, id], (error, result) => {
               if (!error) {
                 return res.status(201).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
               }
@@ -188,6 +157,16 @@ exports.updateProfil = (req, res) => {
               }
             })
           }
+        }
+        else {
+            db.query("UPDATE user SET nom = ?, prenom = ?, bio = ?, email = ? WHERE id = ?", [user.nom, user.prenom, user.bio, user.email, id], (error, result) => {
+              if (!error) {
+                return res.status(201).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
+              }
+              else {
+                return res.status(400).json({ error });
+              }
+            })
         }
       }
     }

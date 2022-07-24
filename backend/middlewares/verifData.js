@@ -1,28 +1,27 @@
 const validator = require('validator');
 
-exports.verifEmailAndPassword = (req, res, next) => {
+exports.verifEmail = (req, res, next) => {
   const email = req.body.email;
-  const passwordRegex = /^(?=.*?[A-ZÀÂÇÉÈÊËÎÏÔÙÛÜŸÆŒ])(?=.*?[a-zàâæçéèêëîïôœùûüÿ])(?=.*?[0-9])(?=.*?[#.+?!@$%,:;^&*_-]).{6,}$/;
-  let textPassword = passwordRegex.test(req.body.password);
-  if (validator.isEmail(email) && textPassword) {
+  if (validator.isEmail(email)) {
     next();
   }
   else {
-    if(!validator.isEmail(email) && !textPassword) {
-      return res.status(400).json(
-        { message: "Format email et mot de passe non valide ! Le mot de passe doit contenir au moins 1 majuscule, 1 chiffre, 1 caractère spécial et avoir une longueur minimale de 6 caractères." }
-      );
-    }
-    else if(!textPassword) {
-      return res.status(400).json(
-        { message: "Mot de passe non valide ! Le mot de passe doit contenir au moins 1 majuscule, 1 chiffre, 1 caractère spécial et avoir une longueur minimale de 6 caractères." }
-      );
-    }
-    else if(!validator.isEmail(email)) {
-      return res.status(400).json(
-        { message: "Format email non valide !" }
-      );
-    }
+    return res.status(400).json(
+      { message: "Format email non valide ! Verifier celui-ci." }
+    );
+  }
+};
+
+exports.verifPassword = (req, res, next) => {
+  const passwordRegex = /^(?=.*?[A-ZÀÂÇÉÈÊËÎÏÔÙÛÜŸÆŒ])(?=.*?[a-zàâæçéèêëîïôœùûüÿ])(?=.*?[0-9])(?=.*?[#.+?!@$%,:;^&*_-]).{6,}$/;
+  let textPassword = passwordRegex.test(req.body.password);
+  if (textPassword) {
+    next();
+  }
+  else {
+    return res.status(400).json(
+      { message: "Format mot de passe non valide ! Le mot de passe doit contenir au moins 1 majuscule, 1 chiffre, 1 caractère spécial et avoir une longueur minimale de 6 caractères." }
+    );
   }
 };
 

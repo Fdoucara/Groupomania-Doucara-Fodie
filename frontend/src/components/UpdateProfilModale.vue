@@ -121,7 +121,7 @@ export default {
           email : this.email,
         })
           .then(reponse => {
-            if (reponse.status == 200) {
+            if (reponse.status == 201) {
               bus.$emit('profilAfterUpdate');
               this.toggleProfilModale();
               this.getUserInfo();
@@ -153,7 +153,7 @@ export default {
         fd.append('email', this.email);
         this.axiosInstance.patch('user/update-profil', fd, this.config)
           .then(reponse => {
-            if (reponse.status == 200) {
+            if (reponse.status == 201) {
               bus.$emit('profilAfterUpdate');
               this.selectedFile = null;
               this.paragraphe.textContent = '';

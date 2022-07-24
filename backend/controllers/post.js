@@ -12,7 +12,7 @@ exports.createPost = (req, res) => {
     const post_imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     db.query("INSERT INTO post (post_content, post_imageUrl, user_id) VALUES (?, ?, ?)", [post_content, post_imageUrl, user_id], (error, result) => {
       if (!error) {
-        return res.status(201).json({ message: "Post bien ajouté !" });
+        return res.status(201).json({ message: "La publication vient d'être ajoutée !" });
       }
       res.status(400).json({ error });
     })
@@ -21,7 +21,7 @@ exports.createPost = (req, res) => {
     const post_content = req.body.post_content;
     db.query("INSERT INTO post (post_content, user_id) VALUES (?, ?)", [post_content, user_id], (error, result) => {
       if (!error) {
-        return res.status(201).json({ message: "Post bien ajouté !" });
+        return res.status(201).json({ message: "La publication vient d'être ajoutée !" });
       }
       res.status(400).json({ error });
     })
@@ -31,9 +31,14 @@ exports.createPost = (req, res) => {
 exports.getAllPost = (req, res) => {
   db.query("SELECT user.nom, user.prenom, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, post.user_id, COUNT(CASE WHEN comment_content IS NOT NULL AND comment_imageUrl IS NULL THEN 1 END) as totalComment1, COUNT(CASE WHEN comment_content IS NULL AND comment_imageUrl IS NOT NULL THEN 1 END) as totalComment2, COUNT(CASE WHEN comment_content IS NOT NULL AND comment_imageUrl IS NOT NULL THEN 1 END) as totalComment3 FROM post LEFT JOIN user ON post.user_id = user.id LEFT JOIN comment ON post.id = comment.post_id GROUP BY post.id", [], (error, result) => {
     if (!error) {
-      return res.status(200).json({ result });
-    }
-    res.status(400).json({ error });
+      if (result.length == 0) {
+        return res.status(404).json({ message: "Aucune publication trouvée !" });
+      } else {
+        return res.status(200).json({ result });
+      }      
+    } else {
+      return res.status(400).json({ error });
+    }  
   })
 }
 
@@ -42,12 +47,12 @@ exports.getOnePost = (req, res) => {
   db.query("SELECT user.nom, user.prenom, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, post.user_id, COUNT(CASE WHEN comment_content IS NOT NULL AND comment_imageUrl IS NULL THEN 1 END) as totalComment1, COUNT(CASE WHEN comment_content IS NULL AND comment_imageUrl IS NOT NULL THEN 1 END) as totalComment2, COUNT(CASE WHEN comment_content IS NOT NULL AND comment_imageUrl IS NOT NULL THEN 1 END) as totalComment3 FROM post LEFT JOIN user ON post.user_id = user.id LEFT JOIN comment ON post.id = comment.post_id WHERE post.id = ? GROUP BY post.id", [id], (error, result) => {
     if (!error) {
       if (result.length == 0) {
-        return res.status(401).json({ message: "Post non trouvé !" });
+        return res.status(404).json({ message: "Aucune publication trouvée !" });
       } else {
-        return res.status(200).json(result);
+        return res.status(200).json({ result });
       }
     } else {
-      res.status(400).json({ error });
+      return res.status(400).json({ error });
     }
   })
 }
@@ -73,13 +78,9 @@ exports.updateOnePost = (req, res) => {
               fs.unlink(`images/${filename}`, () => {
                 db.query("UPDATE post SET post_imageUrl = ? WHERE id = ?", [imageUrl, id], (error, result) => {
                   if (!error) {
-                    if (result.affectedRows == 0) {
-                      return res.status(401).json({ message: "Post non trouvé !" });
-                    }
-                    return res.status(201).json({ message: "Post bien modifié !" });
+                    return res.status(201).json({ message: "Publication bien modifiée !" });
                   } else {
-                    res.status(400).json({ error });
-                    return;
+                    return res.status(400).json({ error });
                   }
                 })
               })
@@ -88,13 +89,9 @@ exports.updateOnePost = (req, res) => {
               fs.unlink(`images/${filename}`, () => {
                 db.query("UPDATE post SET post_content = ?, post_imageUrl = ? WHERE id = ?", [post.post_content, imageUrl, id], (error, result) => {
                   if (!error) {
-                    if (result.affectedRows == 0) {
-                      return res.status(401).json({ message: "Post non trouvé !" });
-                    }
-                    return res.status(201).json({ message: "Post bien modifié !" });
+                    return res.status(201).json({ message: "Publication bien modifiée !" });
                   } else {
-                    res.status(400).json({ error });
-                    return;
+                    return res.status(400).json({ error });
                   }
                 })
               })
@@ -103,23 +100,16 @@ exports.updateOnePost = (req, res) => {
           else if (!resultat[0].post_imageUrl && !post.post_content) {
             db.query("UPDATE post SET post_imageUrl = ? WHERE id = ?", [imageUrl, id], (error, result) => {
               if (!error) {
-                if (result.affectedRows == 0) {
-                  return res.status(401).json({ message: "Post non trouvé !" });
-                }
-                return res.status(201).json({ message: "Post bien modifié !" });
+                return res.status(201).json({ message: "Publication bien modifiée !" });
               } else {
-                res.status(400).json({ error });
-                return;
+                return res.status(400).json({ error });
               }
             })
           }
           else {
             db.query("UPDATE post SET post_content = ?, post_imageUrl = ? WHERE id = ?", [post.post_content, imageUrl, id], (error, result) => {
               if (!error) {
-                if (result.affectedRows == 0) {
-                  return res.status(401).json({ message: "Post non trouvé !" });
-                }
-                return res.status(201).json({ message: "Post bien modifié !" });
+                return res.status(201).json({ message: "Publication bien modifiée !" });
               } else {
                 res.status(400).json({ error });
                 return;
@@ -129,10 +119,7 @@ exports.updateOnePost = (req, res) => {
         } else {
           db.query("UPDATE post SET post_content = ? WHERE id = ?", [post.post_content, id], (error, result) => {
             if (!error) {
-              if (result.affectedRows == 0) {
-                return res.status(401).json({ message: "Post non trouvé !" });
-              }
-              return res.status(201).json({ message: "Post bien modifié !" });
+              return res.status(201).json({ message: "Publication bien modifiée !" });
             } else {
               res.status(400).json({ error });
               return;
@@ -142,7 +129,7 @@ exports.updateOnePost = (req, res) => {
       }
     }
     else {
-      return res.status(401).json({ message: "Aucun Post trouvé !" });
+      return res.status(404).json({ message: "Aucune publication trouvée !" });
     }
   })
 }

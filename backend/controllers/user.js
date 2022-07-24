@@ -171,7 +171,7 @@ exports.updateProfil = (req, res) => {
       }
     }
     else {
-      return res.status(401).json({ message: "Aucun utilisateur trouvé !" });
+      return res.status(404).json({ message: "Aucun utilisateur trouvé !" });
     }
   })
 }

@@ -102,12 +102,10 @@ export default {
     },
     changeRole(e) {
       this.id_user = e.target.id;
-      console.log(this.id_user);
       this.axiosInstance.post('user/change-role/' + this.id_user)
       .then(reponse => {
         if(reponse.status == 200) {
           this.usersInfoList();
-          console.log('Soon ', reponse);
         }
       })
     },

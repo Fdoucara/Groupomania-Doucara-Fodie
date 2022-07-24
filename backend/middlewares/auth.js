@@ -1,21 +1,6 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: '../config/.env' });
 const db = require('../config/db');
-const validator = require('validator');
-
-exports.verifEmailAndPassword = (req, res, next) => {
-  const email = req.body.email;
-  const passwordRegex = /^(?=.*?[A-ZÀÂÇÉÈÊËÎÏÔÙÛÜŸÆŒ])(?=.*?[a-zàâæçéèêëîïôœùûüÿ])(?=.*?[0-9])(?=.*?[#.+?!@$%,:;^&*_-]).{6,}$/;
-  let textPassword = passwordRegex.test(req.body.password);
-  if (validator.isEmail(email) && textPassword) {
-    next();
-  }
-  else {
-    return res.status(400).json(
-      { message: "Format email ou mot de passe non valide ! Le mot de passe doit contenir au moins 1 majuscule, 1 chiffre, 1 caractère spécial et avoir une longueur minimale de 6 caractères." }
-    );
-  }
-};
 
 exports.verifToken = (req, res, next) => {
   // Recuperer le token dans le headers de la requete 

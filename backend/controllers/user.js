@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 require('dotenv').config({ path: './config/.env' });
+const { signUpErrors } = require('../utils/errors.utils');
 
 exports.register = (req, res) => {
   let user = {
@@ -23,7 +24,8 @@ exports.register = (req, res) => {
           if (!error) {
             return res.status(201).json({ message: "Utilisateur bien ajouté !" });
           }
-          res.status(400).json({ error });
+          const errors = signUpErrors(error);
+          res.status(400).json({ errors });
         })
       } else {
         role_id = process.env.USER;
@@ -31,7 +33,8 @@ exports.register = (req, res) => {
           if (!error) {
             return res.status(201).json({ message: "Utilisateur bien ajouté !" });
           }
-          res.status(400).json({ error });
+          const errors = signUpErrors(error);
+          res.status(400).json({ errors });
         })
       }
     })
@@ -51,7 +54,7 @@ exports.logIn = (req, res) => {
       let resultat = JSON.parse(JSON.stringify(result));
 
       if (resultat.length == 0) {
-        res.status(401).json({ message: "Cet utilisateur n'existe pas !" });
+        res.status(401).json({ message: "Cet email ne correspond a aucun utilisateur !" });
         return;
       }
       else {
@@ -82,7 +85,11 @@ exports.logOut = (req, res) => {
 exports.getAllUser = (req, res) => {
   db.query("SELECT user.id, user.nom, user.prenom, user.email, user.user_imageUrl, user.bio, user.role_id FROM user", [], (error, result) => {
     if (!error) {
-      return res.status(200).json({ result });
+      if (result.length == 0) {
+        return res.status(404).json({ message: "Aucun utilisateur trouvé !" });
+      } else {
+        return res.status(200).json({ result });
+      }   
     }
     res.status(400).json({ error });
   })
@@ -93,7 +100,7 @@ exports.getOneUser = (req, res) => {
   db.query("SELECT user.nom, user.prenom, user.email, user.user_imageUrl, user.bio, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, post.user_id FROM user LEFT JOIN post ON user.id = post.user_id WHERE user.id = ?", [id], (error, result) => {
     if (!error) {
       if (result.length == 0) {
-        return res.status(401).json({ message: "Aucun utilisateur trouvé !" });
+        return res.status(404).json({ message: "Aucun utilisateur trouvé !" });
       } else {
         return res.status(200).json({ result });
       }
@@ -127,7 +134,7 @@ exports.updateProfil = (req, res) => {
               else {
                 db.query("UPDATE user SET  nom = ?, prenom = ?, bio = ?, email = ?, user_imageUrl = ? WHERE id = ?", [user.nom, user.prenom, user.bio, user.email, imageUrl, id], (error, result) => {
                   if (!error) {
-                    return res.status(200).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
+                    return res.status(201).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
                   }
                   else {
                     return res.status(400).json({ error });
@@ -142,7 +149,7 @@ exports.updateProfil = (req, res) => {
                 fs.unlink(`images/${filename}`, () => {
                   db.query("UPDATE user SET nom = ?, prenom = ?, bio = ?, email = ?, user_imageUrl = ? WHERE id = ?", [user.nom, user.prenom, user.bio, user.email, imageUrl, id], (error, result) => {
                     if (!error) {
-                      return res.status(200).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
+                      return res.status(201).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
                     }
                     else {
                       return res.status(400).json({ error });
@@ -158,12 +165,7 @@ exports.updateProfil = (req, res) => {
             else {
               db.query("UPDATE user SET nom = ?, prenom = ?, bio = ?, email = ?, user_imageUrl = ? WHERE id = ?", [user.nom, user.prenom, user.bio, user.email, imageUrl, id], (error, result) => {
                 if (!error) {
-                  if (result.affectedRows == 0) {
-                    return res.status(200).json({ message: "Aucunes modifications trouvées !" });
-                  }
-                  else {
-                    return res.status(200).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
-                  }
+                  return res.status(201).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
                 }
                 else {
                   return res.status(400).json({ error });
@@ -179,7 +181,7 @@ exports.updateProfil = (req, res) => {
           else {
             db.query("UPDATE user SET nom = ?, prenom = ?, bio = ?, email = ? WHERE id = ?", [user.nom, user.prenom, user.bio, user.email, id], (error, result) => {
               if (!error) {
-                return res.status(200).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
+                return res.status(201).json({ message: "Les données de l'utilisateur ont bien été modifiées !" });
               }
               else {
                 return res.status(400).json({ error });
@@ -245,7 +247,7 @@ exports.deleteProfil = (req, res) => {
       }
     }
     else {
-      return res.status(401).json({ message: "Aucun utilisateur trouvé !" });
+      return res.status(404).json({ message: "Aucun utilisateur trouvé !" });
     }
   })
 }
@@ -291,7 +293,7 @@ exports.deleteAnyoneProfil = (req, res) => {
       }
     }
     else {
-      return res.status(401).json({ message: "Aucun utilisateur trouvé !" });
+      return res.status(404).json({ message: "Aucun utilisateur trouvé !" });
     }
   })
 }
@@ -307,7 +309,7 @@ exports.changeRole = (req, res) => {
         console.log(role_id);
         db.query("UPDATE user SET role_id = ? WHERE id = ?", [role_id, user_id], (error, result) => {
           if (!error) {
-            return res.status(200).json({ message: "Passage de modérateur à utilisateur normal !" });
+            return res.status(201).json({ message: "Passage de modérateur à utilisateur normal !" });
           }
           else {
             return res.status(400).json({ error });
@@ -318,7 +320,7 @@ exports.changeRole = (req, res) => {
         const role_id = process.env.MODERATOR;
         db.query("UPDATE user SET role_id = ? WHERE id = ?", [role_id, user_id], (error, result) => {
           if (!error) {
-            return res.status(200).json({ message: "Passage d'utilisateur normal à modérateur !" });
+            return res.status(201).json({ message: "Passage d'utilisateur normal à modérateur !" });
           }
           else {
             return res.status(400).json({ error });
@@ -326,7 +328,7 @@ exports.changeRole = (req, res) => {
         })
       }
     } else {
-      return res.status(400).json({ error });
+      return res.status(404).json({ message: "Aucun utilisateur trouvé !" });
     }
   })
 }

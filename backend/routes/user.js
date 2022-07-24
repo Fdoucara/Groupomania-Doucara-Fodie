@@ -1,11 +1,12 @@
 const express =  require('express');
 const router = express.Router();
 const userCtrl = require('../controllers/user');
-const { verifEmailAndPassword, verifToken, isAdmin } = require('../middlewares/auth');
+const { verifToken, isAdmin } = require('../middlewares/auth');
+const { verifEmailAndPassword, verifNomPrenom } = require('../middlewares/verifData');
 const multer = require('../middlewares/multer');
 
 // AUTH ROUTES
-router.post('/register', verifEmailAndPassword, userCtrl.register);
+router.post('/register', verifEmailAndPassword, verifNomPrenom, userCtrl.register);
 router.post('/login', userCtrl.logIn);
 router.post('/change-role/:id', verifToken, isAdmin, userCtrl.changeRole);
 router.get('/logout', verifToken, userCtrl.logOut);

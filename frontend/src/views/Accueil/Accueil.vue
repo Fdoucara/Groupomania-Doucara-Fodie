@@ -143,7 +143,7 @@ export default {
       this.updatePostModale = !this.updatePostModale;
       this.axiosInstance.get('post/' + this.post_id)
         .then(reponse => {
-          this.dataPost = reponse.data[0];
+          this.dataPost = reponse.data.result[0];
         })
     },
     deletePost(e) {

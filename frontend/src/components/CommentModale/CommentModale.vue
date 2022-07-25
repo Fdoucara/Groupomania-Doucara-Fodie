@@ -4,31 +4,31 @@
     <div class="overlay"></div>
 
     <div class="modale card">
-      <h2 class="modale-title"> Ajout d'un commentaire
+      <h2 class="modale_title"> Ajout d'un commentaire
         <hr>
       </h2>
-      <div class="modale-content">
+      <div class="modale_content">
         <form>
-          <div class="modale-body-content">
-            <img :src="userImage" class="modale-image">
-            <textarea class="modale-body-content-text" id="comment_content" v-model="formData.comment_content"
+          <div class="modale_content_body">
+            <img :src="userImage" class="modale_content_body_image">
+            <textarea class="modale_content_body_text" id="comment_content" v-model="formData.comment_content"
               placeholder="Rédiger votre commentaire ici..." @keyup="verifWrite"></textarea>
           </div>
 
-          <div class="modale-body-footer">
-            <div class="modale-body-footer-upload">
-              <input type="file" id="comment_image" @change="onFile">
-              <label for="comment_image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
+          <div class="modale_content_footer">
+            <div class="modale_content_footer_upload">
+              <input type="file" id="comment_image" class="modale_content_footer_upload_input" @change="onFile">
+              <label for="comment_image" class="modale_content_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
             </div>
-            <div class="modale-body-footer-send">
-              <button class="btn btn-color" @click="sendData"> <i class="fas fa-check"></i> &nbsp; Valider </button>
+            <div class="modale_content_footer_send">
+              <button class="btn modale_content_footer_send_button" @click="sendData"> <i class="fas fa-check"></i> &nbsp; Valider </button>
             </div>
           </div>
         </form>
-        <p class="commentModale_upload-image-name"></p>
-        <p class="commentModale_error"></p>
+        <p class="modale_content_upload_image"></p>
+        <p class="modale_content_commentModale_error"></p>
       </div>
-      <button class="btn-modale btn" @click="toggleCommentModale"> X </button>
+      <button class="btn modale_btn" @click="toggleCommentModale"> X </button>
     </div>
 
   </div>
@@ -71,7 +71,7 @@ export default {
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
-      this.paragraphe = document.querySelector('.commentModale_upload-image-name');
+      this.paragraphe = document.querySelector('.modale_content_upload_image');
       if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
       } else {
@@ -79,11 +79,11 @@ export default {
       }
     },
     verifWrite() {
-      this.paragrapheError = document.querySelector('.commentModale_error');
+      this.paragrapheError = document.querySelector('.modale_content_commentModale_error');
       this.paragrapheError.textContent = '';
     },
     sendData() {
-      this.paragrapheError = document.querySelector('.commentModale_error');
+      this.paragrapheError = document.querySelector('.modale_content_commentModale_error');
       if (!this.formData.selectedFile && this.formData.comment_content != '') {
         this.axiosInstance.post('post/create-comment/' + this.post_id, {
           comment_content: this.formData.comment_content

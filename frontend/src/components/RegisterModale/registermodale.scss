@@ -1,4 +1,4 @@
-.bloc-modale {
+.bloc_modale {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -30,24 +30,24 @@
   bottom: 40%;
   display: flex;
   justify-content: space-around;
-}
 
-.modale-title {
-  font-size: 30px;
-  text-align: left;
-}
+  &_title {
+    font-size: 30px;
+    text-align: left;
+  }
 
-.modale-content {
-  font-size: 20px;
-  text-align: left;
-  position: relative;
-}
+  &_content {
+    font-size: 20px;
+    text-align: left;
+    position: relative;
 
-.btn-modale {
-  width: 40%;
-  margin: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-  background-color: #D31027;
-  color: white;
+    &_btn {
+      width: 40%;
+      margin: auto;
+      margin-top: 0;
+      margin-bottom: 0;
+      background-color: #D31027;
+      color: white;
+    }
+  }
 }

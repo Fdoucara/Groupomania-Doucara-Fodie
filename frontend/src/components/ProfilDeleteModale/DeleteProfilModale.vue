@@ -1,48 +1,48 @@
 <template>
   <div>
 
-    <div class="bloc-modale" v-if="deleteProfilModale">
+    <div class="bloc_modale" v-if="deleteProfilModale">
 
       <div class="overlay"></div>
       <div class="modale card">
-        <h2 class="modale-title"> Supprimer mon profil
+        <h2 class="modale_title"> Supprimer mon profil
           <hr>
         </h2>
-        <div class="modale-content">
-          <p class="modale-content-item"> Êtes-vous certain que vous voulez supprimer votre profil ? Il ne peut plus
+        <div class="modale_content">
+          <p class="modale_content_item"> Êtes-vous certain que vous voulez supprimer votre profil ? Il ne peut plus
             être
             récupéré ! </p>
         </div>
-        <div class="modale-body-footer">
-          <div class="modale-body-footer-send">
-            <button class="btn btn-color1" @click="toggleDeleteProfilModale"> Annuler </button>
+        <div class="modale_footer">
+          <div class="modale_footer_cancel">
+            <button class="btn btn modale_footer_cancel_button" @click="toggleDeleteProfilModale"> Annuler </button>
           </div>
-          <div class="modale-body-footer-send">
-            <button class="btn btn-color2" @click="deleteProfil"> Valider </button>
+          <div class="modale_footer_send">
+            <button class="btn btn modale_footer_send_button" @click="deleteProfil"> Valider </button>
           </div>
         </div>
       </div>
 
     </div>
-    <div class="bloc-modale" v-if="deleteAnyoneProfilModale">
+    <div class="bloc_modale" v-if="deleteAnyoneProfilModale">
 
       <div class="overlay"></div>
       <div class="modale card">
-        <h2 class="modale-title"> Supprimer le profil de cet utilisateur
+        <h2 class="modale_title"> Supprimer le profil de cet utilisateur
           <hr>
         </h2>
-        <div class="modale-content">
-          <p class="modale-content-item"> Êtes-vous certain que vous voulez supprimer le compte de cet
+        <div class="modale_content">
+          <p class="modale_content-item"> Êtes-vous certain que vous voulez supprimer le compte de cet
             utilisateur
             ? Il ne pourra plus être
             récupéré ! </p>
         </div>
-        <div class="modale-body-footer">
-          <div class="modale-body-footer-send">
-            <button class="btn btn-color1" @click="toggleDeleteAnyoneProfilModale"> Annuler </button>
+        <div class="modale_footer">
+          <div class="modale_footer_cancel">
+            <button class="btn modale_footer_cancel_button" @click="toggleDeleteAnyoneProfilModale"> Annuler </button>
           </div>
-          <div class="modale-body-footer-send">
-            <button class="btn btn-color2" @click="deleteAnyoneProfil"> Valider </button>
+          <div class="modale_footer_send">
+            <button class="btn modale_footer_send_button" @click="deleteAnyoneProfil"> Valider </button>
           </div>
         </div>
       </div>
@@ -89,4 +89,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped src="./deleteprofil.scss"></style>
+<style lang="scss" scoped src="./deleteprofil.scss">
+</style>

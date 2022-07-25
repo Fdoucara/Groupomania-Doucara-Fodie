@@ -1,35 +1,37 @@
 <template>
-  <div class="bloc-modale" v-if="updatePostModale">
+  <div class="bloc_modale" v-if="updatePostModale">
 
     <div class="overlay"></div>
 
     <div class="modale card">
-      <h2 class="modale-title"> Modifier le post
+      <h2 class="modale_title"> Modifier le post
         <hr>
       </h2>
-      <div class="modale-content">
+      <div class="modale_content">
         <form>
-          <div class="modale-body-content">
-            <img :src="userImage" class="modale-image">
-            <textarea class="modale-body-content-text" id="post_content" v-model="formData.post_content"
+          <div class="modale_content_body">
+            <img :src="userImage" class="modale_content_body_image">
+            <textarea class="modale_content_body_text" id="post_content" v-model="formData.post_content"
               placeholder="Vous voulez modifier votre post. Que voulez écrire de nouveau ?"
               @keyup="verifWrite"></textarea>
           </div>
 
-          <div class="modale-body-footer">
-            <div class="modale-body-footer-upload">
-              <input type="file" id="post_image" @change="onFile">
-              <label for="post_image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
+          <div class="modale_content_footer">
+            <div class="modale_content_footer_upload">
+              <input type="file" id="post_image" class="modale_content_footer_upload_input" @change="onFile">
+              <label for="post_image" class="modale_content_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp;
+                Ajouter une image </label>
             </div>
-            <div class="modale-body-footer-send">
-              <button class="btn btn-color" @click="sendData"> <i class="fas fa-check"></i> &nbsp; Valider </button>
+            <div class="modale_content_footer_send">
+              <button class="btn modale_content_footer_send_button" @click="sendData"> <i class="fas fa-check"></i>
+                &nbsp; Valider </button>
             </div>
           </div>
         </form>
-        <p class="postModale_upload-image-name"></p>
-        <p class="postModale_error"></p>
+        <p class="modale_content_upload_image"></p>
+        <p class="modale_content_error"></p>
       </div>
-      <button class="btn-modale btn" @click="togglePostModale"> X </button>
+      <button class="btn modale_btn" @click="togglePostModale"> X </button>
     </div>
 
   </div>
@@ -162,4 +164,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped src="./updatepost.scss"></style>
+<style lang="scss" scoped src="./updatepost.scss">
+</style>

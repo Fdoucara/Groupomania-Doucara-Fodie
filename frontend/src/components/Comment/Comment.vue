@@ -23,8 +23,8 @@
       </div>
     </div>
 
-    <update-modale :updateCommentModale="updateCommentModale" :toggleCommentModale="toggleCommentModale"
-      :comment_id="comment_id" @updateCommentList="updateCommentList"></update-modale>
+    <update-modale :updateCommentModale="updateCommentModale" :toggleCommentModale="toggleCommentModale" v-if="dataComment && comment_id"
+      :comment_id="comment_id" @updateCommentList="updateCommentList" :dataComment="dataComment"></update-modale>
     <delete-modale :deleteCommentModale="deleteCommentModale" :deleteAnyoneCommentModale="deleteAnyoneCommentModale"
       :toggleDeleteCommentModale="toggleDeleteCommentModale"
       :toggleDeleteAnyoneCommentModale="toggleDeleteAnyoneCommentModale" :comment_id="comment_id"
@@ -53,7 +53,8 @@ export default {
         withCredentials: true,
         baseURL: 'http://localhost:3000/api/'
       }),
-      info: undefined,
+      info: null,
+      dataComment: null,
       userId: this.$store.state.userId,
       roleId: this.$store.state.roleUser,
       comment_id: null,
@@ -64,7 +65,7 @@ export default {
   },
   methods: {
     commentList() {
-      this.axiosInstance.get('post/comment/' + this.$route.params.id)
+      this.axiosInstance.get('post/all-comment/' + this.$route.params.id)
         .then(reponse => {
           this.info = reponse.data.result.reverse();
         })
@@ -88,6 +89,10 @@ export default {
     updateComment(e) {
       this.comment_id = e.target.id;
       this.updateCommentModale = !this.updateCommentModale;
+      this.axiosInstance.get('post/comment/' + this.comment_id)
+        .then(reponse => {
+          this.dataComment = reponse.data.result[0];
+        })
     },
     deleteComment(e) {
       this.comment_id = e.target.id;

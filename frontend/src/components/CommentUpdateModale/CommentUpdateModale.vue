@@ -41,7 +41,7 @@ import { bus } from '../../main'
 
 export default {
   name: 'CommentUpdateModale',
-  props: ['updateCommentModale', 'toggleCommentModale', 'comment_id'],
+  props: ['updateCommentModale', 'toggleCommentModale', 'comment_id', 'dataComment'],
   data() {
     return {
       formData: {
@@ -55,6 +55,7 @@ export default {
       config: {
         headers: { 'Content-Type': 'multipart/form-data' }
       },
+      old_comment_content: '',
       filename: '',
       paragraphe: undefined,
       paragrapheError: undefined,
@@ -62,11 +63,15 @@ export default {
     }
   },
   methods: {
-      getUserImage() {
+    getUserImage() {
       this.axiosInstance.get('user/' + this.$store.state.userId)
         .then(reponse => {
           this.userImage = reponse.data.result[0].user_imageUrl;
         })
+    },
+    getCommentInfo() {
+      this.formData.comment_content = this.dataComment.comment_content;
+      this.old_comment_content = this.formData.comment_content;
     },
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];
@@ -84,15 +89,15 @@ export default {
     },
     sendData() {
       this.paragrapheError = document.querySelector('.commentModale_error');
-      if (!this.formData.selectedFile && this.formData.comment_content != '') {
+      if (!this.formData.selectedFile && this.formData.comment_content != this.old_comment_content) {
         this.axiosInstance.patch('post/update-comment/' + this.comment_id, {
           comment_content: this.formData.comment_content
         })
           .then(reponse => {
             if (reponse.status == 201) {
+              this.old_comment_content = this.formData.comment_content;
               this.$emit('updateCommentList');
               bus.$emit('postAfterUpdate');
-              this.formData.comment_content = '';
               this.toggleCommentModale();
             }
           })
@@ -100,12 +105,12 @@ export default {
             console.log(error);
           })
       }
-      else if (!this.formData.selectedFile && this.formData.comment_content == '') {
+      else if (!this.formData.selectedFile && this.formData.comment_content == this.old_comment_content) {
         this.paragrapheError.textContent = "Aucune modification n'a été effectuée.";
         this.paragrapheError.style.fontSize = '20px';
         this.paragrapheError.style.color = 'red';
       }
-      else if (this.formData.selectedFile && this.formData.comment_content == '') {
+      else if (this.formData.selectedFile && this.formData.comment_content == this.old_comment_content) {
         const fd = new FormData();
         fd.append('image', this.formData.selectedFile, this.filename);
         this.axiosInstance.patch('post/update-comment/' + this.comment_id, fd, this.config)
@@ -115,7 +120,6 @@ export default {
               bus.$emit('postAfterUpdate');
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
-              this.formData.comment_content = '';
               this.paragrapheError.textContent = '';
               this.toggleCommentModale();
             }
@@ -133,9 +137,9 @@ export default {
             if (reponse.status == 201) {
               this.$emit('updateCommentList');
               bus.$emit('postAfterUpdate');
+              this.old_comment_content = this.formData.comment_content;
               this.formData.selectedFile = null;
               this.paragraphe.textContent = '';
-              this.formData.comment_content = '';
               this.paragrapheError.textContent = '';
               this.toggleCommentModale();
             }
@@ -148,6 +152,7 @@ export default {
   },
   mounted() {
     this.getUserImage();
+    this.getCommentInfo();
     bus.$on('profilAfterUpdate', () => {
       this.getUserImage();
     });

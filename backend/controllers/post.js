@@ -544,6 +544,19 @@ exports.likeComment = (req, res) => {
   })
 }
 
+// Récupération d'un seul commentaire
+exports.getOneComment = (req, res) => {
+  let comment_id = req.params.id;
+  db.query("SELECT user.nom, user.prenom, comment.id, comment.comment_content, comment.comment_imageUrl, comment.comment_date, comment.comment_likes, comment.user_id FROM comment LEFT JOIN user ON comment.user_id = user.id WHERE comment.id = ?", [comment_id], (error, result) => {
+    if (!error) {
+      return res.status(200).json({ result });
+    }
+    else {
+      return res.status(400).json({ error });
+    }
+  })
+}
+
 // Récupération de tout les commentaires d'un post
 exports.getAllCommentFromOnePost = (req, res) => {
   let post_id = req.params.id;

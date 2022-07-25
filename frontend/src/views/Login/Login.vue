@@ -6,14 +6,17 @@
       <div class="form-p">
         <form>
           <h2> Connexion </h2>
-          <div class="form-group my-5">
+          <div class="form-group my-4">
             <label for="email" class="mb-2"> Votre adresse email : </label>
-            <input type="email" id="email" class="form-control" v-model="formData.email">
+            <input type="email" id="email" class="form-control" v-model="formData.email" @keyup="verifEmail">
+            <p class="emailError"></p>
           </div>
 
-          <div class="form-group mt-4">
+          <div class="form-group mt-3">
             <label for="password" class="mb-2"> Votre mot de passe : </label>
-            <input type="password" id="password" class="form-control" v-model="formData.password">
+            <input type="password" id="password" class="form-control" v-model="formData.password"
+              @keyup="verifPassword">
+            <p class="passwordError"></p>
           </div>
 
           <button class="btn mt-5" @click.prevent="sendData"> Se connecter </button>
@@ -46,9 +49,47 @@ export default {
         withCredentials: true,
         baseURL: 'http://localhost:3000/api/'
       }),
+      form: null,
+      errorEmail: '',
+      errorPassword: '',
+      testEmail: null,
+      testPassword: null,
+      emailRegExp: '',
+      passwordRegExp: ''
     }
   },
   methods: {
+    verifEmail() {
+      console.log('ok');
+      this.form = document.querySelector("form");
+      this.emailRegExp = /^[A-Za-z0-9.\-+%_]+[@]{1}[A-Za-z0-9.\-+%_]+\.[A-Za-z]{2,}/i;
+      this.errorEmail = document.querySelector('.emailError');
+      this.testEmail = this.emailRegExp.test(this.form.email.value);
+      if (this.testEmail) {
+        this.errorEmail.textContent = "";
+      } else {
+        this.errorEmail.textContent = "Email Non Valide";
+        this.errorEmail.style.color = "red";
+        this.errorEmail.style.marginTop = "5px";
+        this.errorEmail.style.marginBottom = "0";
+        this.errorEmail.style.fontSize = "16px";
+      }
+    },
+    verifPassword() {
+      this.form = document.querySelector("form");
+      this.passwordRegExp = /^(?=.*?[A-ZÀÂÇÉÈÊËÎÏÔÙÛÜŸÆŒ])(?=.*?[a-zàâæçéèêëîïôœùûüÿ])(?=.*?[0-9])(?=.*?[#.+?!@$%,:;^&*_-]).{6,}$/;
+      this.errorPassword = document.querySelector('.passwordError');
+      this.testPassword = this.passwordRegExp.test(this.form.password.value);
+      if (this.testPassword) {
+        this.errorPassword.textContent = "";
+      } else {
+        this.errorPassword.textContent = "Mot de passe Non Valide";
+        this.errorPassword.style.color = "red";
+        this.errorPassword.style.marginTop = "5px";
+        this.errorPassword.style.marginBottom = "0";
+        this.errorPassword.style.fontSize = "16px";
+      }
+    },
     sendData() {
       this.axiosInstance.post('user/login', {
         email: this.formData.email,

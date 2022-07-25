@@ -1,46 +1,47 @@
 <template>
-  <div class="bloc-modale" v-if="profilModale">
+  <div class="bloc_modale" v-if="profilModale">
 
     <div class="overlay"></div>
 
     <div class="modale card">
-      <h2 class="modale-title"> Modifier votre profil
+      <h2 class="modale_title"> Modifier votre profil
         <hr>
       </h2>
-      <div class="modale-content">
-
+      <div class="modale_content">
         <form>
+          <div class="modale_content_body">
+            <div class="modale_content_body_image">
+              <img :src="userImage" class="modale_content_body_image_img">
 
-          <div class="modale-body-content">
-            <div class="modale-body-content-image">
-              <img :src="userImage" class="modale-image">
-
-              <div class="modale-content-image-button">
+              <div class="modale_content_body_image_button">
                 <div class="form-group my-4">
-                  <input type="file" id="profil_update_image" @change="changeFile">
-                  <label for="profil_update_image" class="label_image"> <i class="fas fa-upload"></i> &nbsp; Modifier
+                  <input type="file" id="profil_update_image" class="modale_content_body_image_button_input"
+                    @change="changeFile">
+                  <label for="profil_update_image" class="modale_content_body_image_button_label"> <i
+                      class="fas fa-upload"></i> &nbsp; Modifier
                     l'image de profil
                   </label>
                 </div>
-                <p class="profilmodale_upload"></p>
+                <p class="modale_content_body_image_button_upload"></p>
               </div>
             </div>
 
-            <div class="modale-body-content-name">
-              <div class="form-group mt-4 input_group_css">
+            <div class="modale_content_body_name">
+              <div class="form-group mt-4 modale_content_body_name_group">
                 <label for="profil_nom" class="mb-2"> Nom : </label>
                 <input type="text" id="profil_nom" v-model="nom" class="form-control">
               </div>
 
-              <div class="form-group mt-4 input_group_css">
+              <div class="form-group mt-4 modale_content_body_name_group">
                 <label for="profil_prenom" class="mb-2"> Prenom : </label>
                 <input type="text" id="profil_prenom" v-model="prenom" class="form-control">
               </div>
             </div>
 
-            <div class="modify_css form-group my-4">
+            <div class="form-group my-4 modale_content_body_modify">
               <label for="profil_bio" class="mb-2"> Bio : </label>
-              <textarea id="profil_bio" v-model="bio" class="from-control"></textarea>
+              <textarea id="profil_bio" v-model="bio"
+                class="from-control modale_content_body_modify_textarea"></textarea>
             </div>
 
             <div class="form-group mt-4">
@@ -49,15 +50,16 @@
             </div>
           </div>
 
-          <div class="modale-body-footer">
-            <button class="btn btn-color" @click="sendData"> <i class="fas fa-check"></i> &nbsp; Valider </button>
+          <div class="modale_content_footer">
+            <button class="btn modale_content_footer_button" @click="sendData"> <i class="fas fa-check"></i> &nbsp;
+              Valider </button>
           </div>
 
         </form>
 
-        <p class="profilModale_error"></p>
+        <p class="modale_content_error"></p>
       </div>
-      <button class="btn-modale btn" @click="toggleProfilModale"> X </button>
+      <button class="btn modale_btn" @click="toggleProfilModale"> X </button>
     </div>
 
   </div>
@@ -104,7 +106,7 @@ export default {
     changeFile(e) {
       this.selectedFile = e.target.files[0];
       this.filename = e.target.files[0].name;
-      this.paragraphe = document.querySelector('.profilmodale_upload');
+      this.paragraphe = document.querySelector('modale_content_body_image_button_upload');
       if (this.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
       } else {
@@ -112,13 +114,13 @@ export default {
       }
     },
     sendData() {
-      this.paragrapheError = document.querySelector('.profilModale_error');
+      this.paragrapheError = document.querySelector('.modale_content_error');
       if (!this.selectedFile && this.nom != '' && this.prenom != '' && this.email != '') {
         this.axiosInstance.patch('user/update-profil', {
-          nom : this.nom,
-          prenom : this.prenom,
-          bio : this.bio,
-          email : this.email,
+          nom: this.nom,
+          prenom: this.prenom,
+          bio: this.bio,
+          email: this.email,
         })
           .then(reponse => {
             if (reponse.status == 201) {
@@ -133,16 +135,18 @@ export default {
       }
       else if (!this.selectedFile && this.nom == '' || this.prenom == '' || this.email == '') {
         this.axiosInstance.patch('user/update-profil', {
-          nom : this.nom,
-          prenom : this.prenom,
-          bio : this.bio,
-          email : this.email,
+          nom: this.nom,
+          prenom: this.prenom,
+          bio: this.bio,
+          email: this.email,
         })
-        .then(() => {
-          this.paragrapheError.textContent = "Le nom, le prenom ainsi que l'email de l'utilisateur ne peuvent pas être vide. Veuillez a les verifier !";
-          this.paragrapheError.style.fontSize = '20px';
-          this.paragrapheError.style.color = 'red';
-        })
+          .then(() => {
+            this.paragrapheError.textContent = "Le nom, le prenom ainsi que l'email de l'utilisateur ne peuvent pas être vide. Veuillez a les verifier !";
+            this.paragrapheError.style.textAlign = 'center'
+            this.paragrapheError.style.fontSize = '16px';
+            this.paragrapheError.style.marginBottom = '0'
+            this.paragrapheError.style.color = 'red';
+          })
       }
       else {
         const fd = new FormData();
@@ -174,4 +178,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped src="./updateprofil.scss"></style>
+<style lang="scss" scoped src="./updateprofil.scss">
+</style>

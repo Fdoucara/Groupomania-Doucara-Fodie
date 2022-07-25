@@ -97,7 +97,9 @@ export default {
       }
       else if (!this.formData.selectedFile && this.formData.comment_content == '') {
         this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte ou ajouter une image !';
-        this.paragrapheError.style.fontSize = '18px';
+        this.paragrapheError.style.textAlign = 'center'
+        this.paragrapheError.style.fontSize = '16px';
+        this.paragrapheError.style.marginBottom = '0'
         this.paragrapheError.style.color = 'red';
       }
       else if (this.formData.selectedFile && this.formData.comment_content == '') {

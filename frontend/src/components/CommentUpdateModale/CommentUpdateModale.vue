@@ -1,34 +1,37 @@
 <template>
-  <div class="bloc-modale" v-if="updateCommentModale">
+  <div class="bloc_modale" v-if="updateCommentModale">
 
     <div class="overlay"></div>
 
     <div class="modale card">
-      <h2 class="modale-title"> Modifier le commentaire
+      <h2 class="modale_title"> Modifier le commentaire
         <hr>
       </h2>
-      <div class="modale-content">
+      <div class="modale_content">
         <form>
-          <div class="modale-body-content">
-            <img :src="userImage" class="modale-image">
-            <textarea class="modale-body-content-text" id="comment_content" v-model="formData.comment_content"
+          <div class="modale_content_body">
+            <img :src="userImage" class="modale_content_body_image">
+            <textarea class="modale_content_body_text" id="comment_content" v-model="formData.comment_content"
               placeholder="Que voulez écrire de nouveau ?" @keyup="verifWrite"></textarea>
           </div>
 
-          <div class="modale-body-footer">
-            <div class="modale-body-footer-upload">
-              <input type="file" id="comment_update_image" @change="onFile">
-              <label for="comment_update_image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
+          <div class="modale_content_footer">
+            <div class="modale_content_footer_upload">
+              <input type="file" id="comment_update_image" class="modale_content_footer_upload_input"
+                @change="onFile">
+              <label for="comment_update_image" class="modale_content_footer_upload_label"> <i
+                  class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
             </div>
-            <div class="modale-body-footer-send">
-              <button class="btn btn-color" @click="sendData"> <i class="fas fa-check"></i> &nbsp; Valider </button>
+            <div class="modale_content_footer_send">
+              <button class="btn modale_content_footer_send_button" @click="sendData"> <i class="fas fa-check"></i>
+                &nbsp; Valider </button>
             </div>
           </div>
         </form>
-        <p class="commentmodale_upload"></p>
-        <p class="commentModale_error"></p>
+        <p class="modale_content_upload_image"></p>
+        <p class="modale_content_commentModale_error"></p>
       </div>
-      <button class="btn-modale btn" @click="toggleCommentModale"> X </button>
+      <button class="btn modale_btn" @click="toggleCommentModale"> X </button>
     </div>
 
   </div>
@@ -76,7 +79,7 @@ export default {
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
-      this.paragraphe = document.querySelector('.commentmodale_upload');
+      this.paragraphe = document.querySelector('.modale_content_upload_image');
       if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
       } else {
@@ -84,11 +87,11 @@ export default {
       }
     },
     verifWrite() {
-      this.paragrapheError = document.querySelector('.commentModale_error');
+      this.paragrapheError = document.querySelector('.modale_content_commentModale_error');
       this.paragrapheError.textContent = '';
     },
     sendData() {
-      this.paragrapheError = document.querySelector('.commentModale_error');
+      this.paragrapheError = document.querySelector('.modale_content_commentModale_error');
       if (!this.formData.selectedFile && this.formData.comment_content != this.old_comment_content) {
         this.axiosInstance.patch('post/update-comment/' + this.comment_id, {
           comment_content: this.formData.comment_content
@@ -107,7 +110,9 @@ export default {
       }
       else if (!this.formData.selectedFile && this.formData.comment_content == this.old_comment_content) {
         this.paragrapheError.textContent = "Aucune modification n'a été effectuée.";
-        this.paragrapheError.style.fontSize = '20px';
+        this.paragrapheError.style.textAlign = 'center'
+        this.paragrapheError.style.fontSize = '16px';
+        this.paragrapheError.style.marginBottom = '0'
         this.paragrapheError.style.color = 'red';
       }
       else if (this.formData.selectedFile && this.formData.comment_content == this.old_comment_content) {
@@ -160,4 +165,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped src="./commentupdate.scss"></style>
+<style lang="scss" scoped src="./commentupdate.scss">
+</style>

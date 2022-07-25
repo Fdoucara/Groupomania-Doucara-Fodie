@@ -1,5 +1,5 @@
 <template>
-  <div class="bloc-modale" v-if="commentModale">
+  <div class="bloc_modale" v-if="commentModale">
 
     <div class="overlay"></div>
 
@@ -18,10 +18,12 @@
           <div class="modale_content_footer">
             <div class="modale_content_footer_upload">
               <input type="file" id="comment_image" class="modale_content_footer_upload_input" @change="onFile">
-              <label for="comment_image" class="modale_content_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
+              <label for="comment_image" class="modale_content_footer_upload_label"> <i class="fas fa-upload"></i>
+                &nbsp; Ajouter une image </label>
             </div>
             <div class="modale_content_footer_send">
-              <button class="btn modale_content_footer_send_button" @click="sendData"> <i class="fas fa-check"></i> &nbsp; Valider </button>
+              <button class="btn modale_content_footer_send_button" @click="sendData"> <i class="fas fa-check"></i>
+                &nbsp; Valider </button>
             </div>
           </div>
         </form>
@@ -101,14 +103,16 @@ export default {
       }
       else if (!this.formData.selectedFile && this.formData.comment_content == '') {
         this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte ou ajouter une image !';
-        this.paragrapheError.style.fontSize = '18px';
+        this.paragrapheError.style.textAlign = 'center'
+        this.paragrapheError.style.fontSize = '16px';
+        this.paragrapheError.style.marginBottom = '0'
         this.paragrapheError.style.color = 'red';
       }
       else if (this.formData.selectedFile && this.formData.comment_content == '') {
         const fb = new FormData();
         fb.append('image', this.formData.selectedFile, this.filename);
         this.axiosInstance.post('post/create-comment/' + this.post_id, fb, this.config)
-           .then(reponse => {
+          .then(reponse => {
             if (reponse.status == 201) {
               this.$emit('updateList');
               this.formData.selectedFile = null;
@@ -150,4 +154,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped src="./commentmodale.scss"></style>
+<style lang="scss" scoped src="./commentmodale.scss">
+</style>

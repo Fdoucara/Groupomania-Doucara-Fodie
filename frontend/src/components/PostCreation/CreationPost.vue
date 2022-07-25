@@ -2,31 +2,33 @@
 
   <div>
     <div class="card">
-      <div class="card-body">
-        <div class="card-body-header">
-          <h1 class="card-body-header-text text1"> Accueil </h1>
-          <i class="fab fa-angellist card-body-header-text"></i>
+      <div class="card_body">
+        <div class="card_body_header">
+          <h1 class="card_body_header_text text1"> Accueil </h1>
+          <i class="fab fa-angellist card_body_header_text"></i>
         </div>
         <form>
-          <div class="card-body-content">
-            <img :src="userImage" class="card-image">
-            <textarea class="card-body-content-text" id="content" v-model="formData.post_content"
+          <div class="card_body_content">
+            <img :src="userImage" class="card_body_content_image">
+            <textarea class="card_body_content_text" id="content" v-model="formData.post_content"
               placeholder="Que voulez-vous nous raconter aujourd'hui ?" @keyup="verifWrite"></textarea>
           </div>
 
-          <div class="card-body-footer">
-            <div class="card-body-footer-upload">
-              <input type="file" id="image" @change="onFileSelected">
-              <label for="image"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
+          <div class="card_body_footer">
+            <div class="card_body_footer_upload">
+              <input type="file" id="image" class="card_body_footer_upload_input" @change="onFileSelected">
+              <label for="image" class="card_body_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp; Ajouter une
+                image </label>
             </div>
-            <div class="card-body-footer-send">
-              <button class="btn btn-color" @click="sendData"> <i class="fas fa-paper-plane"></i> &nbsp; Publier
+            <div class="card_body_footer_send">
+              <button class="btn card_body_footer_send_button" @click="sendData"> <i class="fas fa-paper-plane"></i>
+                &nbsp; Publier
               </button>
             </div>
           </div>
         </form>
-        <p class="upload-image-name mt-3"></p>
-        <p class="error"></p>
+        <p class="card_body_upload_image mt-3"></p>
+        <p class="card_body_error"></p>
       </div>
     </div>
   </div>
@@ -70,7 +72,7 @@ export default {
     onFileSelected(event) {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
-      this.paragraphe = document.querySelector('.upload-image-name');
+      this.paragraphe = document.querySelector('.card_body_upload_image');
       if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
       } else {
@@ -78,11 +80,11 @@ export default {
       }
     },
     verifWrite() {
-      this.paragrapheError = document.querySelector('.error');
+      this.paragrapheError = document.querySelector('.card_body_error');
       this.paragrapheError.textContent = '';
     },
     sendData() {
-      this.paragrapheError = document.querySelector('.error');
+      this.paragrapheError = document.querySelector('.card_body_error');
       if (!this.formData.selectedFile && this.formData.post_content != '') {
         this.axiosInstance.post('post/create', {
           post_content: this.formData.post_content
@@ -100,7 +102,9 @@ export default {
       }
       else if (!this.formData.selectedFile && this.formData.post_content == '') {
         this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte ou ajouter une image !';
+        this.paragrapheError.style.textAlign = 'center'
         this.paragrapheError.style.fontSize = '18px';
+        this.paragrapheError.style.marginBottom = '7px'
         this.paragrapheError.style.color = 'red';
       }
       else if (this.formData.selectedFile && this.formData.post_content == '') {
@@ -151,4 +155,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped src="./createpost.scss"></style>
+<style lang="scss" scoped src="./createpost.scss">
+</style>

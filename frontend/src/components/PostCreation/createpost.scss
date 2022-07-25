@@ -5,110 +5,98 @@
   border: 0;
   border-radius: 0px 0px 15px 15px;
   background: white;
-}
 
-.card-body {
-  width: 100%;
-}
+  &_body {
+    width: 100%;
 
-.card-body-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 95%;
-  margin: auto;
-}
+    &_header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 95%;
+      margin: auto;
 
-.card-body-header-text {
-  margin-bottom: 5px;
-  font-size: 30px;
-}
+      &_text {
+        margin-bottom: 5px;
+        font-size: 30px;
 
-.text1 {
-  font-size: 25px;
-  font-weight: 700;
-}
+        .text1 {
+          font-size: 25px;
+          font-weight: 700;
+        }
+      }
+    }
 
-.card-text {
-  text-align: left;
-  font-size: 22px;
-  margin: 0;
-  padding-top: 25px;
-  padding-bottom: 25px;
-}
+    &_content {
+      margin: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-.card-body-content {
-  margin: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+      &_image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
 
-img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-}
+      &_text {
+        width: 80%;
+        height: 90px;
+        border: 0;
+        padding: 7px;
+        background: transparent;
+        resize: none;
+        font-size: 22px;
 
-.card-body-content-text {
-  width: 80%;
-  height: 90px;
-  border: 0;
-  padding: 7px;
-  background: transparent;
-  resize: none;
-  font-size: 22px;
-}
+        &::placeholder {
+          font-size: 22px;
+        }
 
-.card-body-content-text::placeholder {
-  font-size: 22px;
-}
+        &:focus {
+          outline: 0;
+        }
+      }
+    }
 
-.card-body-content-text:focus {
-  outline: 0;
-}
+    &_footer {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding-top: 10px;
+      font-size: 22px;
 
-.card-body-footer {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding-top: 10px;
-  font-size: 22px;
-}
+      &_upload {
+        width: 40%;
 
-.card-body-footer-upload,
-.card-body-footer-send {
-  width: 40%;
-}
+        &_input {
+          display: none;
+        }
 
-input[type="file"] {
-  display: none;
-}
+        &_label {
+          display: block;
+          background-color: #203A43;
+          color: white;
+          font-size: 20px;
+          text-align: center;
+          padding: 10px 0px;
+          border-radius: 5px;
+          margin: 0;
+          cursor: pointer;
+        }
+      }
 
-label {
-  display: block;
-  background-color: #203A43;
-  color: white;
-  font-size: 20px;
-  text-align: center;
-  padding: 10px 0px;
-  border-radius: 5px;
-  margin: 0;
-  cursor: pointer;
-}
+      &_send {
+        width: 40%;
 
-button {
-  width: 100%;
-  padding: 10px 0px;
-  font-size: 20px;
-}
-
-.btn-color {
-  background: #D31027;
-  color: white;
-}
-
-.upload-image-name {
-  margin-bottom: 0;
+        &_button {
+          width: 100%;
+          padding: 10px 0px;
+          font-size: 20px;
+          background: #D31027;
+          color: white;
+        }
+      }
+    }
+  }
 }

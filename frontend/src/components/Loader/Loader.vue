@@ -1,8 +1,8 @@
 <template>
   <div>
-    
-    <div class="loader-container">
-      <div class="loader"></div>
+
+    <div class="loader_container">
+      <div class="loader_container_loader"></div>
     </div>
 
   </div>
@@ -14,4 +14,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped src="./loader.scss"></style>
+<style lang="scss" scoped src="./loader.scss">
+</style>

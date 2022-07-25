@@ -7,40 +7,37 @@
   justify-content: space-evenly;
   align-items: center;
   background: #D31027;
-}
 
-.navbar_logo{
-  height: 100px;
-  width: auto;
-}
+  &_logo {
+    height: 100px;
+    width: auto;
+  }
 
-.navbar_item {
-  width: 100%;
-  text-align: left;
+  &_item {
+    width: 100%;
+    text-align: left;
+  }
+
+  &_link {
+    position: absolute;
+    left: 40%;
+    width: 20%;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+
+    &_p {
+      width: 100%;
+      margin: 0;
+      font-size: 30px;
+    }
+  }
 }
 
 .fas {
   position: absolute;
   left: 30%;
   line-height: 40px;
-}
-
-.navbar_link {
-  position: absolute;
-  left: 40%;
-  width: 20%;
-  text-decoration: none;
-  color: white;
-  cursor: pointer;
-}
-
-p {
-  width: 100%;
-  margin: 0;
-  font-size: 30px;
-}
-
-.fas {
   color: white;
   font-size: 30px;
 }

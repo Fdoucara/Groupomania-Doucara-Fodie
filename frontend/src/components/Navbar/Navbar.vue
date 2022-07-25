@@ -1,20 +1,25 @@
 <template>
   <div>
     <nav class="navbar">
-        <router-link to="/accueil"> <img src="../../assets/logomodif1.png" alt="Logo Groupomania" class="navbar_logo"> </router-link>
-        <div class="navbar_item">
-          <i class="fas fa-home"></i>
-          <router-link to="/accueil" class="navbar_link"> <p> Accueil </p> </router-link>
-        </div>
-        <div class="navbar_item">
-          <i class="fas fa-home"></i>
-          <router-link to="/utilisateurs" class="navbar_link"> <p> Utilisateurs </p> </router-link>
-        </div>
-        <div class="navbar_item">        
-          <i class="fas fa-sign-out-alt"></i> 
-          <p class="navbar_link" @click="deconnexion"> Deconnexion </p> 
-        </div>
-               
+      <router-link to="/accueil"> <img src="../../assets/logomodif1.png" alt="Logo Groupomania" class="navbar_logo">
+      </router-link>
+      <div class="navbar_item">
+        <i class="fas fa-home"></i>
+        <router-link to="/accueil" class="navbar_link">
+          <p class="navbar_link_p"> Accueil </p>
+        </router-link>
+      </div>
+      <div class="navbar_item">
+        <i class="fas fa-home"></i>
+        <router-link to="/utilisateurs" class="navbar_link">
+          <p class="navbar_link_p"> Utilisateurs </p>
+        </router-link>
+      </div>
+      <div class="navbar_item">
+        <i class="fas fa-sign-out-alt"></i>
+        <p class="navbar_link navbar_link_p" @click="deconnexion"> Deconnexion </p>
+      </div>
+
     </nav>
   </div>
 </template>
@@ -27,24 +32,25 @@ export default {
   name: "NavbarComponent",
   data() {
     return {
-       axiosInstance: axios.create({
+      axiosInstance: axios.create({
         withCredentials: true,
         baseURL: 'http://localhost:3000/api/'
       }),
     }
   },
   methods: {
-    deconnexion(){
+    deconnexion() {
       this.axiosInstance.get('user/logout')
-      .then(() => {
-        this.$store.commit('REMOVE_USER_STATUS');
-        this.$store.commit('REMOVE_USER_ID');
-        this.$store.commit('REMOVE_ROLE_USER');
-        this.$router.push('/');
-      })
+        .then(() => {
+          this.$store.commit('REMOVE_USER_STATUS');
+          this.$store.commit('REMOVE_USER_ID');
+          this.$store.commit('REMOVE_ROLE_USER');
+          this.$router.push('/');
+        })
     }
   },
 }
 </script>
 
-<style lang="scss" scoped src="./navbar.scss"></style>
+<style lang="scss" scoped src="./navbar.scss">
+</style>

@@ -1,0 +1,151 @@
+.big_contain {
+  position: fixed;
+  background: #D31027;
+  width: 25%;
+  height: 100%;
+  padding: 20px 0px;
+  right: 0;
+}
+
+.card_contain {
+  width: 90%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.card_contain_img_body {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card_ {
+  padding: 15px;
+  width: 95%;
+  margin: auto;
+  border: 0px;
+  background: white;
+}
+
+.card_img {
+  max-width: 110px;
+  display: flex;
+  justify-content: center;
+}
+
+.img-fluid {
+  margin-bottom: 15px;
+  padding: 0;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.card_body {
+  width: 55%;
+  font-size: 18px;
+  text-align: left;
+}
+
+.card_button {
+  font-size: 20px;
+  width: 100%;
+  border-radius: 0;
+  background-color: #D31027;
+  color: white;
+}
+
+.new {
+  background-color: #203A43;
+}
+
+.activite {
+  background-color: white;
+  width: 95%;
+  margin: auto;
+  margin-bottom: 0;
+}
+
+.activite h1 {
+  color: black;
+  padding: 10px;
+  font-size: 23px;
+  margin: 0;
+}
+
+.none {
+  margin-top: 100px;
+  font-size: 24px;
+  color: white;
+}
+
+.post_scroll {
+  overflow-y: scroll;
+  height: 450px;
+  scrollbar-width: none;
+}
+
+.post_scroll::-webkit-scrollbar {
+  width: 0px;
+}
+
+.card {
+  padding: 10px;
+  width: 95%;
+  margin: auto;
+  border: 0px;
+  border-radius: 15px;
+  background: white;
+}
+
+.card_link {
+  text-decoration: none;
+  color: black;
+  padding: 0;
+  margin: 0;
+  transition: background 0.5s ease-in-out;
+}
+
+.card-body {
+  width: 100%;
+  margin: 0;
+}
+
+.card-body-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-body-header-text {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  padding-bottom: 25px;
+}
+
+.card-text {
+  text-align: left;
+  font-size: 20px;
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.card-body-footer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-top: 10px;
+  font-size: 25px;
+}

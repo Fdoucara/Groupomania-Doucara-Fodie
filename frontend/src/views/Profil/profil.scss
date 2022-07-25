@@ -1,0 +1,119 @@
+.card_ {
+  width: 43%;
+  margin: auto;
+  border: 0px;
+  border-radius: 0px;
+  background: white;
+}
+
+.card_contain {
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.card_img {
+  max-width: 150px;
+}
+
+.img-fluid {
+  margin-bottom: 15px;
+  padding: 0;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.card_body {
+  width: 60%;
+  font-size: 20px;
+  text-align: left;
+}
+
+.card_button {
+  font-size: 20px;
+  width: 100%;
+  border-radius: 0;
+  background-color: #D31027;
+  color: white;
+}
+
+.activite {
+  background-color: #D31027;
+  width: 43%;
+  margin: auto;
+  margin-bottom: 0;
+}
+
+.activite h1 {
+  color: white;
+  padding: 10px;
+  font-size: 23px;
+  margin: 0;
+}
+
+.none {
+  margin-top: 100px;
+  color: white;
+}
+
+.card {
+  width: 43%;
+  margin: auto;
+  border: 0px;
+  border-radius: 15px;
+  background: white;
+}
+
+.card_link {
+  text-decoration: none;
+  color: black;
+  padding: 0;
+  margin: 0;
+}
+
+.card-body {
+  width: 100%;
+}
+
+.card-body-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-body-header-text {
+  margin-bottom: 10px;
+  font-size: 21px;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+.card-text {
+  text-align: left;
+  font-size: 23px;
+  margin: 0;
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+
+.card-body-footer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 21px;
+}

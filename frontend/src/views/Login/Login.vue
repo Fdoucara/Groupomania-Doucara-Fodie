@@ -8,14 +8,14 @@
           <h2> Connexion </h2>
           <div class="form-group my-4">
             <label for="email" class="mb-2"> Votre adresse email : </label>
-            <input type="email" id="email" class="form-control" v-model="formData.email" @keyup="verifEmail">
+            <input type="email" id="email" class="form-control" v-model="formData.email" @keyup="verifEmail" required>
             <p class="emailError"></p>
           </div>
 
           <div class="form-group mt-3">
             <label for="password" class="mb-2"> Votre mot de passe : </label>
-            <input type="password" id="password" class="form-control" v-model="formData.password"
-              @keyup="verifPassword">
+            <input type="password" id="password" class="form-control" v-model="formData.password" @keyup="verifPassword"
+              required>
             <p class="passwordError"></p>
           </div>
 
@@ -60,14 +60,19 @@ export default {
   },
   methods: {
     verifEmail() {
-      console.log('ok');
       this.form = document.querySelector("form");
       this.emailRegExp = /^[A-Za-z0-9.\-+%_]+[@]{1}[A-Za-z0-9.\-+%_]+\.[A-Za-z]{2,}/i;
       this.errorEmail = document.querySelector('.emailError');
       this.testEmail = this.emailRegExp.test(this.form.email.value);
       if (this.testEmail) {
         this.errorEmail.textContent = "";
-      } else {
+        return true;
+      }
+      else if (this.form.email.value == '') {
+        this.errorEmail.textContent = "";
+        return false;
+      }
+      else {
         this.errorEmail.textContent = "Email Non Valide";
         this.errorEmail.style.color = "red";
         this.errorEmail.style.marginTop = "5px";
@@ -82,7 +87,13 @@ export default {
       this.testPassword = this.passwordRegExp.test(this.form.password.value);
       if (this.testPassword) {
         this.errorPassword.textContent = "";
-      } else {
+        return true;
+      }
+      else if (this.form.password.value == '') {
+        this.errorPassword.textContent = "";
+        return false;
+      }
+      else {
         this.errorPassword.textContent = "Mot de passe Non Valide";
         this.errorPassword.style.color = "red";
         this.errorPassword.style.marginTop = "5px";
@@ -91,24 +102,30 @@ export default {
       }
     },
     sendData() {
-      this.axiosInstance.post('user/login', {
-        email: this.formData.email,
-        password: this.formData.password
-      })
-        .then(reponse => {
-          if (reponse.status == 200) {
-            this.$store.commit('UPDATE_USER_STATUS', true);
-            this.$store.commit('UPDATE_USER_ID', reponse.data.userId);
-            this.$store.commit('UPDATE_ROLE_USER', reponse.data.roleUser);
-            this.$router.push('/accueil');
-          }
+      if (this.verifEmail() && this.verifPassword()) {
+        this.axiosInstance.post('user/login', {
+          email: this.formData.email,
+          password: this.formData.password
         })
-        .catch(error => {
-          console.log(error);
-        })
+          .then(reponse => {
+            if (reponse.status == 401) {
+              console.log(reponse.message);
+            }
+            else if (reponse.status == 200) {
+              this.$store.commit('UPDATE_USER_STATUS', true);
+              this.$store.commit('UPDATE_USER_ID', reponse.data.userId);
+              this.$store.commit('UPDATE_ROLE_USER', reponse.data.roleUser);
+              this.$router.push('/accueil');
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      }
     },
   }
 }
 </script>
 
-<style lang="scss" scoped src="./login.scss"></style>
+<style lang="scss" scoped src="./login.scss">
+</style>

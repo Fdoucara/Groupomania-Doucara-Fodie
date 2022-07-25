@@ -2,12 +2,11 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: '../config/.env' });
 const db = require('../config/db');
 
+// Recuperer le token dans le cookie de la requete 
+// Decoder le token a l'aide de la SECRET_KEY 
+// Recuperer la propriete id de l'objet obtenu lors du decodage
+// Ajouter une propriete auth == id a la requete 
 exports.verifToken = (req, res, next) => {
-  // Recuperer le token dans le headers de la requete 
-  // Decoder le token a l'aide de la SECRET_KEY 
-  // Recuperer la propriete userId de l'objet obtenu lors du decodage
-  // Ajouter une propriete auth == userId a la requete 
-
   const token = req.cookies.jwt;
   if (token) {
     jwt.verify(token, process.env.SECRET_KEY, (err, decodedToken) => {
@@ -21,12 +20,11 @@ exports.verifToken = (req, res, next) => {
               res.cookie('jwt', '', { maxAge: 1 });
               return res.status(401).json({ message: "TOKEN plus valable !" });
             } else {
-              req.auth = decodedToken.id;
+              req.auth = id;
               next();
-              return;
             }
           } else {
-            res.status(400).json({ error });
+            return res.status(400).json({ error });
           }
         })
       }
@@ -36,6 +34,7 @@ exports.verifToken = (req, res, next) => {
   }
 };
 
+// Verifier si l'utilisateur est administrateur
 exports.isAdmin = (req, res, next) => {
   let id = req.auth;
   db.query("SELECT user.role_id FROM user WHERE id = ?", [id], (error, result) => {
@@ -47,11 +46,12 @@ exports.isAdmin = (req, res, next) => {
         return res.status(401).json({ message: "Seul l'admin peut realiser cette action !" });
       }
     } else {
-      res.status(400).json({ error });
+      return res.status(400).json({ error });
     }
   })
 };
 
+// Verifier si l'utilisateur est modérateur
 exports.isModerator = (req, res, next) => {
   let id = req.auth;
   db.query("SELECT user.role_id FROM user WHERE id = ?", [id], (error, result) => {
@@ -63,7 +63,7 @@ exports.isModerator = (req, res, next) => {
         return res.status(401).json({ message: "Seul l'admin et le moderateur peuvent réaliser cette action !" });
       }
     } else {
-      res.status(400).json({ error });
+      return res.status(400).json({ error });
     }
   })
 };

@@ -1,3 +1,4 @@
+// Gestion des erreurs lors de la création d'un utilisateur
 exports.signUpErrors = (err) => {
   let errors = {
     email: ''

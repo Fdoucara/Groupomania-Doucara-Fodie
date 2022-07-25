@@ -1,4 +1,4 @@
-const express =  require('express');
+const express = require('express');
 const router = express.Router();
 const postCtrl = require('../controllers/post');;
 const { verifToken, isModerator } = require('../middlewares/auth');
@@ -13,7 +13,7 @@ router.patch('/update-post/:id', verifToken, multer, postCtrl.updateOnePost);
 router.delete('/delete-post/:id', verifToken, postCtrl.deleteOnePost);
 router.delete('/delete-anyone-post/:id', verifToken, isModerator, postCtrl.deleteAnyonePost);
 
- 
+
 // CRUD -> CREATE READ UPDATE DELETE <- CRUD -> COMMENT
 router.post('/create-comment/:id', verifToken, multer, postCtrl.createComment);
 router.post('/like-comment/:id', verifToken, postCtrl.likeComment);

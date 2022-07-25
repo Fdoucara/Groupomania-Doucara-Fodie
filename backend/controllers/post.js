@@ -3,7 +3,9 @@ const fs = require('fs');
 const exp = require('constants');
 
 
-// POST FUNCTIONS 
+// ------------- POST FUNCTIONS -------------
+
+// Création d'un post
 exports.createPost = (req, res) => {
   let user_id = req.auth;
   if (req.file) {
@@ -28,6 +30,7 @@ exports.createPost = (req, res) => {
   }
 }
 
+// Récupération de tout les posts
 exports.getAllPost = (req, res) => {
   db.query("SELECT user.nom, user.prenom, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, post.user_id, COUNT(CASE WHEN comment_content IS NOT NULL AND comment_imageUrl IS NULL THEN 1 END) as totalComment1, COUNT(CASE WHEN comment_content IS NULL AND comment_imageUrl IS NOT NULL THEN 1 END) as totalComment2, COUNT(CASE WHEN comment_content IS NOT NULL AND comment_imageUrl IS NOT NULL THEN 1 END) as totalComment3 FROM post LEFT JOIN user ON post.user_id = user.id LEFT JOIN comment ON post.id = comment.post_id GROUP BY post.id", [], (error, result) => {
     if (!error) {
@@ -35,13 +38,14 @@ exports.getAllPost = (req, res) => {
         return res.status(404).json({ message: "Aucune publication trouvée !" });
       } else {
         return res.status(200).json({ result });
-      }      
+      }
     } else {
       return res.status(400).json({ error });
-    }  
+    }
   })
 }
 
+// Récupération d'un seul post
 exports.getOnePost = (req, res) => {
   const id = req.params.id;
   db.query("SELECT user.nom, user.prenom, post.id, post.post_content, post.post_imageUrl, post.post_likes, post.post_date, post.user_id, COUNT(CASE WHEN comment_content IS NOT NULL AND comment_imageUrl IS NULL THEN 1 END) as totalComment1, COUNT(CASE WHEN comment_content IS NULL AND comment_imageUrl IS NOT NULL THEN 1 END) as totalComment2, COUNT(CASE WHEN comment_content IS NOT NULL AND comment_imageUrl IS NOT NULL THEN 1 END) as totalComment3 FROM post LEFT JOIN user ON post.user_id = user.id LEFT JOIN comment ON post.id = comment.post_id WHERE post.id = ? GROUP BY post.id", [id], (error, result) => {
@@ -57,6 +61,7 @@ exports.getOnePost = (req, res) => {
   })
 }
 
+// Modification d'un post
 exports.updateOnePost = (req, res) => {
   const id = req.params.id;
   let post = req.body;
@@ -134,18 +139,14 @@ exports.updateOnePost = (req, res) => {
   })
 }
 
+// Suppression d'un post
 exports.deleteOnePost = (req, res) => {
   let id = req.params.id;
   db.query("SELECT * FROM post WHERE id = ?", [id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
-      if (resultat.length == 0) {
-        res.status(401).json({ message: 'Aucun post trouvé !' });
-      }
-      else if (req.auth !== resultat[0].user_id) {
-        console.log(resultat[0]);
-        res.status(401).json({ message: 'Requête non autorisée !' });
-        return;
+      if (req.auth !== resultat[0].user_id) {
+        return res.status(401).json({ message: 'Requête non autorisée !' });
       }
       else {
         if (resultat[0].post_imageUrl) {
@@ -153,7 +154,7 @@ exports.deleteOnePost = (req, res) => {
           fs.unlink(`images/${filename}`, () => {
             db.query("DELETE FROM post WHERE id = ?", [id], (error, result) => {
               if (!error) {
-                return res.status(200).json({ message: "Post bien supprimé !" });
+                return res.status(200).json({ message: "Publication bien supprimée !" });
               }
               else {
                 return res.status(400).json({ error });
@@ -163,7 +164,7 @@ exports.deleteOnePost = (req, res) => {
         } else {
           db.query("DELETE FROM post WHERE id = ?", [id], (error, result) => {
             if (!error) {
-              return res.status(200).json({ message: "Post bien supprimé !" });
+              return res.status(200).json({ message: "Publication bien supprimée !" });
             }
             else {
               return res.status(400).json({ error });
@@ -178,6 +179,7 @@ exports.deleteOnePost = (req, res) => {
   })
 }
 
+// Suppresion d'un post par l'Admin et le Modérateur
 exports.deleteAnyonePost = (req, res) => {
   let id = req.params.id;
   db.query("SELECT * FROM post WHERE id = ?", [id], (error, result) => {
@@ -188,7 +190,7 @@ exports.deleteAnyonePost = (req, res) => {
         fs.unlink(`images/${filename}`, () => {
           db.query("DELETE FROM post WHERE id = ?", [id], (error, result) => {
             if (!error) {
-              return res.status(200).json({ message: "Post bien supprimé !" });
+              return res.status(200).json({ message: "Publication bien supprimée !" });
             }
             else {
               return res.status(400).json({ error });
@@ -198,7 +200,7 @@ exports.deleteAnyonePost = (req, res) => {
       } else {
         db.query("DELETE FROM post WHERE id = ?", [id], (error, result) => {
           if (!error) {
-            return res.status(200).json({ message: "Post bien supprimé !" });
+            return res.status(200).json({ message: "Publication bien supprimée !" });
           }
           else {
             return res.status(400).json({ error });
@@ -207,84 +209,83 @@ exports.deleteAnyonePost = (req, res) => {
       }
     }
     else {
-      return res.status(401).json({ message: "Aucun Post trouvé !" });
+      return res.status(400).json({ error });
     }
   })
 }
 
+// Like ou Dislike post
 exports.likePost = (req, res) => {
   let post_id = req.params.id;
   let user_id = req.auth;
 
   db.query("SELECT * FROM post WHERE id = ?", [post_id], (error, result) => {
     if (!error) {
-      let resultat = JSON.parse(JSON.stringify(result));
-      if (resultat[0].length == 0) {
-        res.status(400).json({ message: "Aucun post trouvé !" });
-      }
-      else {
-        db.query("SELECT * FROM post_likes WHERE user_id = ? AND post_id = ?", [user_id, post_id], (error, result) => {
-          if (!error) {
-            if (result.length == 0) {
-              db.query("INSERT INTO post_likes (user_id, post_id) VALUES (?, ?)", [user_id, post_id], (error, result) => {
-                if (!error) {
-                  db.query("SELECT COUNT(*) AS likes FROM post_likes WHERE post_id = ?", [post_id], (error, result) => {
-                    if (!error) {
-                      let resultat = JSON.parse(JSON.stringify(result));
-                      let totalLike = resultat[0].likes;
-                      db.query("UPDATE post SET post_likes = ? WHERE id = ?", [totalLike, post_id], (error, result) => {
-                        if (!error) {
-                          return res.status(201).json({ message: "Vous aimez ce post." });
-                        }
-                        else {
-                          res.status(400).json({ error });
-                        }
-                      })
-                    }
-                    else {
-                      res.status(400).json({ error });
-                    }
-                  })
-                }
-                else {
-                  res.status(400).json({ error });
-                }
-              })
-            } else {
-              db.query("DELETE FROM post_likes WHERE user_id = ? AND post_id = ?", [user_id, post_id], (error, result) => {
-                if (!error) {
-                  db.query("SELECT COUNT(*) AS likes FROM post_likes WHERE post_id = ?", [post_id], (error, result) => {
-                    if (!error) {
-                      let resultat = JSON.parse(JSON.stringify(result));
-                      let totalLike = resultat[0].likes;
-                      db.query("UPDATE post SET post_likes = ? WHERE id = ?", [totalLike, post_id], (error, result) => {
-                        if (!error) {
-                          return res.status(201).json({ message: "Vous n'aimez plus ce post." });
-                        }
-                        else {
-                          res.status(400).json({ error });
-                        }
-                      })
-                    }
-                    else {
-                      res.status(400).json({ error });
-                    }
-                  })
-                }
-                else {
-                  res.status(400).json({ error });
-                }
-              })
-            }
+      db.query("SELECT * FROM post_likes WHERE user_id = ? AND post_id = ?", [user_id, post_id], (error, result) => {
+        if (!error) {
+          if (result.length == 0) {
+            db.query("INSERT INTO post_likes (user_id, post_id) VALUES (?, ?)", [user_id, post_id], (error, result) => {
+              if (!error) {
+                db.query("SELECT COUNT(*) AS likes FROM post_likes WHERE post_id = ?", [post_id], (error, result) => {
+                  if (!error) {
+                    let resultat = JSON.parse(JSON.stringify(result));
+                    let totalLike = resultat[0].likes;
+                    db.query("UPDATE post SET post_likes = ? WHERE id = ?", [totalLike, post_id], (error, result) => {
+                      if (!error) {
+                        return res.status(200).json({ message: "Vous aimez cette publication." });
+                      }
+                      else {
+                        return res.status(400).json({ error });
+                      }
+                    })
+                  }
+                  else {
+                    return res.status(400).json({ error });
+                  }
+                })
+              }
+              else {
+                return res.status(400).json({ error });
+              }
+            })
+          } else {
+            db.query("DELETE FROM post_likes WHERE user_id = ? AND post_id = ?", [user_id, post_id], (error, result) => {
+              if (!error) {
+                db.query("SELECT COUNT(*) AS likes FROM post_likes WHERE post_id = ?", [post_id], (error, result) => {
+                  if (!error) {
+                    let resultat = JSON.parse(JSON.stringify(result));
+                    let totalLike = resultat[0].likes;
+                    db.query("UPDATE post SET post_likes = ? WHERE id = ?", [totalLike, post_id], (error, result) => {
+                      if (!error) {
+                        return res.status(200).json({ message: "Vous n'aimez plus cette publication." });
+                      }
+                      else {
+                        return res.status(400).json({ error });
+                      }
+                    })
+                  }
+                  else {
+                    return res.status(400).json({ error });
+                  }
+                })
+              }
+              else {
+                return res.status(400).json({ error });
+              }
+            })
           }
-        })
-      }
+        }
+      })
+    }
+    else {
+      return res.status(400).json({ error });
     }
   })
 }
 
+// ------------- COMMENT FUNCTIONS -------------
 
-// COMMENT FUNCTIONS 
+// Création d'un commentaire
 exports.createComment = (req, res) => {
   let user_id = req.auth;
   let post_id = req.params.id;
@@ -297,7 +298,7 @@ exports.createComment = (req, res) => {
         if (!error) {
           return res.status(201).json({ message: "Commentaire bien ajouté !" });
         } else {
-          res.status(400).json({ message: "Post non existant !" });
+          res.status(400).json({ error });
         }
       })
     } else {
@@ -305,7 +306,7 @@ exports.createComment = (req, res) => {
         if (!error) {
           return res.status(201).json({ message: "Commentaire bien ajouté !" });
         } else {
-          res.status(400).json({ message: "Post non existant !" });
+          res.status(400).json({ error });
         }
       })
     }
@@ -317,16 +318,16 @@ exports.createComment = (req, res) => {
         if (!error) {
           return res.status(201).json({ message: "Commentaire bien ajouté !" });
         } else {
-          res.status(400).json({ message: "Post non existant !" });
+          res.status(400).json({ error });
         }
       })
     } else {
       res.status(400).json({ message: "Vous ne pouvez pas réaliser un commentaire vide !" });
     }
-
   }
 }
 
+// Modification d'un commentaire
 exports.updateComment = (req, res) => {
   let id = req.params.id;
   let comment = req.body;
@@ -334,8 +335,7 @@ exports.updateComment = (req, res) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
       if (req.auth !== resultat[0].user_id) {
-        res.status(401).json({ message: 'Requête non autorisée !' });
-        return;
+        return res.status(401).json({ message: 'Requête non autorisée !' });
       }
       else {
         if (req.file) {
@@ -346,13 +346,9 @@ exports.updateComment = (req, res) => {
               fs.unlink(`images/${filename}`, () => {
                 db.query("UPDATE comment SET comment_imageUrl = ? WHERE id = ?", [imageUrl, id], (error, result) => {
                   if (!error) {
-                    if (result.affectedRows == 0) {
-                      return res.status(401).json({ message: "Commentaire non trouvé !" });
-                    }
                     return res.status(201).json({ message: "Commentaire bien modifié !" });
                   } else {
-                    res.status(400).json({ error });
-                    return;
+                    return res.status(400).json({ error });
                   }
                 })
               })
@@ -361,13 +357,9 @@ exports.updateComment = (req, res) => {
               fs.unlink(`images/${filename}`, () => {
                 db.query("UPDATE comment SET comment_content = ?, comment_imageUrl = ? WHERE id = ?", [comment.comment_content, imageUrl, id], (error, result) => {
                   if (!error) {
-                    if (result.affectedRows == 0) {
-                      return res.status(401).json({ message: "Commentaire non trouvé !" });
-                    }
                     return res.status(201).json({ message: "Commentaire bien modifié !" });
                   } else {
-                    res.status(400).json({ error });
-                    return;
+                    return res.status(400).json({ error });
                   }
                 })
               })
@@ -376,59 +368,47 @@ exports.updateComment = (req, res) => {
           else if (!resultat[0].comment_imageUrl && !comment.comment_content) {
             db.query("UPDATE comment SET comment_imageUrl = ? WHERE id = ?", [imageUrl, id], (error, result) => {
               if (!error) {
-                if (result.affectedRows == 0) {
-                  return res.status(401).json({ message: "Commentaire non trouvé !" });
-                }
                 return res.status(201).json({ message: "Commentaire bien modifié !" });
               } else {
-                res.status(400).json({ error });
-                return;
+                return res.status(400).json({ error });
+
               }
             })
           }
           else {
             db.query("UPDATE comment SET comment_content = ?, comment_imageUrl = ? WHERE id = ?", [comment.comment_content, imageUrl, id], (error, result) => {
               if (!error) {
-                if (result.affectedRows == 0) {
-                  return res.status(401).json({ message: "Commentaire non trouvé !" });
-                }
                 return res.status(201).json({ message: "Commentaire bien modifié !" });
               } else {
-                res.status(400).json({ error });
-                return;
+                return res.status(400).json({ error });
               }
             })
           }
         } else {
           db.query("UPDATE comment SET comment_content = ? WHERE id = ?", [comment.comment_content, id], (error, result) => {
             if (!error) {
-              if (result.affectedRows == 0) {
-                return res.status(401).json({ message: "Commentaire non trouvé !" });
-              }
               return res.status(201).json({ message: "Commentaire bien modifié !" });
             } else {
-              res.status(400).json({ error });
-              return;
+              return res.status(400).json({ error });
             }
           })
         }
       }
     }
     else {
-      return res.status(401).json({ message: "Aucun Commentaire trouvé !" });
+      return res.status(400).json({ error });
     }
   })
 }
 
+// Suppression d'un commentaire
 exports.deleteComment = (req, res) => {
   let id = req.params.id;
   db.query("SELECT * FROM comment WHERE id = ?", [id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
-
       if (req.auth !== resultat[0].user_id) {
-        res.status(401).json({ message: 'Requête non autorisée !' });
-        return;
+        return res.status(401).json({ message: 'Requête non autorisée !' });
       }
       else {
         if (resultat[0].comment_imageUrl) {
@@ -456,14 +436,14 @@ exports.deleteComment = (req, res) => {
       }
     }
     else {
-      return res.status(401).json({ message: "Aucun Commentaire trouvé !" });
+      return res.status(400).json({ error });
     }
   })
 }
 
+// Suppresion d'un commentaire par l'Admin et le Modérateur
 exports.deleteAnyoneComment = (req, res) => {
   let id = req.params.id;
-
   db.query("SELECT * FROM comment WHERE id = ?", [id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
@@ -491,88 +471,88 @@ exports.deleteAnyoneComment = (req, res) => {
       }
     }
     else {
-      return res.status(401).json({ message: "Aucun Commentaire trouvé !" });
+      return res.status(400).json({ error });
     }
   })
 }
 
+// Like ou Dislike d'un commentaire
 exports.likeComment = (req, res) => {
   let comment_id = req.params.id;
   let user_id = req.auth;
-
   db.query("SELECT * FROM comment WHERE id = ?", [comment_id], (error, result) => {
     if (!error) {
-      let resultat = JSON.parse(JSON.stringify(result));
-      if (resultat[0].length == 0) {
-        res.status(400).json({ message: "Aucun commentaire trouvé !" });
-      }
-      else {
-        db.query("SELECT * FROM comment_likes WHERE user_id = ? AND comment_id = ?", [user_id, comment_id], (error, result) => {
-          if (!error) {
-            if (result.length == 0) {
-              db.query("INSERT INTO comment_likes (user_id, comment_id) VALUES (?, ?)", [user_id, comment_id], (error, result) => {
-                if (!error) {
-                  db.query("SELECT COUNT(*) AS likes FROM comment_likes WHERE comment_id = ?", [comment_id], (error, result) => {
-                    if (!error) {
-                      let resultat = JSON.parse(JSON.stringify(result));
-                      let totalLike = resultat[0].likes;
-                      db.query("UPDATE comment SET comment_likes = ? WHERE id = ?", [totalLike, comment_id], (error, result) => {
-                        if (!error) {
-                          return res.status(201).json({ message: "Vous aimez ce commentaire." });
-                        }
-                        else {
-                          res.status(400).json({ error });
-                        }
-                      })
-                    }
-                    else {
-                      res.status(400).json({ error });
-                    }
-                  })
-                }
-                else {
-                  res.status(400).json({ error });
-                }
-              })
-            } else {
-              db.query("DELETE FROM comment_likes WHERE user_id = ? AND comment_id = ?", [user_id, comment_id], (error, result) => {
-                if (!error) {
-                  db.query("SELECT COUNT(*) AS likes FROM comment_likes WHERE comment_id = ?", [comment_id], (error, result) => {
-                    if (!error) {
-                      let resultat = JSON.parse(JSON.stringify(result));
-                      let totalLike = resultat[0].likes;
-                      db.query("UPDATE comment SET comment_likes = ? WHERE id = ?", [totalLike, comment_id], (error, result) => {
-                        if (!error) {
-                          return res.status(201).json({ message: "Vous n'aimez plus ce commentaire." });
-                        }
-                        else {
-                          res.status(400).json({ error });
-                        }
-                      })
-                    }
-                    else {
-                      res.status(400).json({ error });
-                    }
-                  })
-                }
-                else {
-                  res.status(400).json({ error });
-                }
-              })
-            }
+      db.query("SELECT * FROM comment_likes WHERE user_id = ? AND comment_id = ?", [user_id, comment_id], (error, result) => {
+        if (!error) {
+          if (result.length == 0) {
+            db.query("INSERT INTO comment_likes (user_id, comment_id) VALUES (?, ?)", [user_id, comment_id], (error, result) => {
+              if (!error) {
+                db.query("SELECT COUNT(*) AS likes FROM comment_likes WHERE comment_id = ?", [comment_id], (error, result) => {
+                  if (!error) {
+                    let resultat = JSON.parse(JSON.stringify(result));
+                    let totalLike = resultat[0].likes;
+                    db.query("UPDATE comment SET comment_likes = ? WHERE id = ?", [totalLike, comment_id], (error, result) => {
+                      if (!error) {
+                        return res.status(200).json({ message: "Vous aimez ce commentaire." });
+                      }
+                      else {
+                        return res.status(400).json({ error });
+                      }
+                    })
+                  }
+                  else {
+                    return res.status(400).json({ error });
+                  }
+                })
+              }
+              else {
+                return res.status(400).json({ error });
+              }
+            })
+          } else {
+            db.query("DELETE FROM comment_likes WHERE user_id = ? AND comment_id = ?", [user_id, comment_id], (error, result) => {
+              if (!error) {
+                db.query("SELECT COUNT(*) AS likes FROM comment_likes WHERE comment_id = ?", [comment_id], (error, result) => {
+                  if (!error) {
+                    let resultat = JSON.parse(JSON.stringify(result));
+                    let totalLike = resultat[0].likes;
+                    db.query("UPDATE comment SET comment_likes = ? WHERE id = ?", [totalLike, comment_id], (error, result) => {
+                      if (!error) {
+                        return res.status(200).json({ message: "Vous n'aimez plus ce commentaire." });
+                      }
+                      else {
+                        return res.status(400).json({ error });
+                      }
+                    })
+                  }
+                  else {
+                    return res.status(400).json({ error });
+                  }
+                })
+              }
+              else {
+                return res.status(400).json({ error });
+              }
+            })
           }
-        })
-      }
+        }
+      })
+    }
+    else {
+      return res.status(400).json({ error });
     }
   })
 }
 
+// Récupération de tout les commentaires d'un post
 exports.getAllCommentFromOnePost = (req, res) => {
   let post_id = req.params.id;
   db.query("SELECT user.nom, user.prenom, comment.id, comment.comment_content, comment.comment_imageUrl, comment.comment_date, comment.comment_likes, comment.user_id FROM comment LEFT JOIN user ON comment.user_id = user.id WHERE comment.post_id = ?", [post_id], (error, result) => {
     if (!error) {
       return res.status(200).json({ result });
     }
-    res.status(400).json({ error });
+    else {
+      return res.status(400).json({ error });
+    }
   })
 }

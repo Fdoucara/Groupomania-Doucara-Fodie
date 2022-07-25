@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/index'
-import LoginComponent from '@/views/Login.vue'
-import RegisterComponent from '@/views/Register.vue'
-import AccueilComponent from '@/views/Accueil.vue'
-import ProfilComponent from '@/views/Profil.vue'
-import OnePost from '@/views/OnePost.vue'
-import UsersList from '@/views/UsersList.vue'
+import LoginComponent from '@/views/Login/Login.vue'
+import RegisterComponent from '@/views/Register/Register.vue'
+import AccueilComponent from '@/views/Accueil/Accueil.vue'
+import ProfilComponent from '@/views/Profil/Profil.vue'
+import OnePost from '@/views/OnePost/OnePost.vue'
+import UsersList from '@/views/UsersList/UsersList.vue'
 
 Vue.use(VueRouter)
 

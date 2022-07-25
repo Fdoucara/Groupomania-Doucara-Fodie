@@ -1,48 +1,48 @@
 <template>
 <div>
   
-  <div class="bloc-modale" v-if="deleteCommentModale">
+  <div class="bloc_modale" v-if="deleteCommentModale">
 
     <div class="overlay"></div>
 
     <div class="modale card">
-      <h2 class="modale-title"> Supprimer ce post
+      <h2 class="modale_title"> Supprimer ce commentaire
         <hr>
       </h2>
-      <div class="modale-content">
-        <p class="modale-content-item"> Êtes-vous certain que vous voulez supprimer ce commentaire ? Il ne peut plus être
+      <div class="modale_content">
+        <p class="modale_content_item"> Êtes-vous certain que vous voulez supprimer ce commentaire ? Il ne peut plus être
           récupéré ! </p>
       </div>
-      <div class="modale-body-footer">
-        <div class="modale-body-footer-send">
-          <button class="btn btn-color1" @click="toggleDeleteCommentModale"> Annuler </button>
+      <div class="modale_footer">
+        <div class="modale_footer_cancel">
+          <button class="btn modale_footer_cancel_button" @click="toggleDeleteCommentModale"> Annuler </button>
         </div>
-        <div class="modale-body-footer-send">
-          <button class="btn btn-color2" @click="deleteComment"> Valider </button>
+        <div class="modale_footer_send">
+          <button class="btn modale_footer_send_button" @click="deleteComment"> Valider </button>
         </div>
       </div>
     </div>
 
   </div>
 
-   <div class="bloc-modale" v-if="deleteAnyoneCommentModale">
+   <div class="bloc_modale" v-if="deleteAnyoneCommentModale">
 
     <div class="overlay"></div>
 
     <div class="modale card">
-      <h2 class="modale-title"> Supprimer ce post
+      <h2 class="modale_title"> Supprimer ce commentaire
         <hr>
       </h2>
-      <div class="modale-content">
-        <p class="modale-content-item"> Êtes-vous certain que vous voulez supprimer ce commentaire ? Il ne peut plus être
+      <div class="modale_content">
+        <p class="modale_content_item"> Êtes-vous certain que vous voulez supprimer ce commentaire ? Il ne peut plus être
           récupéré ! </p>
       </div>
-      <div class="modale-body-footer">
-        <div class="modale-body-footer-send">
-          <button class="btn btn-color1" @click="toggleDeleteAnyoneCommentModale"> Annuler </button>
+      <div class="modale_footer">
+        <div class="modale_footer_cancel">
+          <button class="btn modale_footer_cancel_button" @click="toggleDeleteAnyoneCommentModale"> Annuler </button>
         </div>
-        <div class="modale-body-footer-send">
-          <button class="btn btn-color2" @click="deleteAnyoneComment"> Valider </button>
+        <div class="modale_footer_send">
+          <button class="btn modale_footer_send_button" @click="deleteAnyoneComment"> Valider </button>
         </div>
       </div>
     </div>

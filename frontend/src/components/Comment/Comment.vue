@@ -1,18 +1,18 @@
 <template>
   <div>
-
+    
     <div class="card my-4" :key="index" v-for="(comment, index) in info">
-      <div class="card-body">
-        <div class="card-body-header">
-          <p v-if="comment.user_id == userId" class="card-body-header-text bold"> Par vous </p>
-          <router-link :to="`/profil/${comment.user_id}`" v-else class="card-body-header-text bold">
+      <div class="card_body">
+        <div class="card_body_header">
+          <p v-if="comment.user_id == userId" class="card_body_header_text bold"> Par vous </p>
+          <router-link :to="`/profil/${comment.user_id}`" v-else class="card_body_header_text bold">
             <p> Par {{ comment.nom + ' ' + comment.prenom }} </p>
           </router-link>
-          <p class="card-body-header-text"> Le {{ new Date(comment.comment_date).toLocaleDateString() }} </p>
+          <p class="card_body_header_text"> Le {{ new Date(comment.comment_date).toLocaleDateString() }} </p>
         </div>
-        <img :src="comment.comment_imageUrl" class="card-image">
-        <p class="card-text"> {{ comment.comment_content }} </p>
-        <div class="card-body-footer">
+        <img :src="comment.comment_imageUrl" class="card_body_image">
+        <p class="card_body_text"> {{ comment.comment_content }} </p>
+        <div class="card_body_footer">
           <i class="fas fa-heart" :id="comment.id" @click="likeComment"> {{ comment.comment_likes }} </i>
           <i class="fas fa-edit" :id="comment.id" @click="updateComment" v-if="comment.user_id == userId"></i>
           <i class="fas fa-trash" :id="comment.id" @click="deleteComment"
@@ -23,8 +23,9 @@
       </div>
     </div>
 
-    <update-modale :updateCommentModale="updateCommentModale" :toggleCommentModale="toggleCommentModale" v-if="dataComment && comment_id"
-      :comment_id="comment_id" @updateCommentList="updateCommentList" :dataComment="dataComment"></update-modale>
+    <update-modale :updateCommentModale="updateCommentModale" :toggleCommentModale="toggleCommentModale"
+      v-if="dataComment && comment_id" :comment_id="comment_id" @updateCommentList="updateCommentList"
+      :dataComment="dataComment"></update-modale>
     <delete-modale :deleteCommentModale="deleteCommentModale" :deleteAnyoneCommentModale="deleteAnyoneCommentModale"
       :toggleDeleteCommentModale="toggleDeleteCommentModale"
       :toggleDeleteAnyoneCommentModale="toggleDeleteAnyoneCommentModale" :comment_id="comment_id"
@@ -121,4 +122,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped src="./commentlist.scss"></style>
+<style lang="scss" scoped src="./commentlist.scss">
+</style>

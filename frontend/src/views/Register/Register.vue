@@ -10,13 +10,13 @@
         <div class="container_body_name mb-2">
           <div class="form-group mt-4">
             <label for="nom" class="mb-2"> Nom : </label>
-            <input type="text" id="nom" class="form-control" v-model="formData.nom" @keyup="verifNom" required>
+            <input type="text" id="nom" class="form-control" v-model="formData.nom" @keyup="verifNom">
             <p class="nomError"></p>
           </div>
 
           <div class="form-group mt-4">
             <label for="prenom" class="mb-2"> Prenom : </label>
-            <input type="text" id="prenom" class="form-control" v-model="formData.prenom" @keyup="verifPrenom" required>
+            <input type="text" id="prenom" class="form-control" v-model="formData.prenom" @keyup="verifPrenom">
             <p class="prenomError"></p>
           </div>
         </div>
@@ -28,14 +28,13 @@
 
         <div class="form-group mb-4">
           <label for="email" class="mb-2"> Votre adresse email : </label>
-          <input type="email" id="email" class="form-control" v-model="formData.email" @keyup="verifEmail" required>
+          <input type="email" id="email" class="form-control" v-model="formData.email" @keyup="verifEmail">
           <p class="emailError"></p>
         </div>
 
         <div class="form-group mb-5">
           <label for="password" class="mb-2"> Votre mot de passe : </label>
-          <input type="password" id="password" class="form-control" v-model="formData.password" @keyup="verifPassword"
-            required>
+          <input type="password" id="password" class="form-control" v-model="formData.password" @keyup="verifPassword">
           <p class="passwordError"></p>
         </div>
 
@@ -43,8 +42,8 @@
         <p class="formError"></p>
       </form>
 
-      <p> Vous avez deja un compte ? <router-link to="/"> Cliquez ici. </router-link>
-      </p>
+        <p> Vous avez deja un compte ? <router-link to="/"> Cliquez ici. </router-link>
+        </p>
     </div>
 
     <div>
@@ -89,7 +88,8 @@ export default {
       nomRegExp: '',
       prenomRegExp: '',
       emailRegExp: '',
-      passwordRegExp: ''
+      passwordRegExp: '',
+      formError: ''
     }
   },
   methods: {
@@ -103,7 +103,11 @@ export default {
         return true;
       }
       else if (this.form.nom.value == '') {
-        this.errorNom.textContent = "";
+        this.errorNom.textContent = "Le nom ne peut pas vide";
+        this.errorNom.style.color = "red";
+        this.errorNom.style.marginTop = "5px";
+        this.errorNom.style.marginBottom = "0";
+        this.errorNom.style.fontSize = "16px";
         return false;
       }
       else {
@@ -124,7 +128,11 @@ export default {
         return true;
       }
       else if (this.form.prenom.value == '') {
-        this.errorPrenom.textContent = "";
+        this.errorPrenom.textContent = "Le prenom ne peut être vide";
+        this.errorPrenom.style.color = "red";
+        this.errorPrenom.style.marginTop = "5px";
+        this.errorPrenom.style.marginBottom = "0";
+        this.errorPrenom.style.fontSize = "16px";
         return false;
       }
       else {
@@ -145,7 +153,11 @@ export default {
         return true;
       }
       else if (this.form.email.value == '') {
-        this.errorEmail.textContent = "";
+        this.errorEmail.textContent = "L'adresse email ne peut être vide";
+        this.errorEmail.style.color = "red";
+        this.errorEmail.style.marginTop = "5px";
+        this.errorEmail.style.marginBottom = "0";
+        this.errorEmail.style.fontSize = "16px";
         return false;
       }
       else {
@@ -166,7 +178,11 @@ export default {
         return true;
       }
       else if (this.form.password.value == '') {
-        this.errorPassword.textContent = "";
+        this.errorPassword.textContent = "Le mot de passe ne peut être vide";
+        this.errorPassword.style.color = "red";
+        this.errorPassword.style.marginTop = "5px";
+        this.errorPassword.style.marginBottom = "0";
+        this.errorPassword.style.fontSize = "16px";
         return false;
       }
       else {
@@ -187,10 +203,11 @@ export default {
           password: this.formData.password
         }))
           .then(reponse => {
-            if (reponse.status == 400) {
+            if(reponse.status == 400){
+              this.formError = document.querySelector(".formError");
               console.log(reponse);
             }
-            else if (reponse.status == 201) {
+            else if(reponse.status == 201) {
               this.registerModale = !this.registerModale;
             }
           })

@@ -8,18 +8,18 @@
           <h2> Connexion </h2>
           <div class="form-group my-4">
             <label for="email" class="mb-2"> Votre adresse email : </label>
-            <input type="email" id="email" class="form-control" v-model="formData.email" @keyup="verifEmail" required>
+            <input type="email" id="email" class="form-control" v-model="formData.email" @keyup="verifEmail">
             <p class="emailError"></p>
           </div>
 
           <div class="form-group mt-3">
             <label for="password" class="mb-2"> Votre mot de passe : </label>
-            <input type="password" id="password" class="form-control" v-model="formData.password" @keyup="verifPassword"
-              required>
+            <input type="password" id="password" class="form-control" v-model="formData.password" @keyup="verifPassword">
             <p class="passwordError"></p>
           </div>
 
           <button class="btn mt-5" @click.prevent="sendData"> Se connecter </button>
+          <p class="formError"></p>
         </form>
 
         <div>
@@ -55,11 +55,14 @@ export default {
       testEmail: null,
       testPassword: null,
       emailRegExp: '',
-      passwordRegExp: ''
+      passwordRegExp: '',
+      formError: ''
     }
   },
   methods: {
     verifEmail() {
+      this.formError = document.querySelector(".formError");
+      this.formError.textContent = "";
       this.form = document.querySelector("form");
       this.emailRegExp = /^[A-Za-z0-9.\-+%_]+[@]{1}[A-Za-z0-9.\-+%_]+\.[A-Za-z]{2,}/i;
       this.errorEmail = document.querySelector('.emailError');
@@ -69,11 +72,15 @@ export default {
         return true;
       }
       else if (this.form.email.value == '') {
-        this.errorEmail.textContent = "";
+        this.errorEmail.textContent = "L'adresse email ne peut être vide !";
+        this.errorEmail.style.color = "red";
+        this.errorEmail.style.marginTop = "5px";
+        this.errorEmail.style.marginBottom = "0";
+        this.errorEmail.style.fontSize = "16px";
         return false;
       }
       else {
-        this.errorEmail.textContent = "Email Non Valide";
+        this.errorEmail.textContent = "Email non valide";
         this.errorEmail.style.color = "red";
         this.errorEmail.style.marginTop = "5px";
         this.errorEmail.style.marginBottom = "0";
@@ -81,6 +88,8 @@ export default {
       }
     },
     verifPassword() {
+      this.formError = document.querySelector(".formError");
+      this.formError.textContent = "";
       this.form = document.querySelector("form");
       this.passwordRegExp = /^(?=.*?[A-ZÀÂÇÉÈÊËÎÏÔÙÛÜŸÆŒ])(?=.*?[a-zàâæçéèêëîïôœùûüÿ])(?=.*?[0-9])(?=.*?[#.+?!@$%,:;^&*_-]).{6,}$/;
       this.errorPassword = document.querySelector('.passwordError');
@@ -90,11 +99,15 @@ export default {
         return true;
       }
       else if (this.form.password.value == '') {
-        this.errorPassword.textContent = "";
+        this.errorPassword.textContent = "Le mot de passe ne peut être vide !";
+        this.errorPassword.style.color = "red";
+        this.errorPassword.style.marginTop = "5px";
+        this.errorPassword.style.marginBottom = "0";
+        this.errorPassword.style.fontSize = "16px";
         return false;
       }
       else {
-        this.errorPassword.textContent = "Mot de passe Non Valide";
+        this.errorPassword.textContent = "Mot de passe non valide";
         this.errorPassword.style.color = "red";
         this.errorPassword.style.marginTop = "5px";
         this.errorPassword.style.marginBottom = "0";
@@ -108,10 +121,7 @@ export default {
           password: this.formData.password
         })
           .then(reponse => {
-            if (reponse.status == 401) {
-              console.log(reponse.message);
-            }
-            else if (reponse.status == 200) {
+            if(reponse.status == 200) {
               this.$store.commit('UPDATE_USER_STATUS', true);
               this.$store.commit('UPDATE_USER_ID', reponse.data.userId);
               this.$store.commit('UPDATE_ROLE_USER', reponse.data.roleUser);
@@ -119,7 +129,12 @@ export default {
             }
           })
           .catch(error => {
-            console.log(error);
+            this.formError = document.querySelector(".formError");
+            this.formError.textContent =  error.response.data.message;
+            this.formError.style.color = "red";
+            this.formError.style.marginTop = "10px";
+            this.formError.style.marginBottom = "0";
+            this.formError.style.fontSize = "16px";
           })
       }
     },

@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="container">
-      <img src="../../assets/icon-left-font-monochrome-white.png" alt="Groupomania logo">
+      <img src="../../assets/icon-left-font-monochrome-white.png" alt="Groupomania logo" class="container_image">
 
-      <div class="form-p">
+      <div class="container_body">
         <form>
-          <h2> Connexion </h2>
+          <h2 class="container_body_title"> Connexion </h2>
           <div class="form-group my-4">
             <label for="email" class="mb-2"> Votre adresse email : </label>
             <input type="email" id="email" class="form-control" v-model="formData.email" @keyup="verifEmail">
@@ -14,19 +14,18 @@
 
           <div class="form-group mt-3">
             <label for="password" class="mb-2"> Votre mot de passe : </label>
-            <input type="password" id="password" class="form-control" v-model="formData.password" @keyup="verifPassword">
+            <input type="password" id="password" class="form-control" v-model="formData.password"
+              @keyup="verifPassword">
             <p class="passwordError"></p>
           </div>
 
-          <button class="btn mt-5" @click.prevent="sendData"> Se connecter </button>
+          <button class="btn container_body_button my-5" @click.prevent="sendData"> Se connecter </button>
           <p class="formError"></p>
         </form>
 
-        <div>
-          <p class="mt-5"> Vous n'avez pas encore de compte ? <router-link to="/inscription"> Cliquez ici.
-            </router-link>
-          </p>
-        </div>
+        <p> Vous n'avez pas encore de compte ? <router-link to="/inscription"> Cliquez ici.
+          </router-link>
+        </p>
       </div>
     </div>
   </div>
@@ -121,7 +120,7 @@ export default {
           password: this.formData.password
         })
           .then(reponse => {
-            if(reponse.status == 200) {
+            if (reponse.status == 200) {
               this.$store.commit('UPDATE_USER_STATUS', true);
               this.$store.commit('UPDATE_USER_ID', reponse.data.userId);
               this.$store.commit('UPDATE_ROLE_USER', reponse.data.roleUser);
@@ -130,7 +129,7 @@ export default {
           })
           .catch(error => {
             this.formError = document.querySelector(".formError");
-            this.formError.textContent =  error.response.data.message;
+            this.formError.textContent = error.response.data.message;
             this.formError.style.color = "red";
             this.formError.style.marginTop = "10px";
             this.formError.style.marginBottom = "0";

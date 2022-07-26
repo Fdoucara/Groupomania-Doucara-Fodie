@@ -4,7 +4,7 @@
 
     <img src="../../assets/icon-left-font-monochrome-white.png" alt="Groupomania logo" class="container_image">
     <div class="container_body">
-      <form class="mb-4">
+      <form class="mb-5">
         <h2 class="container_body_title"> Inscription </h2>
 
         <div class="container_body_name mb-2">
@@ -42,8 +42,8 @@
         <p class="formError"></p>
       </form>
 
-        <p> Vous avez deja un compte ? <router-link to="/"> Cliquez ici. </router-link>
-        </p>
+      <p> Vous avez deja un compte ? <router-link to="/"> Cliquez ici. </router-link>
+      </p>
     </div>
 
     <div>
@@ -144,6 +144,8 @@ export default {
       }
     },
     verifEmail() {
+      this.formError = document.querySelector(".formError");
+      this.formError.textContent = "";
       this.form = document.querySelector("form");
       this.emailRegExp = /^[A-Za-z0-9.\-+%_]+[@]{1}[A-Za-z0-9.\-+%_]+\.[A-Za-z]{2,}/i;
       this.errorEmail = document.querySelector('.emailError');
@@ -161,7 +163,7 @@ export default {
         return false;
       }
       else {
-        this.errorEmail.textContent = "Email Non Valide";
+        this.errorEmail.textContent = "Email non valide";
         this.errorEmail.style.color = "red";
         this.errorEmail.style.marginTop = "5px";
         this.errorEmail.style.marginBottom = "0";
@@ -186,7 +188,7 @@ export default {
         return false;
       }
       else {
-        this.errorPassword.textContent = "6 caractères, 1 majuscule, 1 chiffre, 1 caractère spécial";
+        this.errorPassword.textContent = "Il faut 6 caractères min, 1 majuscule, 1 chiffre, 1 caractère spécial";
         this.errorPassword.style.color = "red";
         this.errorPassword.style.marginTop = "5px";
         this.errorPassword.style.marginBottom = "0";
@@ -203,16 +205,18 @@ export default {
           password: this.formData.password
         }))
           .then(reponse => {
-            if(reponse.status == 400){
-              this.formError = document.querySelector(".formError");
-              console.log(reponse);
-            }
-            else if(reponse.status == 201) {
+            if (reponse.status == 201) {
               this.registerModale = !this.registerModale;
             }
           })
           .catch(error => {
-            console.log(error);
+            this.formError = document.querySelector(".formError");
+            this.formError.textContent = error.response.data.errors.email;
+            this.formError.style.textAlign = "center";
+            this.formError.style.color = "red";
+            this.formError.style.marginTop = "10px";
+            this.formError.style.marginBottom = "0";
+            this.formError.style.fontSize = "16px";
           })
       }
     },

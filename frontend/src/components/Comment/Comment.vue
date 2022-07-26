@@ -18,7 +18,7 @@
           <i class="fas fa-trash" :id="comment.id" @click="deleteComment"
             v-if="comment.user_id == userId && roleId == 3"></i>
           <i class="fas fa-trash" :id="comment.id" @click="deleteAnyoneComment"
-            v-if="comment.user_id == userId && roleId == 1 || roleId == 4"></i>
+            v-if="comment.user_id == userId || roleId == 1 || roleId == 4"></i>
         </div>
       </div>
     </div>

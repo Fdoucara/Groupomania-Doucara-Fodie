@@ -4,7 +4,7 @@
     <navbar></navbar>
     <mon-profil></mon-profil>
 
-    <div class="card" v-if="roleId == '1'">
+    <div class="card" v-if="roleId == 1">
       <div class="card-body-content">
         <p class="card-body-content-text">
           Salut {{ adminName + ' ' + adminFirstname }}, tu es l'administrateur de ce réseau social. Sur cette page, vous

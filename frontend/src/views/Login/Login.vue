@@ -19,7 +19,7 @@
             <p class="passwordError"></p>
           </div>
 
-          <button class="btn container_body_button my-5" @click.prevent="sendData"> Se connecter </button>
+          <button class="btn container_body_button mt-5 mb-4" @click.prevent="sendData"> Se connecter </button>
           <p class="formError"></p>
         </form>
 
@@ -130,9 +130,10 @@ export default {
           .catch(error => {
             this.formError = document.querySelector(".formError");
             this.formError.textContent = error.response.data.message;
+            this.formError.style.textAlign = "center";
             this.formError.style.color = "red";
             this.formError.style.marginTop = "10px";
-            this.formError.style.marginBottom = "0";
+            this.formError.style.marginBottom = "10px";
             this.formError.style.fontSize = "16px";
           })
       }

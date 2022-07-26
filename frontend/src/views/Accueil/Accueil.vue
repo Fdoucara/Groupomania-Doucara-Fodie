@@ -38,8 +38,8 @@
 
     <comment-modale :commentModale="commentModale" :toggleCommentModale="toggleCommentModale" :post_id="post_id"
       @updateList="newList"></comment-modale>
-    <update-modale :updatePostModale="updatePostModale" :togglePostModale="togglePostModale" v-if="dataPost && post_id"
-      :post_id="post_id" @updateList="newList" :dataPost="dataPost"></update-modale>
+    <update-modale :updatePostModale="updatePostModale" :togglePostModale="togglePostModale" v-if="post_id"
+      :post_id="post_id" @updateList="newList"></update-modale>
     <delete-modale :deletePostModale="deletePostModale" :deleteAnyonePostModale="deleteAnyonePostModale"
       :toggleDeletePostModale="toggleDeletePostModale" :toggleDeleteAnyonePostModale="toggleDeleteAnyonePostModale"
       :post_id="post_id" @updateList="newList"></delete-modale>
@@ -141,10 +141,6 @@ export default {
     updatePost(e) {
       this.post_id = e.target.id;
       this.updatePostModale = !this.updatePostModale;
-      this.axiosInstance.get('post/' + this.post_id)
-        .then(reponse => {
-          this.dataPost = reponse.data.result[0];
-        })
     },
     deletePost(e) {
       this.post_id = e.target.id;

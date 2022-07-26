@@ -106,7 +106,7 @@ export default {
     changeFile(e) {
       this.selectedFile = e.target.files[0];
       this.filename = e.target.files[0].name;
-      this.paragraphe = document.querySelector('modale_content_body_image_button_upload');
+      this.paragraphe = document.querySelector('.modale_content_body_image_button_upload');
       if (this.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
       } else {
@@ -140,11 +140,12 @@ export default {
           bio: this.bio,
           email: this.email,
         })
-          .then(() => {
-            this.paragrapheError.textContent = "Le nom, le prenom ainsi que l'email de l'utilisateur ne peuvent pas être vide. Veuillez a les verifier !";
+          .catch((error) => {
+            console.log({ error });
+            this.paragrapheError.textContent = error.response.data.message;
             this.paragrapheError.style.textAlign = 'center'
             this.paragrapheError.style.fontSize = '16px';
-            this.paragrapheError.style.marginBottom = '0'
+            this.paragrapheError.style.paddingBottom = '10px'
             this.paragrapheError.style.color = 'red';
           })
       }

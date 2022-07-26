@@ -143,7 +143,7 @@ export default {
         this.getPostInfo();
       }
     ),
-      this.getPostInfo();
+    this.getPostInfo();
     bus.$on('postAfterUpdate', () => {
       this.getPostInfo();
     });

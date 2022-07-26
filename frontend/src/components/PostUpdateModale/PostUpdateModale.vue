@@ -44,7 +44,7 @@ import { bus } from '../../main'
 
 export default {
   name: 'PostUpdateModale',
-  props: ['updatePostModale', 'togglePostModale', 'post_id', 'dataPost'],
+  props: ['updatePostModale', 'togglePostModale', 'post_id'],
   data() {
     return {
       formData: {
@@ -58,6 +58,7 @@ export default {
       config: {
         headers: { 'Content-Type': 'multipart/form-data' }
       },
+      dataPost: '',
       old_post_content: '',
       filename: '',
       paragraphe: undefined,
@@ -73,25 +74,31 @@ export default {
         })
     },
     getPostInfo() {
-      this.formData.post_content = this.dataPost.post_content;
-      this.old_post_content = this.formData.post_content;
+      this.axiosInstance.get('post/' + this.post_id)
+      .then(reponse => {
+        this.dataPost = reponse.data.result[0];
+        this.formData.post_content = this.dataPost.post_content;
+        this.old_post_content = this.formData.post_content;
+      })   
     },
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
-      this.paragraphe = document.querySelector('.postModale_upload-image-name');
+      this.paragraphe = document.querySelector('.modale_content_upload_image');
       if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
+        this.paragraphe.style.fontSize = '16px';
+        this.paragraphe.style.textAlign = "center";
       } else {
         this.paragraphe.textContent = '';
       }
     },
     verifWrite() {
-      this.paragrapheError = document.querySelector('.postModale_error');
+      this.paragrapheError = document.querySelector('.modale_content_error');
       this.paragrapheError.textContent = '';
     },
     sendData() {
-      this.paragrapheError = document.querySelector('.postModale_error');
+      this.paragrapheError = document.querySelector('.modale_content_error');
       if (!this.formData.selectedFile && this.formData.post_content != this.old_post_content) {
         this.axiosInstance.patch('post/update-post/' + this.post_id, {
           post_content: this.formData.post_content
@@ -99,7 +106,6 @@ export default {
           .then(reponse => {
             if (reponse.status == 201) {
               this.old_post_content = this.formData.post_content;
-              console.log(this.old_post_content);
               this.$emit('updateList');
               bus.$emit('listAfterUpdate');
               this.togglePostModale();
@@ -111,7 +117,8 @@ export default {
       }
       else if (!this.formData.selectedFile && this.formData.post_content == this.old_post_content) {
         this.paragrapheError.textContent = "Aucune modification n'a été effectuée.";
-        this.paragrapheError.style.fontSize = '20px';
+        this.paragrapheError.style.fontSize = '16px';
+        this.paragrapheError.style.textAlign = "center";
         this.paragrapheError.style.color = 'red';
       }
       else if (this.formData.selectedFile && this.formData.post_content == this.old_post_content) {
@@ -156,6 +163,12 @@ export default {
   },
   mounted() {
     this.getUserImage();
+    this.$watch(
+      () => this.post_id,
+      () => {
+        this.getPostInfo();
+      }
+    );
     this.getPostInfo();
     bus.$on('profilAfterUpdate', () => {
       this.getUserImage();

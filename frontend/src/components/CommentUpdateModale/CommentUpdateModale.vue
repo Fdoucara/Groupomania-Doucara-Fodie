@@ -44,7 +44,7 @@ import { bus } from '../../main'
 
 export default {
   name: 'CommentUpdateModale',
-  props: ['updateCommentModale', 'toggleCommentModale', 'comment_id', 'dataComment'],
+  props: ['updateCommentModale', 'toggleCommentModale', 'comment_id'],
   data() {
     return {
       formData: {
@@ -58,6 +58,7 @@ export default {
       config: {
         headers: { 'Content-Type': 'multipart/form-data' }
       },
+      dataComment: '',
       old_comment_content: '',
       filename: '',
       paragraphe: undefined,
@@ -73,8 +74,12 @@ export default {
         })
     },
     getCommentInfo() {
-      this.formData.comment_content = this.dataComment.comment_content;
-      this.old_comment_content = this.formData.comment_content;
+      this.axiosInstance.get('post/comment/' + this.comment_id)
+      .then(reponse => {
+        this.dataComment = reponse.data.result[0];
+        this.formData.comment_content = this.dataComment.comment_content;
+        this.old_comment_content = this.formData.comment_content;
+      })
     },
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];
@@ -157,6 +162,12 @@ export default {
   },
   mounted() {
     this.getUserImage();
+    this.$watch(
+      () => this.comment_id,
+      () => {
+        this.getCommentInfo();
+      }
+    );
     this.getCommentInfo();
     bus.$on('profilAfterUpdate', () => {
       this.getUserImage();

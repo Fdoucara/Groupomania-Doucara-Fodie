@@ -24,7 +24,7 @@
     </div>
 
     <update-modale :updateCommentModale="updateCommentModale" :toggleCommentModale="toggleCommentModale"
-      v-if="dataComment && comment_id" :comment_id="comment_id" @updateCommentList="updateCommentList"
+      v-if="comment_id" :comment_id="comment_id" @updateCommentList="updateCommentList"
       :dataComment="dataComment"></update-modale>
     <delete-modale :deleteCommentModale="deleteCommentModale" :deleteAnyoneCommentModale="deleteAnyoneCommentModale"
       :toggleDeleteCommentModale="toggleDeleteCommentModale"
@@ -90,10 +90,6 @@ export default {
     updateComment(e) {
       this.comment_id = e.target.id;
       this.updateCommentModale = !this.updateCommentModale;
-      this.axiosInstance.get('post/comment/' + this.comment_id)
-        .then(reponse => {
-          this.dataComment = reponse.data.result[0];
-        })
     },
     deleteComment(e) {
       this.comment_id = e.target.id;

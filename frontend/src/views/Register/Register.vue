@@ -8,13 +8,13 @@
         <h2 class="container_body_title"> Inscription </h2>
 
         <div class="container_body_name mb-2">
-          <div class="form-group mt-4">
+          <div class="form-group mt-4 container_body_name_group">
             <label for="nom" class="mb-2"> Nom : </label>
             <input type="text" id="nom" class="form-control" v-model="formData.nom" @keyup="verifNom">
             <p class="nomError"></p>
           </div>
 
-          <div class="form-group mt-4">
+          <div class="form-group mt-4 container_body_name_group">
             <label for="prenom" class="mb-2"> Prenom : </label>
             <input type="text" id="prenom" class="form-control" v-model="formData.prenom" @keyup="verifPrenom">
             <p class="prenomError"></p>

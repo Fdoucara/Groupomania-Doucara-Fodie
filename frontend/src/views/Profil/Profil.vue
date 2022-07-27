@@ -4,17 +4,19 @@
     <navbar></navbar>
     <mon-profil></mon-profil>
 
-    <div class="card_ mb-4">
+    <div class="card mb-4">
       <div class="card_contain">
-        <div class="card_img">
-          <img :src="photo" class="img-fluid" alt="`Photo de profil`">
+        <div class="card_contain_group">
+          <div class="card_contain_group_img">
+            <img :src="photo" class="card_contain_group_img_fluid" alt="`Photo de profil`">
+          </div>
+          <div class="card_contain_group_body">
+            <h5 class="card_contain_group_body_name"> {{ nom }} </h5>
+            <p class="card_contain_group_body_firstname"> {{ prenom }} </p>
+            <p class="card_contain_group_body_email"> {{ email }} </p>
+          </div>
         </div>
-        <div class="card_body">
-          <h5 class="card-name"> {{ nom }} </h5>
-          <p class="card-firstname"> {{ prenom }} </p>
-          <p class="card-email"> {{ email }} </p>
-          <p class="card-bio" v-if="bio != '' && bio != null"> <q> {{ bio }} </q> </p>
-        </div>
+        <p class="card_contain_bio" v-if="bio != '' && bio != null"> <q> {{ bio }} </q> </p>
       </div>
     </div>
 
@@ -27,17 +29,17 @@
     </h3>
 
     <div v-if="showCard">
-      <div class="card my-4" :key="index" v-for="(post, index) in info">
+      <div class="card_post my-4" :key="index" v-for="(post, index) in info">
 
-        <div class="card-body">
-          <router-link :to="`/post/${post.id}`" class="card_link">
-            <div class="card-body-header">
-              <p class="card-body-header-text bold" v-if="post.user_id == userId"> Par vous </p>
-              <p class="card-body-header-text bold" v-else> Par {{ post.nom + ' ' + post.prenom }} </p>
-              <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleDateString() }} </p>
+        <div class="card_post_body">
+          <router-link :to="`/post/${post.id}`" class="card_post_body_link">
+            <div class="card_post_body_header">
+              <p class="card_post_body_header_text bold" v-if="post.user_id == userId"> Par vous </p>
+              <p class="card_post_body_header_text bold" v-else> Par {{ post.nom + ' ' + post.prenom }} </p>
+              <p class="card_post_body_header_text"> Le {{ new Date(post.post_date).toLocaleDateString() }} </p>
             </div>
-            <img :src="post.post_imageUrl" class="card-image">
-            <p class="card-text"> {{ post.post_content }} </p>
+            <img :src="post.post_imageUrl" class="card_post_body_image">
+            <p class="card_post_body_text"> {{ post.post_content }} </p>
           </router-link>
         </div>
       </div>
@@ -127,4 +129,5 @@ export default {
 
 </script>
 
-<style lang="scss" scoped src="./profil.scss"></style>
+<style lang="scss" scoped src="./profil.scss">
+</style>

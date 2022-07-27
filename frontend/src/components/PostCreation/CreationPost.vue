@@ -3,10 +3,6 @@
   <div>
     <div class="card">
       <div class="card_body">
-        <div class="card_body_header">
-          <h1 class="card_body_header_text text1"> Accueil </h1>
-          <i class="fab fa-angellist card_body_header_text"></i>
-        </div>
         <form>
           <div class="card_body_content">
             <img :src="userImage" class="card_body_content_image">

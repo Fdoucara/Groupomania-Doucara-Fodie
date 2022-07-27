@@ -5,35 +5,35 @@
     <mon-profil></mon-profil>
 
     <div class="card" v-if="roleId == 1">
-      <div class="card-body-content">
-        <p class="card-body-content-text">
-          Salut {{ adminName + ' ' + adminFirstname }}, tu es l'administrateur de ce réseau social. Sur cette page, vous
-          pouvez changer les rôles des
-          utilisateurs comme vous le souhaitez. En effet, vous avez la possibilité de les nommer modérateurs ou de les
+      <div class="card_body">
+        <p class="card_body_text">
+          Salut <b> {{ adminName + ' ' + adminFirstname }} </b>, tu es l'administrateur de ce réseau social. Sur cette page, tu
+          pourras changer les rôles des
+          utilisateurs. En effet, tu as la possibilité de les nommer modérateurs ou de les
           laisser utilisateurs simples.
         </p>
       </div>
     </div>
 
-    <div class="user_info_contain">
-      <div class="card card_user my-4" :key="index" v-for="(user, index) in info">
-        <div class="card-body">
-          <div class="card-body-content">
-            <router-link :to="`/profil/${user.id}`" class="card_link">
-              <img :src="user.user_imageUrl" class="card-image">
-              <div class="card-text">
+    <div class="user_contain">
+      <div class="card user_contain_info my-4" :key="index" v-for="(user, index) in info">
+        <div class="user_contain_info_body">
+          <div class="user_contain_info_body_content">
+            <router-link :to="`/profil/${user.id}`" class="user_contain_info_body_link">
+              <img :src="user.user_imageUrl" class="user_contain_info_body_content_image">
+              <div class="user_contain_info_body_content_text">
                 <p v-if="user.id == userId"> {{ user.nom + ' ' + user.prenom }} (Vous)</p>
                 <p v-else> {{ user.nom + ' ' + user.prenom }} </p>
-                <p class="bio" v-if="user.bio != '' && user.bio != null"><q> {{ user.bio }} </q></p>
-                <p class="role" v-if="user.role_id == '1'"> Administrateur </p>
-                <p class="role" v-if="user.role_id == '4'"> Modérateur </p>
-                <p class="role" v-if="user.role_id == '3'"> Utilisateur </p>
+                <p class="user_contain_info_body_content_text_bio" v-if="user.bio != '' && user.bio != null"><q> {{ user.bio }} </q></p>
+                <p class="user_contain_info_body_content_text_role" v-if="user.role_id == '1'"> Administrateur </p>
+                <p class="user_contain_info_body_content_text_role" v-if="user.role_id == '4'"> Modérateur </p>
+                <p class="user_contain_info_body_content_text_role" v-if="user.role_id == '3'"> Utilisateur </p>
               </div>
             </router-link>
-            <div class="btn_group">
-              <button class="btn btn-color" :id='user.id' v-if="roleId == '1' && user.id != userId" @click="changeRole">
+            <div class="user_contain_info_body_content_btn">
+              <button class="btn user_contain_info_body_content_btn_change" :id='user.id' v-if="roleId == '1' && user.id != userId" @click="changeRole">
                 Changer son role </button>
-              <button class="btn btn-color black" :id='user.id' v-if="roleId == '1' && user.id != userId"
+              <button class="btn user_contain_info_body_content_btn_delete black" :id='user.id' v-if="roleId == '1' && user.id != userId"
                 @click="deleteAnyoneProfil"> Supprmer cet utilisateur </button>
             </div>
           </div>

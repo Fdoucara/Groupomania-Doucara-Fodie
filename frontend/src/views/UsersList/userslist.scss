@@ -5,10 +5,13 @@
   border: 0;
   border-radius: 0px 0px 15px 15px;
   background: white;
-}
-
-.card-body {
-  width: 100%;
+  &_body {
+    width: 100%;
+    &_text {
+      font-size: 22px;
+      padding: 35px;
+    }
+  }
 }
 
 .card-body-content {
@@ -19,82 +22,75 @@
   flex-wrap: wrap;
 }
 
-.card-body-content-text {
-  font-size: 23px;
-  padding: 40px;
-}
 
-.user_info_contain {
-  padding: 4px;
-}
-
-.card_user {
-  border-radius: 20px;
-}
-
-.card_link {
-  width: 70%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-decoration: none;
-  color: black;
-  padding: 0;
-  margin: auto;
-}
-
-.card-body {
-  width: 100%;
-}
-
-.card-body-content {
-  margin: 0;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.card-image {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.card-text {
-  text-align: left;
-  font-size: 22px;
-  margin: 0;
-  width: 60%;
-  padding-top: 25px;
-  padding-bottom: 25px;
-}
-
-.bio {
-  font-style: italic;
-  font-size: 20px;
-}
-
-.role {
-  font-style: oblique;
-  font-size: 22px;
-}
-
-.btn_group {
-  width: 100%;
-  display: flex;
-}
-
-.btn-color {
-  font-size: 20px;
-  background: #D31027;
-  color: white;
-  width: 40%;
-  margin: auto;
-  margin-bottom: 5px;
-  border-radius: 25px;
-}
-
-.black {
-  background: #203A43;
+.user_contain {
+  &_info {
+    padding: 10px;
+    border-radius: 20px;
+    &_body {
+      width: 100%;
+      &_content {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        &_image {
+          width: 150px;
+          height: 150px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+        &_text {
+          text-align: left;
+          font-size: 22px;
+          margin: 0;
+          width: 60%;
+          padding-top: 25px;
+          padding-bottom: 20px;
+          &_bio {
+            font-style: italic;
+            font-size: 18px;
+          }
+          &_role {
+            font-style: oblique;
+            font-size: 20px;
+          }
+        }
+        &_btn {
+          width: 100%;
+          display: flex;
+          padding-bottom: 10px;
+          &_change {
+            font-size: 20px;
+            background: #D31027;
+            color: white;
+            width: 40%;
+            margin: auto;
+            margin-bottom: 5px;
+            border-radius: 25px;
+          }
+          &_delete { 
+            font-size: 20px;
+            background: #203A43;
+            color: white;
+            width: 40%;
+            margin: auto;
+            margin-bottom: 5px;
+            border-radius: 25px;
+          }
+        }
+      }
+      &_link {
+        width: 70%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-decoration: none;
+        color: black;
+        padding: 0;
+        margin: auto;
+      }
+    }
+  }
 }

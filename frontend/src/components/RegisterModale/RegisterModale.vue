@@ -5,7 +5,6 @@
 
     <div class="modale card">
       <h2 class="modale_title"> Inscription réussie
-        <hr>
       </h2>
       <div class="modale_content">
         <p> Votre compte a bien été créé. </p>

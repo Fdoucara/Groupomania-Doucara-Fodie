@@ -16,7 +16,7 @@
               <label for="comment_image" class="card_body_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
             </div>
             <div class="card_body_footer_send">
-              <button class="btn card_body_footer_send_button" @click="sendData"> <i class="fas fa-paper-plane"></i> &nbsp; Envoyer
+              <button class="btn card_body_footer_send_button" @click.prevent="sendData"> <i class="fas fa-paper-plane"></i> &nbsp; Envoyer
               </button>
             </div>
           </div>
@@ -99,7 +99,7 @@ export default {
         this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte ou ajouter une image !';
         this.paragrapheError.style.textAlign = 'center'
         this.paragrapheError.style.fontSize = '16px';
-        this.paragrapheError.style.marginBottom = '0'
+        this.paragrapheError.style.marginBottom = '10px'
         this.paragrapheError.style.color = 'red';
       }
       else if (this.formData.selectedFile && this.formData.comment_content == '') {

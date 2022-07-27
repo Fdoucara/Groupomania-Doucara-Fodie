@@ -222,7 +222,7 @@ export default {
     },
     toggleRegisterModale() {
       this.registerModale = !this.registerModale;
-      this.$router.push('/');
+      this.$router.replace('/');
     }
   },
 }

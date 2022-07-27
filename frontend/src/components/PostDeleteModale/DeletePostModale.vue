@@ -83,7 +83,7 @@ export default {
       this.axiosInstance.delete('post/delete-post/' + this.post_id)
         .then(() => {
           if (this.$route.path == `/post/${this.post_id}`) {
-            this.$router.push('/accueil');
+            this.$router.replace('/accueil');
             this.toggleDeletePostModale();
           } else {
             this.$emit('updateList');
@@ -96,7 +96,7 @@ export default {
       this.axiosInstance.delete('post/delete-anyone-post/' + this.post_id)
         .then(() => {
           if (this.$route.path == `/post/${this.post_id}`) {
-            this.$router.push('/accueil');
+            this.$router.replace('/accueil');
             this.toggleDeleteAnyonePostModale();
           } else {
             this.$emit('updateList');

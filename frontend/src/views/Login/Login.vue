@@ -124,7 +124,7 @@ export default {
               this.$store.commit('UPDATE_USER_STATUS', true);
               this.$store.commit('UPDATE_USER_ID', reponse.data.userId);
               this.$store.commit('UPDATE_ROLE_USER', reponse.data.roleUser);
-              this.$router.push('/accueil');
+              this.$router.replace('/accueil');
             }
           })
           .catch(error => {

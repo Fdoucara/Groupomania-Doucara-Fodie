@@ -160,7 +160,7 @@ export default {
     bus.$on('deleteProfil', () => {
       this.toggleDeleteProfilModale();
     });
-  },
+  }
 }
 </script>
 

@@ -7,6 +7,7 @@ import AccueilComponent from '@/views/Accueil/Accueil.vue'
 import ProfilComponent from '@/views/Profil/Profil.vue'
 import OnePost from '@/views/OnePost/OnePost.vue'
 import UsersList from '@/views/UsersList/UsersList.vue'
+import PageError from '@/views/Page404/Page404.vue'
 
 Vue.use(VueRouter)
 
@@ -78,11 +79,16 @@ const routes = [
         next(false);
       }
     }
-  }
+  },
+  {
+    path: '*',
+    name: 'page404',
+    component: PageError
+  },
 ]
 
 const router = new VueRouter({
-  // mode: "history",
+  mode: "history",
   routes
 })
 

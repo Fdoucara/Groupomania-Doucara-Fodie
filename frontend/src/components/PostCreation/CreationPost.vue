@@ -17,7 +17,7 @@
                 image </label>
             </div>
             <div class="card_body_footer_send">
-              <button class="btn card_body_footer_send_button" @click="sendData"> <i class="fas fa-paper-plane"></i>
+              <button class="btn card_body_footer_send_button" @click.prevent="sendData"> <i class="fas fa-paper-plane"></i>
                 &nbsp; Publier
               </button>
             </div>
@@ -87,6 +87,7 @@ export default {
         })
           .then(reponse => {
             if (reponse.status == 201) {
+
               this.$emit('updateList');
               bus.$emit('takeProfil');
               this.formData.post_content = '';

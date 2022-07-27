@@ -75,7 +75,7 @@ export default {
           this.$store.commit('REMOVE_USER_ID');
           this.$store.commit('REMOVE_ROLE_USER');
           this.toggleDeleteProfilModale();
-          this.$router.push('/');
+          this.$router.replace('/');
         })
     },
     deleteAnyoneProfil() {

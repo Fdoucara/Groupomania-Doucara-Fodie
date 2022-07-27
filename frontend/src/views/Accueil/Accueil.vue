@@ -7,21 +7,19 @@
     <creation :info="info" @updateList="newList"></creation>
 
     <div class="card my-4" :key="index" v-for="(post, index) in info">
-      <div class="card-body" v-if="showText != true">
-        <router-link :to="`/post/${post.id}`" class="card_link">
-          <div class="card-body-header">
-            <router-link to="/monProfil" v-if="post.user_id == userId" class="card-body-header-text bold">
-              <p> Par vous </p>
-            </router-link>
-            <router-link :to="`/profil/${post.user_id}`" v-else class="card-body-header-text bold">
+      <div class="card_body" v-if="showText != true">
+        <router-link :to="`/post/${post.id}`" class="card_body_link">
+          <div class="card_body_header">
+            <p v-if="post.user_id == userId" class="card_body_header_text bold"> Par vous </p>
+            <router-link :to="`/profil/${post.user_id}`" v-else class="card_body_header_text bold">
               <p> Par {{ post.nom + ' ' + post.prenom }} </p>
             </router-link>
-            <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleDateString() }} </p>
+            <p class="card_body_header_text"> Le {{ new Date(post.post_date).toLocaleDateString() }} </p>
           </div>
-          <img :src="post.post_imageUrl" class="card-image">
-          <p class="card-text"> {{ post.post_content }} </p>
+          <img :src="post.post_imageUrl" class="card_body_image">
+          <p class="card_body_text"> {{ post.post_content }} </p>
         </router-link>
-        <div class="card-body-footer">
+        <div class="card_body_footer">
           <i class="fas fa-comment" :id="post.id" @click="commentPost"> {{ post.totalComment1 + post.totalComment2 +
               post.totalComment3
           }}</i>
@@ -166,4 +164,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped src="./accueil.scss"></style>
+<style lang="scss" scoped src="./accueil.scss">
+</style>

@@ -1,22 +1,22 @@
 <template>
   <div class="big_contain">
 
-    <div class="card_ mb-2">
+    <div class="card mb-2">
       <div class="card_contain">
-        <div class="card_contain_img_body">
-          <div class="card_img">
-            <img :src="photo" class="img-fluid" alt="`Photo de profil`">
+        <div class="card_contain_group">
+          <div class="card_contain_group_img">
+            <img :src="photo" class="card_contain_group_img_fluid" alt="`Photo de profil`">
           </div>
-          <div class="card_body">
-            <h5 class="card-name"> {{ nom }} </h5>
-            <p class="card-firstname"> {{ prenom }} </p>
-            <p class="card-email"> {{ email }} </p>
+          <div class="card_contain_group_body">
+            <h5 class="card_contain_group_body_name"> {{ nom }} </h5>
+            <p class="card_contain_group_body_firstname"> {{ prenom }} </p>
+            <p class="card_contain_group_body_email"> {{ email }} </p>
           </div>
         </div>
-        <p class="card-bio" v-if="bio != '' && bio != null"> <q> {{ bio }} </q> </p>
+        <p class="card_contain_bio" v-if="bio != '' && bio != null"> <q> {{ bio }} </q> </p>
       </div>
-      <button class="card_button btn mt-2" @click="updateProfil"> Modifier mon profil </button>
-      <button class="card_button new btn mt-3" @click="deleteProfil"> Supprimer mon profil </button>
+      <button class="card_button_update btn mt-2" @click="updateProfil"> Modifier mon profil </button>
+      <button class="card_button_delete btn mt-3" @click="deleteProfil"> Supprimer mon profil </button>
     </div>
 
     <div class="activite mt-4 mb-1">
@@ -26,15 +26,15 @@
     <h3 v-if="!showCard" class="none"> Vous n'avez aucun post pour le moment ! </h3>
 
     <div class="post_scroll" v-if="showCard">
-      <div class="card my-3" :key="index" v-for="(post, index) in info">
-        <router-link :to="`/post/${post.id}`" class="card_link">
-          <div class="card-body">
-            <div class="card-body-header">
-              <p class="card-body-header-text bold"> Par vous </p>
-              <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleDateString() }} </p>
+      <div class="post_scroll_card my-3" :key="index" v-for="(post, index) in info">
+        <router-link :to="`/post/${post.id}`" class="post_scroll_card_link">
+          <div class="post_scroll_card_body">
+            <div class="post_scroll_card_body_header">
+              <p class="post_scroll_card_body_header_text bold"> Par vous </p>
+              <p class="post_scroll_card_body_header_text"> Le {{ new Date(post.post_date).toLocaleDateString() }} </p>
             </div>
-            <img :src="post.post_imageUrl" class="card-image">
-            <p class="card-text"> {{ post.post_content }} </p>
+            <img :src="post.post_imageUrl" class="post_scroll_card_body_image">
+            <p class="post_scroll_card_body_text"> {{ post.post_content }} </p>
           </div>
         </router-link>
       </div>
@@ -109,4 +109,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped src="./myprofil.scss"></style>
+<style lang="scss" scoped src="./myprofil.scss">
+</style>

@@ -5,17 +5,17 @@
     <mon-profil></mon-profil>
 
     <div class="card">
-      <div class="card-body" :key="index" v-for="(post, index) in info">
-        <div class="card-body-header">
-          <p v-if="post.user_id == userId" class="card-body-header-text bold"> Par vous </p>
-          <router-link :to="`/profil/${post.user_id}`" v-else class="card-body-header-text bold">
+      <div class="card_body" :key="index" v-for="(post, index) in info">
+        <div class="card_body_header">
+          <p v-if="post.user_id == userId" class="card_body_header_text bold"> Par vous </p>
+          <router-link :to="`/profil/${post.user_id}`" v-else class="card_body_header_text bold">
             <p> Par {{ post.nom + ' ' + post.prenom }} </p>
           </router-link>
-          <p class="card-body-header-text"> Le {{ new Date(post.post_date).toLocaleDateString() }} </p>
+          <p class="card_body_header_text"> Le {{ new Date(post.post_date).toLocaleDateString() }} </p>
         </div>
-        <img :src="post.post_imageUrl" class="card-image">
-        <p class="card-text"> {{ post.post_content }} </p>
-        <div class="card-body-footer">
+        <img :src="post.post_imageUrl" class="card_body_image">
+        <p class="card_body_text"> {{ post.post_content }} </p>
+        <div class="card_body_footer">
           <i class="fas fa-comment"> {{ post.totalComment1 + post.totalComment2 + post.totalComment3 }} </i>
           <i class="fas fa-heart" :id="post.id" @click="likePost"> {{ post.post_likes }} </i>
           <i class="fas fa-edit" :id="post.id" @click="updatePost" v-if="post.user_id == userId"></i>
@@ -139,7 +139,7 @@ export default {
         this.getPostInfo();
       }
     ),
-    this.getPostInfo();
+      this.getPostInfo();
     bus.$on('postAfterUpdate', () => {
       this.getPostInfo();
     });
@@ -156,4 +156,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped src="./onepost.scss"></style>
+<style lang="scss" scoped src="./onepost.scss">
+</style>

@@ -14,16 +14,8 @@
   }
 }
 
-.card-body-content {
-  margin: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-
 .user_contain {
+  padding-top: 30px;
   &_info {
     padding: 10px;
     border-radius: 20px;
@@ -90,6 +82,65 @@
         color: black;
         padding: 0;
         margin: auto;
+      }
+    }
+  }
+}
+
+/* Little devices (mobile, 768px and down)*/
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
+    &_body {
+      &_text {
+        font-size: 15px;
+        padding: 25px;
+      }
+    }
+  }
+
+  .user_contain {
+    &_info {
+      padding: 10px;
+      border-radius: 20px;
+      &_body {
+        width: 100%;
+        &_content {
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: center;
+          &_image {
+            width: 80px;
+            height: 80px;
+          }
+          &_text {
+            font-size: 16px;
+            width: 60%;
+            padding-top: 15px;
+            padding-bottom: 10px;
+            &_bio {
+              font-size: 14px;
+            }
+            &_role {
+              font-size: 15px;
+            }
+          }
+          &_btn {
+            &_change {
+              font-size: 13px;
+              width: 45%;
+            }
+            &_delete { 
+              font-size: 13px;
+              width: 45%;
+            }
+          }
+        }
+        &_link {
+          width: 90%;
+        }
       }
     }
   }

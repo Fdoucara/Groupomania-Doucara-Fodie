@@ -1,6 +1,6 @@
 <template>
-  <div class="big_contain">
 
+  <div class="big_contain">
     <div class="card mb-2">
       <div class="card_contain">
         <div class="card_contain_group">
@@ -65,6 +65,7 @@ export default {
       bio: null,
       info: null,
       showCard: true,
+      bigContain: null
     }
   },
   methods: {
@@ -105,7 +106,7 @@ export default {
     bus.$on('profilAfterUpdate', () => {
       this.getProfile();
     });
-  },
+  }
 }
 </script>
 

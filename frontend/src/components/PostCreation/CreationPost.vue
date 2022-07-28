@@ -13,8 +13,8 @@
           <div class="card_body_footer">
             <div class="card_body_footer_upload">
               <input type="file" id="image" class="card_body_footer_upload_input" @change="onFileSelected">
-              <label for="image" class="card_body_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp; Ajouter une
-                image </label>
+              <label for="image" class="card_body_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp; <p> Ajouter une
+                image </p> </label>
             </div>
             <div class="card_body_footer_send">
               <button class="btn card_body_footer_send_button" @click.prevent="sendData"> <i class="fas fa-paper-plane"></i>

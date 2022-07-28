@@ -7,6 +7,10 @@
   right: 0;
 }
 
+.navbar {
+  display: none;
+}
+
 .card {
   padding: 15px;
   width: 95%;
@@ -145,4 +149,13 @@
 
 .bold {
   font-weight: 700;
+}
+
+/* Little devices (mobile, 768px and down)*/
+@media (max-width: 768px) {
+  .big_contain {
+    display: none;
+    width: 100%;
+    z-index: 2;
+  }
 }

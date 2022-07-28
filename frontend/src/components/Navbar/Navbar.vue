@@ -14,9 +14,6 @@
         </router-link>
       </div>
       <div class="navbar_item">
-        <router-link to=""> <i class="fas fa-user"></i> </router-link>
-      </div>
-      <div class="navbar_item">
         <router-link to="/utilisateurs"> <i class="fas fa-users"></i> </router-link>
         <router-link to="/utilisateurs" class="navbar_link">
           <p class="navbar_link_p"> Utilisateurs </p>
@@ -43,9 +40,11 @@ export default {
         withCredentials: true,
         baseURL: 'http://localhost:3000/api/'
       }),
+      userId: this.$store.state.userId,
       overlay: null,
       burger: null,
-      navbar: null
+      navbar: null,
+      big_contain: null
     }
   },
   methods: {

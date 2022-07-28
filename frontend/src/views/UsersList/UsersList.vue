@@ -16,7 +16,7 @@
     </div>
 
     <div class="user_contain">
-      <div class="card user_contain_info my-4" :key="index" v-for="(user, index) in info">
+      <div class="card user_contain_info mb-4" :key="index" v-for="(user, index) in info">
         <div class="user_contain_info_body">
           <div class="user_contain_info_body_content">
             <router-link :to="`/profil/${user.id}`" class="user_contain_info_body_link">
@@ -34,7 +34,7 @@
               <button class="btn user_contain_info_body_content_btn_change" :id='user.id' v-if="roleId == '1' && user.id != userId" @click="changeRole">
                 Changer son role </button>
               <button class="btn user_contain_info_body_content_btn_delete black" :id='user.id' v-if="roleId == '1' && user.id != userId"
-                @click="deleteAnyoneProfil"> Supprmer cet utilisateur </button>
+                @click="deleteAnyoneProfil"> Supprimer le profil </button>
             </div>
           </div>
         </div>

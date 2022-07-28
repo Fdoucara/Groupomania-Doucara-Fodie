@@ -24,6 +24,7 @@
 
       &_text {
         width: 80%;
+        margin-left: 10px;
         height: 90px;
         border: 0;
         padding: 7px;
@@ -77,6 +78,77 @@
           font-size: 20px;
           background: #D31027;
           color: white;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
+    padding-top: 30px;
+
+    &_body {
+      width: 100%;
+  
+      &_content {
+        margin: 20px;
+        margin-bottom: 10px;
+  
+        &_image {
+          width: 70px;
+          height: 70px;
+        }
+  
+        &_text {
+          width: 80%;
+          height: 70px;
+          padding: 7px;
+          font-size: 15px;
+  
+          &::placeholder {
+            font-size: 15px;
+          }
+        }
+      }
+  
+      &_footer {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding-top: 10px;
+  
+        &_upload {
+          width: 40%;
+  
+          &_input {
+            display: none;
+          }
+  
+          &_label {
+            display: block;
+            background-color: #203A43;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            padding: 10px 0px;
+            border-radius: 5px;
+            margin: 0;
+            cursor: pointer;
+          }
+        }
+  
+        &_send {
+          width: 40%;
+  
+          &_button {
+            width: 100%;
+            padding: 10px 0px;
+            font-size: 14px;
+            background: #D31027;
+            color: white;
+          }
         }
       }
     }

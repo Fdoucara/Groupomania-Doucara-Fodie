@@ -86,8 +86,9 @@
 
 @media (max-width: 768px) {
   .card {
+    margin-top: 40px;
     width: 90%;
-    padding-top: 30px;
+    padding-top: 0px;
 
     &_body {
       width: 100%;

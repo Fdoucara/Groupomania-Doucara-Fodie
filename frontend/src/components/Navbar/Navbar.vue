@@ -3,6 +3,7 @@
     <div class="overlay"></div>
     <div class="burger" @click="burgerMenu">
       <span></span>
+      <img src="../../assets/logomodif2.png" alt="Logo Groupomania" class="burger_logo">
     </div>
     <nav class="navbar">
       <router-link to="/accueil"> <img src="../../assets/logomodif1.png" alt="Logo Groupomania" class="navbar_logo">
@@ -55,6 +56,7 @@ export default {
       this.overlay.classList.toggle('black')
       this.burger.classList.toggle('active');
       this.navbar.classList.toggle('show');
+      this.$emit('rotate');
     },
     deconnexion() {
       this.axiosInstance.get('user/logout')

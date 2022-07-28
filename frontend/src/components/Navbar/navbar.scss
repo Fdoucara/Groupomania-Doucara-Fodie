@@ -1,3 +1,71 @@
+.contain {
+  position: relative;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s ease-in-out;
+}
+
+.black {
+  display: block;
+  background-color: black;
+  opacity: 0.5;
+}
+
+.burger {
+  display: none;
+  position: fixed;
+  margin-top: 20px;
+  z-index: 1;
+  left: 0%;
+  top: 0%;
+  width: 25%;
+  height: 24px;
+  cursor: pointer;
+  span {
+    position: absolute;
+    display: block;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40%;
+    height: 3px;
+    background-color: white;
+    transition: background-color 0.5s ease-in-out;
+    &::before, &::after {
+    content: '';
+    position: absolute;
+    left: 0%;
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    transition: transform 0.5s ease-in-out;
+    }
+    &::before {
+      transform: translateY(-10px);
+    }
+    &::after {
+      transform: translateY(10px);
+    }
+  }
+}
+
+.active span {
+   background-color: transparent;
+   &::before, ::after {
+    transform: translateY(0);
+   }
+   &::before {
+    transform: rotate(45deg);
+   }
+   &::after {
+    transform: rotate(-45deg);
+   }
+} 
+
 .navbar {
   position: fixed;
   height: 100%;
@@ -33,7 +101,6 @@
     }
   }
 }
-
 .fas {
   position: absolute;
   left: 30%;
@@ -41,3 +108,53 @@
   color: white;
   font-size: 30px;
 }
+
+
+/* Little devices (mobile, 768px and down)*/
+@media (max-width: 768px) {
+  .overlay {
+    display: block;
+    z-index: 1;
+  }
+  .burger {
+    display: flex;
+    justify-content: center;
+    z-index: 2;
+  }
+  .navbar {
+    width: 25%;
+    z-index: 1;
+    align-items: start;
+    margin-left: -25%;
+    transition: all 0.5s ease-in-out;
+    &_logo {
+      display: none;
+    }
+    &_link {
+      &_p {
+        display: none;
+      }
+    }
+  }
+  
+  .show {
+    margin-left: 0px;
+  }
+
+  .fas {
+    position: relative;
+    left: 0%;
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+  }
+}
+
+/* Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {}
+
+/* Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {}
+
+/* Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {}

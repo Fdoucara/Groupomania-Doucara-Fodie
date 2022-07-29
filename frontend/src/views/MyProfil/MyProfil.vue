@@ -85,6 +85,9 @@ export default {
           }
         })
     },
+    getElement() {
+      this.bigContain = document.querySelector('.big_contain')
+    },
     updateProfil() {
       bus.$emit('updateProfil');
     },
@@ -94,6 +97,7 @@ export default {
   },
   mounted() {
     this.getProfile();
+    this.getElement();
     bus.$on('takeProfil', () => {
       this.getProfile();
     });
@@ -107,7 +111,6 @@ export default {
       this.getProfile();
     });
     bus.$on('showProfil', () => {
-      this.bigContain = document.querySelector('.big_contain');
       this.bigContain.classList.toggle('show');
     })
   }

@@ -153,6 +153,7 @@
     margin-right: -100%;
     width: 100%;
     z-index: 2;
+    background-color: white;
     transition: all 1s ease-in-out;
   }
 
@@ -162,6 +163,8 @@
 
   .card {
     width: 95%;
+    background-color: #D31027;
+    color: white;
 
     &_contain {
       width: 90%;
@@ -199,6 +202,8 @@
       width: 100%;
 
       &_update {
+        background-color: white;
+        color: black;
         font-size: 14px;
       }
 
@@ -209,8 +214,9 @@
   }
 
   .activite {
-
+    background-color: #D31027;
     h1 {
+      color: white;
       font-size: 17px;
     }
   }
@@ -218,17 +224,22 @@
   .post_scroll {
     height: 220px;
 
-    &_card_body {
+    &_card {
+      background-color: #D31027;
+      color: white;
+      &_body {
+        &_header {
+          &_text {
+            font-size: 14px;
+            color: white;
+          }
+        }
 
-      &_header {
         &_text {
-          font-size: 14px;
+          font-size: 15px;
+          color: white;
         }
       }
-
-      &_text {
-        font-size: 15px;
-      }
-    }
   }
+}
 }

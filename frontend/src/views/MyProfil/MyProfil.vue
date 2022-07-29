@@ -106,7 +106,7 @@ export default {
     bus.$on('profilAfterUpdate', () => {
       this.getProfile();
     });
-    bus.$on('profilMove', () => {
+    bus.$on('showProfil', () => {
       this.bigContain = document.querySelector('.big_contain');
       this.bigContain.classList.toggle('show');
     })

@@ -2,7 +2,7 @@
   <div>
 
     <loader></loader>
-    <navbar @rotate="rotateBody"></navbar>
+    <navbar></navbar>
     <mon-profil></mon-profil>
     <creation :info="info" @updateList="newList"></creation>
 

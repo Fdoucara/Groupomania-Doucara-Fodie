@@ -1,10 +1,11 @@
 <template>
 
   <div class="container">
-
-    <img src="../../assets/icon-left-font-monochrome-white.png" alt="Groupomania logo" class="container_image">
+    <div class="container_image">
+        <img src="../../assets/icon-left-font-monochrome-white.png" alt="Groupomania logo" class="container_image_first">
+      </div>
     <div class="container_body">
-      <form class="mb-5">
+      <form>
         <h2 class="container_body_title"> Inscription </h2>
 
         <div class="container_body_name mb-2">
@@ -32,7 +33,7 @@
           <p class="emailError"></p>
         </div>
 
-        <div class="form-group mb-5">
+        <div class="form-group">
           <label for="password" class="mb-2"> Votre mot de passe : </label>
           <input type="password" id="password" class="form-control" v-model="formData.password" @keyup="verifPassword">
           <p class="passwordError"></p>
@@ -107,7 +108,7 @@ export default {
         this.errorNom.style.color = "red";
         this.errorNom.style.marginTop = "5px";
         this.errorNom.style.marginBottom = "0";
-        this.errorNom.style.fontSize = "16px";
+        // this.errorNom.style.fontSize = "16px";
         return false;
       }
       else {
@@ -115,7 +116,7 @@ export default {
         this.errorNom.style.color = "red";
         this.errorNom.style.marginTop = "5px";
         this.errorNom.style.marginBottom = "0";
-        this.errorNom.style.fontSize = "16px";
+        // this.errorNom.style.fontSize = "16px";
       }
     },
     verifPrenom() {
@@ -132,7 +133,7 @@ export default {
         this.errorPrenom.style.color = "red";
         this.errorPrenom.style.marginTop = "5px";
         this.errorPrenom.style.marginBottom = "0";
-        this.errorPrenom.style.fontSize = "16px";
+        // this.errorPrenom.style.fontSize = "16px";
         return false;
       }
       else {
@@ -140,7 +141,7 @@ export default {
         this.errorPrenom.style.color = "red";
         this.errorPrenom.style.marginTop = "5px";
         this.errorPrenom.style.marginBottom = "0";
-        this.errorPrenom.style.fontSize = "16px";
+        // this.errorPrenom.style.fontSize = "16px";
       }
     },
     verifEmail() {
@@ -159,7 +160,7 @@ export default {
         this.errorEmail.style.color = "red";
         this.errorEmail.style.marginTop = "5px";
         this.errorEmail.style.marginBottom = "0";
-        this.errorEmail.style.fontSize = "16px";
+        // this.errorEmail.style.fontSize = "16px";
         return false;
       }
       else {
@@ -167,7 +168,7 @@ export default {
         this.errorEmail.style.color = "red";
         this.errorEmail.style.marginTop = "5px";
         this.errorEmail.style.marginBottom = "0";
-        this.errorEmail.style.fontSize = "16px";
+        // this.errorEmail.style.fontSize = "16px";
       }
     },
     verifPassword() {
@@ -184,7 +185,7 @@ export default {
         this.errorPassword.style.color = "red";
         this.errorPassword.style.marginTop = "5px";
         this.errorPassword.style.marginBottom = "0";
-        this.errorPassword.style.fontSize = "16px";
+        // this.errorPassword.style.fontSize = "16px";
         return false;
       }
       else {
@@ -192,7 +193,7 @@ export default {
         this.errorPassword.style.color = "red";
         this.errorPassword.style.marginTop = "5px";
         this.errorPassword.style.marginBottom = "0";
-        this.errorPassword.style.fontSize = "16px";
+        // this.errorPassword.style.fontSize = "16px";
       }
     },
     sendData() {
@@ -216,7 +217,7 @@ export default {
             this.formError.style.color = "red";
             this.formError.style.marginTop = "10px";
             this.formError.style.marginBottom = "0";
-            this.formError.style.fontSize = "16px";
+            // this.formError.style.fontSize = "16px";
           })
       }
     },

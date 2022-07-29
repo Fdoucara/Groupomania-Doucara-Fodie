@@ -7,10 +7,6 @@
   right: 0;
 }
 
-.navbar {
-  display: none;
-}
-
 .card {
   padding: 15px;
   width: 95%;
@@ -92,7 +88,7 @@
 
 .post_scroll {
   overflow-y: scroll;
-  height: 470px;
+  height: 460px;
   scrollbar-width: none;
 
   &::-webkit-scrollbar {
@@ -163,5 +159,77 @@
 
   .show {
     margin-right: 0%;
+  }
+
+  .card {
+    width: 95%;
+
+    &_contain {
+      width: 90%;
+      margin-top: 10px;
+
+      &_group {
+        width: 85%;
+        ;
+
+        &_img {
+          max-width: 80px;
+
+          &_fluid {
+            width: 80px;
+            height: 80px;
+          }
+        }
+
+        &_body {
+          width: 60%;
+          font-size: 15px;
+
+          &_name {
+            font-size: 15px;
+          }
+        }
+      }
+
+      &_bio {
+        font-size: 14px;
+      }
+    }
+
+    &_button {
+      width: 100%;
+
+      &_update {
+        font-size: 14px;
+      }
+
+      &_delete {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .activite {
+
+    h1 {
+      font-size: 17px;
+    }
+  }
+
+  .post_scroll {
+    height: 220px;
+
+    &_card_body {
+
+      &_header {
+        &_text {
+          font-size: 14px;
+        }
+      }
+
+      &_text {
+        font-size: 15px;
+      }
+    }
   }
 }

@@ -68,7 +68,7 @@ export default {
       this.navbar.classList.toggle('show');
     },
     showProfil() {
-      bus.$emit('profilMove');
+      bus.$emit('showProfil');
     },
     deconnexion() {
       this.axiosInstance.get('user/logout')

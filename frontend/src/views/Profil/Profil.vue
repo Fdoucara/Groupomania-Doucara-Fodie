@@ -25,8 +25,7 @@
     </div>
 
     <h3 v-if="showCard == false && id == userId" class="none"> Vous n'avez aucun post pour le moment ! </h3>
-    <h3 v-else-if="showCard == false && id != userId" class="none"> Cet utilisateur n'a aucun post pour le moment !
-    </h3>
+    <h3 v-else-if="showCard == false && id != userId" class="none"> Cet utilisateur n'a aucun post pour le moment ! </h3>
 
     <div v-if="showCard">
       <div class="card_post my-4" :key="index" v-for="(post, index) in info">
@@ -99,7 +98,8 @@ export default {
           this.photo = reponse.data.result[0].user_imageUrl;
           this.bio = reponse.data.result[0].bio;
           this.info = reponse.data.result.reverse();
-          if (this.info[0].post_content == '' || this.info[0].post_content == null && this.info[0].post_imageUrl == '' || this.info[0].post_imageUrl == null) {
+          console.log(this.info);
+          if ((this.info[0].post_content == '' || this.info[0].post_content == null) && (this.info[0].post_imageUrl == '' || this.info[0].post_imageUrl == null)) {
             this.showCard = false;
           } else {
             this.showCard = true;

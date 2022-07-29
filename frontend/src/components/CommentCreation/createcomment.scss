@@ -7,17 +7,20 @@
 
   &_body {
     width: 100%;
+
     &_content {
       margin: 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       &_image {
         width: 100px;
         height: 100px;
         border-radius: 50%;
         object-fit: cover;
       }
+
       &_text {
         width: 80%;
         height: 90px;
@@ -26,27 +29,35 @@
         background: transparent;
         resize: none;
         font-size: 22px;
+
         &::placeholder {
           font-size: 22px;
         }
+
         &:focus {
           outline: 0;
         }
       }
     }
+
     &_footer {
       display: flex;
       justify-content: space-around;
       align-items: center;
       padding-top: 10px;
       font-size: 22px;
+
       &_upload {
         width: 40%;
-        &_input[type="file"] {
+
+        &_input {
           display: none;
         }
+
         &_label {
-          display: block;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           background-color: #203A43;
           color: white;
           font-size: 20px;
@@ -55,18 +66,33 @@
           border-radius: 5px;
           margin: 0;
           cursor: pointer;
+
+          &_text {
+            margin: 0;
+            margin-left: 5px;
+          }
         }
       }
+
       &_send {
         width: 40%;
+
         &_button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
           width: 100%;
           padding: 10px 0px;
           font-size: 20px;
           background: #D31027;
           color: white;
-          &:hover {
+
+          &_text {
+            margin: 0;
+            margin-left: 5px;
             color: white;
+            font-size: 20px;
+            padding: 0;
           }
         }
       }
@@ -74,4 +100,64 @@
   }
 }
 
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
 
+    &_body {
+      &_content {
+        margin: 20px;
+        margin-bottom: 10px;
+
+        &_image {
+          width: 60px;
+          height: 60px;
+        }
+
+        &_text {
+          width: 80%;
+          height: 70px;
+          border: 0;
+          padding: 7px;
+          font-size: 15px;
+
+          &::placeholder {
+            font-size: 15px;
+          }
+        }
+      }
+
+      &_footer {
+        &_upload {
+          width: 40%;
+
+          &_input {
+            display: none;
+          }
+
+          &_label {
+            font-size: 14px;
+            padding: 8px 0px;
+
+            &_text {
+              display: none;
+            }
+          }
+        }
+
+        &_send {
+          width: 40%;
+
+          &_button {
+            padding: 8px 0px;
+            font-size: 14px;
+
+            &_text {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

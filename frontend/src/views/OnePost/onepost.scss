@@ -48,3 +48,28 @@
 .bold {
   font-weight: 700;
 }
+
+@media (max-width: 768px) {
+  .card {
+    margin-top: 60px;
+    width: 90%;
+  
+    &_body {
+  
+      &_header {
+  
+        &_text {
+          font-size: 14px;
+        }
+      }
+  
+      &_text {
+        font-size: 15px;
+      }
+  
+      &_footer {
+        font-size: 13px;
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
   <div>
 
     <loader></loader>
-    <navbar></navbar>
+    <navbar @rotate="rotateBody"></navbar>
     <mon-profil></mon-profil>
     <creation :info="info" @updateList="newList"></creation>
 
@@ -92,7 +92,8 @@ export default {
       profilModale: false,
       deleteProfilModale: false,
       totalComment: null,
-      showText: false
+      showText: false,
+      bodyContent: null
     }
   },
   methods: {

@@ -12,11 +12,13 @@
 
           <div class="card_body_footer">
             <div class="card_body_footer_upload">
-              <input type="file" id="comment_image" class="card_body_footer_upload_input" @change="onFile">
-              <label for="comment_image" class="card_body_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
+              <input type="file" id="image" class="card_body_footer_upload_input" @change="onFile">
+              <label for="image" class="card_body_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp; <p class="card_body_footer_upload_label_text"> Ajouter une
+                image </p> </label>
             </div>
             <div class="card_body_footer_send">
-              <button class="btn card_body_footer_send_button" @click.prevent="sendData"> <i class="fas fa-paper-plane"></i> &nbsp; Envoyer
+              <button class="btn card_body_footer_send_button" @click.prevent="sendData"> <i class="fas fa-paper-plane"></i>
+                &nbsp; <p class="btn card_body_footer_send_button_text"> Publier </p>
               </button>
             </div>
           </div>

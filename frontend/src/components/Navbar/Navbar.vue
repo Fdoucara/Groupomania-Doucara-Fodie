@@ -66,7 +66,6 @@ export default {
       this.overlay.classList.toggle('black')
       this.burger.classList.toggle('active');
       this.navbar.classList.toggle('show');
-      this.$emit('rotate');
     },
     showProfil() {
       bus.$emit('profilMove');

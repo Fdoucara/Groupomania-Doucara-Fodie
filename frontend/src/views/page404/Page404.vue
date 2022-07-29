@@ -1,11 +1,5 @@
 <template>
   <div class="contain">
-    <div class="contain_emoji">
-      <p class="contain_emoji_item"> &#10067; </p>
-      <p class="contain_emoji_item"> &#10067; </p>
-      <p class="contain_emoji_item"> &#10067; </p>
-      <p class="contain_emoji_item"> &#10067; </p>
-    </div>
     <h1 class="contain_title"> PAGE </h1>
     <div class="contain_content">
       <p class="contain_content_item"> 4 </p>

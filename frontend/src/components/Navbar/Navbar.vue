@@ -1,12 +1,14 @@
 <template>
   <div class="contain">
     <div class="overlay"></div>
-    <div class="burger" @click="burgerMenu">
-      <span></span>
-      <img src="../../assets/logomodif2.png" alt="Logo Groupomania" class="burger_logo">
+    <div class="top_navbar">
+      <div class="burger" @click="burgerMenu">
+        <span></span>
+      </div>
+      <img :src="userImage" alt="Photo de profil" class="burger_logo" @click="showProfil">
     </div>
     <nav class="navbar">
-      <router-link to="/accueil"> <img src="../../assets/logomodif1.png" alt="Logo Groupomania" class="navbar_logo">
+      <router-link to="/accueil" class="navbar_logo"> <img src="../../assets/logomodif1.png" alt="Logo Groupomania">
       </router-link>
       <div class="navbar_item">
         <router-link to="/accueil"> <i class="fas fa-home"></i> </router-link>
@@ -32,6 +34,7 @@
 <script>
 
 import axios from 'axios'
+import { bus } from '../../main'
 
 export default {
   name: "NavbarComponent",
@@ -45,10 +48,17 @@ export default {
       overlay: null,
       burger: null,
       navbar: null,
-      big_contain: null
+      big_contain: null,
+      userImage: null
     }
   },
   methods: {
+    getUserImage() {
+      this.axiosInstance.get('user/' + this.$store.state.userId)
+        .then(reponse => {
+          this.userImage = reponse.data.result[0].user_imageUrl;
+        })
+    },
     burgerMenu() {
       this.overlay = document.querySelector('.overlay');
       this.burger = document.querySelector('.burger');
@@ -57,6 +67,9 @@ export default {
       this.burger.classList.toggle('active');
       this.navbar.classList.toggle('show');
       this.$emit('rotate');
+    },
+    showProfil() {
+      bus.$emit('profilMove');
     },
     deconnexion() {
       this.axiosInstance.get('user/logout')
@@ -67,6 +80,12 @@ export default {
           this.$router.replace('/');
         })
     }
+  },
+  mounted() {
+    this.getUserImage();
+    bus.$on('profilAfterUpdate', () => {
+      this.getUserImage();
+    });
   },
 }
 </script>

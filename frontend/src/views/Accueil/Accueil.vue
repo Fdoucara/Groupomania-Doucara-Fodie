@@ -41,8 +41,8 @@
     <delete-modale :deletePostModale="deletePostModale" :deleteAnyonePostModale="deleteAnyonePostModale"
       :toggleDeletePostModale="toggleDeletePostModale" :toggleDeleteAnyonePostModale="toggleDeleteAnyonePostModale"
       :post_id="post_id" @updateList="newList"></delete-modale>
-    <profil-update-modale :profilModale="profilModale" :toggleProfilModale="toggleProfilModale"></profil-update-modale>
-    <profil-delete-modale :deleteProfilModale="deleteProfilModale" :toggleDeleteProfilModale="toggleDeleteProfilModale">
+    <profil-update-modale :profilModale="profilModale" :toggleProfilModale="toggleProfilModale" class="updateProfil"></profil-update-modale>
+    <profil-delete-modale :deleteProfilModale="deleteProfilModale" :toggleDeleteProfilModale="toggleDeleteProfilModale" class="deleteProfil">
     </profil-delete-modale>
   </div>
 </template>

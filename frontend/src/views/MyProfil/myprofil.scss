@@ -57,11 +57,21 @@
     &_update {
       background-color: #D31027;
       color: white;
+      &_phone {
+        display: none;
+        background-color: #D31027;
+        color: white;
+      }
     }
 
     &_delete {
       background-color: #203A43;
       color: white;
+      &_phone {
+        display: none;
+        background-color: #203A43;
+        color: white;
+      }
     }
   }
 }
@@ -169,8 +179,7 @@
 
       &_group {
         width: 90%;
-        ;
-
+      
         &_img {
           max-width: 80px;
 
@@ -186,6 +195,7 @@
 
           &_name {
             font-size: 15px;
+            margin-bottom: 16px
           }
         }
       }
@@ -199,11 +209,19 @@
       width: 100%;
 
       &_update {
-        font-size: 14px;
+        display: none;
+        &_phone {
+          font-size: 14px;
+          display: block;
+        }
       }
 
       &_delete {
-        font-size: 14px;
+        display: none;
+        &_phone {
+          font-size: 14px;
+          display: block;
+        }
       }
     }
   }

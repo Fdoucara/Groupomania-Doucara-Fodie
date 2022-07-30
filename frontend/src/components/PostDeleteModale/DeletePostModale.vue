@@ -18,7 +18,7 @@
             <button class="btn modale_footer_cancel_button" @click="toggleDeletePostModale"> Annuler </button>
           </div>
           <div class="modale_footer_send">
-            <button class="btn modale_footer_send_button" @click="deletePost"> Valider </button>
+            <button class="btn modale_footer_send_button" @click.prevent="deletePost"> Valider </button>
           </div>
         </div>
       </div>

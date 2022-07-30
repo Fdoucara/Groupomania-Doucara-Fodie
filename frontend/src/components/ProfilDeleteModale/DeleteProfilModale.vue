@@ -18,7 +18,7 @@
             <button class="btn btn modale_footer_cancel_button" @click="toggleDeleteProfilModale"> Annuler </button>
           </div>
           <div class="modale_footer_send">
-            <button class="btn btn modale_footer_send_button" @click="deleteProfil"> Valider </button>
+            <button class="btn btn modale_footer_send_button" @click.prevent="deleteProfil"> Valider </button>
           </div>
         </div>
       </div>

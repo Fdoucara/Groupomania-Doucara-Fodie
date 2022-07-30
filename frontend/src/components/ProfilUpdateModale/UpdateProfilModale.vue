@@ -51,7 +51,7 @@
           </div>
 
           <div class="modale_content_footer">
-            <button class="btn modale_content_footer_button" @click="sendData"> <i class="fas fa-check"></i> &nbsp;
+            <button class="btn modale_content_footer_button" @click.prevent="sendData"> <i class="fas fa-check"></i> &nbsp;
               Valider </button>
           </div>
 

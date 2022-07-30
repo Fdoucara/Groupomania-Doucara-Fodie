@@ -34,8 +34,8 @@
         &_fluid {
           margin-bottom: 15px;
           padding: 0;
-          width: 100px;
-          height: 100px;
+          width: 105px;
+          height: 105px;
           border-radius: 50%;
           object-fit: cover;
         }
@@ -45,16 +45,19 @@
         width: 60%;
         font-size: 18px;
         text-align: left;
+        &_name {
+          margin-bottom: 16px;
+        }
       }
     }
   }
 
   &_button {
-    font-size: 20px;
     width: 100%;
     border-radius: 0;
 
     &_update {
+      font-size: 17px;
       background-color: #D31027;
       color: white;
       &_phone {
@@ -65,6 +68,7 @@
     }
 
     &_delete {
+      font-size: 17px;
       background-color: #203A43;
       color: white;
       &_phone {
@@ -190,7 +194,7 @@
         }
 
         &_body {
-          width: 60%;
+          width: 65%;
           font-size: 15px;
 
           &_name {

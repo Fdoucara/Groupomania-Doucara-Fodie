@@ -89,15 +89,22 @@
         }
 
         &_label {
-          display: block;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           background-color: #203A43;
           color: white;
-          font-size: 18px;
+          font-size: 20px;
           text-align: center;
           padding: 10px 0px;
           border-radius: 5px;
           margin: 0;
           cursor: pointer;
+
+          &_text {
+            margin: 0;
+            margin-left: 5px;
+          }
         }
       }
 
@@ -105,11 +112,22 @@
         width: 40%;
 
         &_button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
           width: 100%;
           padding: 10px 0px;
-          font-size: 18px;
+          font-size: 20px;
           background: #D31027;
           color: white;
+
+          &_text {
+            margin: 0;
+            margin-left: 5px;
+            color: white;
+            font-size: 20px;
+            padding: 0;
+          }
         }
       }
     }
@@ -130,7 +148,76 @@
 }
 
 /* Little devices (mobile, 768px and down)*/ 
-@media (max-width: 768px) {} 
+@media (max-width: 768px) {
+  .modale {
+    height: auto;
+    width: 95%;
+
+    &_title {
+      font-size: 18px;
+    }
+
+    &_content {
+      font-size: 15px;
+
+      &_body {
+        margin: 20px;
+
+        &_image {
+          width: 70px;
+          height: 70px;
+        }
+
+        &_text {
+          height: 70px;
+          font-size: 15px;
+
+          &::placeholder {
+            font-size: 15px;
+          }
+        }
+      }
+
+      &_footer {
+        padding-bottom: 5px;
+
+        &_upload {
+          width: 40%;
+
+          &_input {
+            display: none;
+          }
+
+          &_label {
+            font-size: 14px;
+            padding: 8px 0px;
+
+            &_text {
+              display: none;
+            }
+          }
+        }
+
+        &_send {
+          width: 40%;
+
+          &_button {
+            padding: 8px 0px;
+            font-size: 14px;
+
+            &_text {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+
+    &_btn {
+      font-size: 15px;
+    }
+  }
+} 
 
 /* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */ 
 @media (min-width: 768px) {} 

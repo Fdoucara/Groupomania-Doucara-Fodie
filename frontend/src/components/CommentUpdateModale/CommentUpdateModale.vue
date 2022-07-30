@@ -17,14 +17,17 @@
 
           <div class="modale_content_footer">
             <div class="modale_content_footer_upload">
-              <input type="file" id="comment_update_image" class="modale_content_footer_upload_input"
-                @change="onFile">
-              <label for="comment_update_image" class="modale_content_footer_upload_label"> <i
-                  class="fas fa-upload"></i> &nbsp; Ajouter une image </label>
+              <input type="file" id="image" class="modale_content_footer_upload_input" @change="onFile">
+              <label for="image" class="modale_content_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp;
+                <p class="modale_content_footer_upload_label_text"> Ajouter une
+                  image </p>
+              </label>
             </div>
             <div class="modale_content_footer_send">
-              <button class="btn modale_content_footer_send_button" @click="sendData"> <i class="fas fa-check"></i>
-                &nbsp; Valider </button>
+              <button class="btn modale_content_footer_send_button" @click.prevent="sendData"> <i
+                  class="fas fa-paper-plane"></i>
+                &nbsp; <p class="btn modale_content_footer_send_button_text"> Publier </p>
+              </button>
             </div>
           </div>
         </form>
@@ -75,11 +78,11 @@ export default {
     },
     getCommentInfo() {
       this.axiosInstance.get('post/comment/' + this.comment_id)
-      .then(reponse => {
-        this.dataComment = reponse.data.result[0];
-        this.formData.comment_content = this.dataComment.comment_content;
-        this.old_comment_content = this.formData.comment_content;
-      })
+        .then(reponse => {
+          this.dataComment = reponse.data.result[0];
+          this.formData.comment_content = this.dataComment.comment_content;
+          this.old_comment_content = this.formData.comment_content;
+        })
     },
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];

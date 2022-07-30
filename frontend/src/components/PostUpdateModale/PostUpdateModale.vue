@@ -18,13 +18,17 @@
 
           <div class="modale_content_footer">
             <div class="modale_content_footer_upload">
-              <input type="file" id="post_image" class="modale_content_footer_upload_input" @change="onFile">
-              <label for="post_image" class="modale_content_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp;
-                Ajouter une image </label>
+              <input type="file" id="image" class="modale_content_footer_upload_input" @change="onFile">
+              <label for="image" class="modale_content_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp;
+                <p class="modale_content_footer_upload_label_text"> Ajouter une
+                  image </p>
+              </label>
             </div>
             <div class="modale_content_footer_send">
-              <button class="btn modale_content_footer_send_button" @click="sendData"> <i class="fas fa-check"></i>
-                &nbsp; Valider </button>
+              <button class="btn modale_content_footer_send_button" @click.prevent="sendData"> <i
+                  class="fas fa-paper-plane"></i>
+                &nbsp; <p class="btn modale_content_footer_send_button_text"> Publier </p>
+              </button>
             </div>
           </div>
         </form>
@@ -75,11 +79,11 @@ export default {
     },
     getPostInfo() {
       this.axiosInstance.get('post/' + this.post_id)
-      .then(reponse => {
-        this.dataPost = reponse.data.result[0];
-        this.formData.post_content = this.dataPost.post_content;
-        this.old_post_content = this.formData.post_content;
-      })   
+        .then(reponse => {
+          this.dataPost = reponse.data.result[0];
+          this.formData.post_content = this.dataPost.post_content;
+          this.old_post_content = this.formData.post_content;
+        })
     },
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];

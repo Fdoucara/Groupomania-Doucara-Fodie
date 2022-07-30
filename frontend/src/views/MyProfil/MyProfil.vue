@@ -113,6 +113,9 @@ export default {
     bus.$on('showProfil', () => {
       this.bigContain.classList.toggle('show');
     })
+    bus.$on('hideProfil', () => {
+      this.bigContain.classList.toggle('hide');
+    });
   }
 }
 </script>

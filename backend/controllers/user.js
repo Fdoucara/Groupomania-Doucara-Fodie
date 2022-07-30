@@ -283,10 +283,8 @@ exports.changeRole = (req, res) => {
   db.query("SELECT * FROM user WHERE user.id = ?", [user_id], (error, result) => {
     if (!error) {
       let resultat = JSON.parse(JSON.stringify(result));
-      console.log(resultat);
       if (resultat[0].role_id == process.env.MODERATOR) {
         const role_id = process.env.USER;
-        console.log(role_id);
         db.query("UPDATE user SET role_id = ? WHERE id = ?", [role_id, user_id], (error, result) => {
           if (!error) {
             return res.status(201).json({ message: "Passage de modérateur à utilisateur normal !" });

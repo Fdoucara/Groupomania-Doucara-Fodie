@@ -15,7 +15,7 @@
 }
 
 .user_contain {
-  padding-top: 30px;
+  padding-top: 0px;
   &_info {
     padding: 10px;
     border-radius: 20px;
@@ -91,6 +91,7 @@
 @media (max-width: 768px) {
   .card {
     width: 90%;
+    margin-top: 60px;
     &_body {
       &_text {
         font-size: 15px;
@@ -100,8 +101,10 @@
   }
 
   .user_contain {
-    margin-top: 60px;
+    margin-top: 0px;
+    padding-top: 0px;
     &_info {
+      margin-top: 5px!important;
       padding: 10px;
       border-radius: 20px;
       &_body {

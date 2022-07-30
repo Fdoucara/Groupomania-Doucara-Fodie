@@ -63,12 +63,15 @@ export default {
       this.overlay = document.querySelector('.overlay');
       this.burger = document.querySelector('.burger');
       this.navbar = document.querySelector('.navbar');
-      this.overlay.classList.toggle('black')
+      this.overlay.classList.toggle('black');
       this.burger.classList.toggle('active');
       this.navbar.classList.toggle('show');
+      bus.$emit('hideProfil');
     },
     showProfil() {
       bus.$emit('showProfil');
+      this.overlay.classList.toggle('black');
+      this.navbar.classList.toggle('show');
     },
     deconnexion() {
       this.axiosInstance.get('user/logout')

@@ -202,7 +202,7 @@
 }
 
 /* Medium devices (tablets, 768px and up)*/
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 992px) {
   .overlay {
     display: block;
     z-index: 3;

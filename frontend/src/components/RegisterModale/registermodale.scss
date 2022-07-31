@@ -73,7 +73,22 @@
 }
 
 /* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
-@media (min-width: 768px) {}
+@media (min-width: 768px) {
+  .modale {
+    height: auto;
+    width: 95%;
+    padding: 20px;
+
+    &_title {
+      font-size: 18px;
+    }
+
+    &_content {
+      padding-top: 10px;
+      font-size: 15px;
+    }
+  }
+}
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {}

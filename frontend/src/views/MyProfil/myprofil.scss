@@ -268,3 +268,110 @@
     }
   }
 }
+
+/* Medium devices (tablet, 768px and up)*/
+@media (min-width: 768px) {
+  .big_contain {
+    display: block;
+    margin-right: -100%;
+    width: 60%;
+    z-index: 2;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .show {
+    margin-right: 0%;
+  }
+
+  .card {
+    width: 95%;
+
+    &_contain {
+      width: 90%;
+      margin-top: 10px;
+
+      &_group {
+        width: 90%;
+
+        &_img {
+          max-width: 80px;
+
+          &_fluid {
+            width: 80px;
+            height: 80px;
+          }
+        }
+
+        &_body {
+          width: 65%;
+          font-size: 15px;
+
+          &_name {
+            font-size: 15px;
+            margin-bottom: 16px
+          }
+        }
+      }
+
+      &_bio {
+        font-size: 14px;
+      }
+    }
+
+    &_button {
+      width: 100%;
+
+      &_update {
+        display: none;
+
+        &_phone {
+          font-size: 14px;
+          display: block;
+        }
+      }
+
+      &_delete {
+        display: none;
+
+        &_phone {
+          font-size: 14px;
+          display: block;
+        }
+      }
+    }
+  }
+
+  .activite {
+    h1 {
+      font-size: 17px;
+    }
+  }
+
+  .none {
+    font-size: 18px;
+  }
+
+  .post_scroll {
+    height: 720px;
+
+    &_card {
+      &_body {
+        &_header {
+          &_text {
+            font-size: 14px;
+          }
+        }
+
+        &_text {
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {}

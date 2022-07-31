@@ -163,7 +163,89 @@ form {
 }
 
 /* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
-@media (min-width: 768px) {}
+@media (min-width: 768px) {
+  .container {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #0F2027;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    &_image {
+      display: flex;
+      justify-content: center;
+
+      &_first {
+        display: none;
+      }
+    }
+
+    &_body {
+      background: white;
+      width: 100%;
+      height: auto;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 0px;
+      font-size: 15px;
+
+      &_title {
+        text-align: left;
+        font-size: 18px;
+      }
+
+      &_name {
+        display: flex;
+        justify-content: space-between;
+
+        &_group {
+          width: 45%;
+        }
+      }
+
+      &_modify {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &_textarea {
+        height: 50px;
+
+        &:focus {
+          outline: 0;
+        }
+      }
+
+      &_button {
+        width: 60%;
+        padding: 5px 0px;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+    }
+
+    p {
+      padding-top: 5px;
+      margin-bottom: 0px;
+    }
+  }
+
+  form {
+    margin: 0px !important;
+
+    p {
+      font-size: 12px;
+    }
+  }
+}
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {}

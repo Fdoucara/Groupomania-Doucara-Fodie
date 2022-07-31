@@ -182,3 +182,75 @@
     }
   }
 }
+
+/* Little devices (mobile, 768px and up)*/
+@media (min-width: 768px) {
+  .card {
+    margin-top: 60px;
+    width: 90%;
+
+    &_contain {
+      width: 95%;
+
+      &_group {
+
+        &_img {
+          max-width: 60px;
+
+          &_fluid {
+            width: 60px;
+            height: 60px;
+          }
+        }
+
+        &_body {
+          width: 65%;
+          font-size: 15px;
+
+          &_name {
+            font-size: 15px;
+          }
+        }
+      }
+
+      &_bio {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .activite {
+    width: 90%;
+
+    h1 {
+      font-size: 17px;
+    }
+  }
+
+  .none {
+    font-size: 18px;
+  }
+
+  .card_post {
+    width: 90%;
+
+    &_body {
+
+      &_header {
+        &_text {
+          font-size: 14px;
+        }
+      }
+
+      &_text {
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {}

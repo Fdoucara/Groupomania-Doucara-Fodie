@@ -74,3 +74,34 @@
     }
   }
 }
+
+@media (min-width: 768px) {
+  .card {
+    margin-top: 60px;
+    width: 90%;
+
+    &_body {
+
+      &_header {
+
+        &_text {
+          font-size: 14px;
+        }
+      }
+
+      &_text {
+        font-size: 15px;
+      }
+
+      &_footer {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {}

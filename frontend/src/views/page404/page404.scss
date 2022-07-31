@@ -97,7 +97,37 @@
 }
 
 /* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
-@media (min-width: 768px) {}
+@media (min-width: 768px) {
+  .contain {
+    &_title {
+      margin-top: 160px;
+      font-size: 65px;
+    }
+
+    &_content {
+
+      &_item {
+        font-size: 80px;
+
+        &:nth-child(1) {
+          animation: letter 1.3s forwards;
+        }
+
+        &:nth-child(2) {
+          animation: letter 1.3s 0.3s forwards;
+        }
+
+        &:nth-child(3) {
+          animation: letter 1.3s 0.6s forwards;
+        }
+      }
+    }
+
+    &_text {
+      font-size: 45px;
+    }
+  }
+}
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {}

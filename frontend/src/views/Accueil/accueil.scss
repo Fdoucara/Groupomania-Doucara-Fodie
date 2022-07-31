@@ -101,3 +101,46 @@
     display: none;
   }
 }
+
+/* Medium devices (tablet, 768px and up)*/
+@media (min-width: 768px) {
+  .card {
+    width: 90%;
+    padding: 15px;
+
+    &_body {
+      &_header {
+        &_text {
+          font-size: 15px;
+        }
+      }
+
+      &_image {
+        padding-bottom: 15px;
+      }
+
+      &_text {
+        font-size: 16px;
+        padding-bottom: 0px;
+      }
+
+      &_footer {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .updateProfil {
+    display: none;
+  }
+
+  .deleteProfil {
+    display: none;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {}

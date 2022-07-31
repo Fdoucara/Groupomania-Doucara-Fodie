@@ -86,3 +86,42 @@
     }
   }
 }
+
+@media (min-width: 768px) {
+  .card {
+    width: 90%;
+
+    &_body {
+
+      &_header {
+
+        &_text {
+          text-decoration: none;
+          color: black;
+          margin-bottom: 10px;
+          font-size: 14px;
+        }
+      }
+
+      &_image {
+        width: 100%;
+        height: auto;
+        padding-bottom: 15px;
+      }
+
+      &_text {
+        font-size: 15px;
+      }
+
+      &_footer {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {}

@@ -182,3 +182,80 @@
     }
   }
 }
+
+@media (min-width: 768px) {
+  .card {
+    width: 90%;
+
+    &_body {
+      &_content {
+        margin: 20px;
+        margin-bottom: 10px;
+
+        &_image {
+          width: 70px;
+          height: 70px;
+        }
+
+        &_text {
+          height: 70px;
+          border: 0;
+          padding: 7px;
+          font-size: 15px;
+
+          &::placeholder {
+            font-size: 15px;
+          }
+        }
+      }
+
+      &_footer {
+        &_upload {
+          width: 40%;
+
+          &_input {
+            display: none;
+          }
+
+          &_label {
+            font-size: 14px;
+            padding: 8px 0px;
+
+            &_text {
+              display: none;
+            }
+          }
+        }
+
+        &_send {
+          width: 40%;
+
+          &_button {
+            padding: 8px 0px;
+            font-size: 14px;
+
+            &_text {
+              display: none;
+            }
+          }
+        }
+      }
+
+      &_upload_image {
+        font-size: 12px;
+        padding-bottom: 0px;
+      }
+
+      &_error {
+        font-size: 13px;
+        padding-bottom: 10px;
+      }
+    }
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {}

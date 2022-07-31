@@ -89,7 +89,7 @@
 
 @media (min-width: 768px) {
   .card {
-    width: 90%;
+    width: 70%;
 
     &_body {
 
@@ -99,7 +99,7 @@
           text-decoration: none;
           color: black;
           margin-bottom: 10px;
-          font-size: 14px;
+          font-size: 18px;
         }
       }
 
@@ -110,11 +110,11 @@
       }
 
       &_text {
-        font-size: 15px;
+        font-size: 18px;
       }
 
       &_footer {
-        font-size: 13px;
+        font-size: 17px;
       }
     }
   }

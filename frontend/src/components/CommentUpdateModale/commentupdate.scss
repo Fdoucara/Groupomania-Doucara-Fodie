@@ -245,14 +245,14 @@
 @media (min-width: 768px) {
   .modale {
     height: auto;
-    width: 95%;
+    width: 55%;
 
     &_title {
-      font-size: 18px;
+      font-size: 20px;
     }
 
     &_content {
-      font-size: 15px;
+      font-size: 17px;
 
       &_body {
         margin: 20px;
@@ -264,10 +264,10 @@
 
         &_text {
           height: 70px;
-          font-size: 15px;
+          font-size: 17px;
 
           &::placeholder {
-            font-size: 15px;
+            font-size: 17px;
           }
         }
       }
@@ -283,7 +283,7 @@
           }
 
           &_label {
-            font-size: 14px;
+            font-size: 16px;
             padding: 8px 0px;
 
             &_text {
@@ -297,7 +297,7 @@
 
           &_button {
             padding: 8px 0px;
-            font-size: 14px;
+            font-size: 16px;
 
             &_text {
               display: none;
@@ -307,12 +307,12 @@
       }
 
       &_upload_image {
-        font-size: 13px;
+        font-size: 16px;
         padding-bottom: 0px;
       }
 
       &_error {
-        font-size: 13px;
+        font-size: 16px;
         padding-bottom: 0px;
       }
     }

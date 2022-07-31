@@ -187,10 +187,10 @@
 @media (min-width: 768px) {
   .card {
     margin-top: 60px;
-    width: 90%;
+    width: 70%;
 
     &_contain {
-      width: 95%;
+      width: 80%;
 
       &_group {
 
@@ -198,32 +198,32 @@
           max-width: 60px;
 
           &_fluid {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
           }
         }
 
         &_body {
           width: 65%;
-          font-size: 15px;
+          font-size: 18px;
 
           &_name {
-            font-size: 15px;
+            font-size: 18px;
           }
         }
       }
 
       &_bio {
-        font-size: 14px;
+        font-size: 17px;
       }
     }
   }
 
   .activite {
-    width: 90%;
+    width: 70%;
 
     h1 {
-      font-size: 17px;
+      font-size: 18px;
     }
   }
 
@@ -232,7 +232,7 @@
   }
 
   .card_post {
-    width: 90%;
+    width: 70%;
 
     &_body {
 

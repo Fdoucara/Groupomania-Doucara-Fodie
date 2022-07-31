@@ -191,7 +191,7 @@
 @media (min-width: 768px) {
   .card {
     margin-top: 60px;
-    width: 90%;
+    width: 70%;
     padding-top: 0px;
 
     &_body {
@@ -209,10 +209,10 @@
         &_text {
           height: 70px;
           padding: 7px;
-          font-size: 15px;
+          font-size: 18px;
 
           &::placeholder {
-            font-size: 15px;
+            font-size: 18px;
           }
         }
       }
@@ -226,7 +226,7 @@
           }
 
           &_label {
-            font-size: 14px;
+            font-size: 17px;
             padding: 8px 0px;
 
             &_text {
@@ -240,7 +240,7 @@
 
           &_button {
             padding: 8px 0px;
-            font-size: 14px;
+            font-size: 17px;
 
             &_text {
               display: none;
@@ -250,12 +250,12 @@
       }
 
       &_upload_image {
-        font-size: 13px;
+        font-size: 16px;
         padding-bottom: 0px;
       }
 
       &_error {
-        font-size: 13px;
+        font-size: 16px;
         padding-bottom: 10px;
       }
     }

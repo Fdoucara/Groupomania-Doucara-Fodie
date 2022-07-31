@@ -78,23 +78,23 @@
 @media (min-width: 768px) {
   .card {
     margin-top: 60px;
-    width: 90%;
+    width: 70%;
 
     &_body {
 
       &_header {
 
         &_text {
-          font-size: 14px;
+          font-size: 18px;
         }
       }
 
       &_text {
-        font-size: 15px;
+        font-size: 20px;
       }
 
       &_footer {
-        font-size: 13px;
+        font-size: 17px;
       }
     }
   }

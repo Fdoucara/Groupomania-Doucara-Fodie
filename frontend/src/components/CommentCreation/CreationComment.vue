@@ -12,8 +12,8 @@
 
           <div class="card_body_footer">
             <div class="card_body_footer_upload">
-              <input type="file" id="image" class="card_body_footer_upload_input" @change="onFile">
-              <label for="image" class="card_body_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp; <p class="card_body_footer_upload_label_text"> Ajouter une
+              <input type="file" id="image_create_comment" class="card_body_footer_upload_input" @change="onFile">
+              <label for="image_create_comment" class="card_body_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp; <p class="card_body_footer_upload_label_text"> Ajouter une
                 image </p> </label>
             </div>
             <div class="card_body_footer_send">

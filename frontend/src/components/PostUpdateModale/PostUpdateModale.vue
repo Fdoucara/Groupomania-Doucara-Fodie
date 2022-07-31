@@ -18,8 +18,8 @@
 
           <div class="modale_content_footer">
             <div class="modale_content_footer_upload">
-              <input type="file" id="image" class="modale_content_footer_upload_input" @change="onFile">
-              <label for="image" class="modale_content_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp;
+              <input type="file" id="image_update_post" class="modale_content_footer_upload_input" @change="onFile">
+              <label for="image_update_post" class="modale_content_footer_upload_label"> <i class="fas fa-upload"></i> &nbsp;
                 <p class="modale_content_footer_upload_label_text"> Ajouter une
                   image </p>
               </label>

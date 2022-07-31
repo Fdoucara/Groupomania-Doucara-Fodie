@@ -94,9 +94,9 @@
           justify-content: center;
           background-color: #203A43;
           color: white;
-          font-size: 20px;
+          font-size: 19px;
           text-align: center;
-          padding: 10px 0px;
+          padding: 10px 5px;
           border-radius: 5px;
           margin: 0;
           cursor: pointer;
@@ -109,15 +109,15 @@
       }
 
       &_send {
-        width: 40%;
+        width: 42%;
 
         &_button {
           display: flex;
           align-items: center;
           justify-content: center;
           width: 100%;
-          padding: 10px 0px;
-          font-size: 20px;
+          padding: 8px 2px;
+          font-size: 19px;
           background: #D31027;
           color: white;
 

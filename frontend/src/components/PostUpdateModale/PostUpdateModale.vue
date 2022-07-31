@@ -86,12 +86,14 @@ export default {
         })
     },
     onFile(event) {
+      this.paragrapheError = document.querySelector('.modale_content_error');
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
       this.paragraphe = document.querySelector('.modale_content_upload_image');
       if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
-        this.paragraphe.style.textAlign = 'center'
+        this.paragraphe.style.textAlign = 'center';
+        this.paragrapheError.textContent = '';
       } else {
         this.paragraphe.textContent = '';
       }
@@ -120,6 +122,7 @@ export default {
       }
       else if (!this.formData.selectedFile && this.formData.post_content == this.old_post_content) {
         this.paragrapheError.textContent = "Aucune modification n'a été effectuée.";
+        this.paragrapheError.style.textAlign = 'center'
         this.paragrapheError.style.color = 'red';
       }
       else if (this.formData.selectedFile && this.formData.post_content == this.old_post_content) {

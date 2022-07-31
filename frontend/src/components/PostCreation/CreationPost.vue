@@ -66,12 +66,14 @@ export default {
         })
     },
     onFile(event) {
+      this.paragrapheError = document.querySelector('.card_body_error');
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
       this.paragraphe = document.querySelector('.card_body_upload_image');
       if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
-        this.paragraphe.style.textAlign = 'center'
+        this.paragraphe.style.textAlign = 'center';
+        this.paragrapheError.textContent = '';
       } else {
         this.paragraphe.textContent = '';
       }
@@ -99,7 +101,7 @@ export default {
           })
       }
       else if (!this.formData.selectedFile && this.formData.post_content == '') {
-        this.paragrapheError.textContent = 'Vous devez impérativement rédiger du texte ou ajouter une image !';
+        this.paragrapheError.textContent = 'Vous devez rédiger du texte ou ajouter une image !';
         this.paragrapheError.style.textAlign = 'center'
         this.paragrapheError.style.color = 'red';
       }

@@ -130,6 +130,18 @@
         }
       }
     }
+
+    &_upload_image {
+      margin: 0px;
+      font-size: 18px;
+      padding-bottom: 10px;
+    }
+
+    &_error {
+      margin: 0px;
+      font-size: 18px;
+      padding-bottom: 10px;
+    }
   }
 
   &_btn {
@@ -209,6 +221,16 @@
             }
           }
         }
+      }
+
+      &_upload_image {
+        font-size: 13px;
+        padding-bottom: 0px;
+      }
+  
+      &_error {
+        font-size: 13px;
+        padding-bottom: 0px;
       }
     }
 

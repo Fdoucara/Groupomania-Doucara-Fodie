@@ -92,8 +92,6 @@ export default {
       if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
         this.paragraphe.style.textAlign = 'center'
-        this.paragraphe.style.fontSize = '18px';
-        this.paragraphe.style.marginBottom = '7px'
       } else {
         this.paragraphe.textContent = '';
       }
@@ -122,8 +120,6 @@ export default {
       }
       else if (!this.formData.selectedFile && this.formData.post_content == this.old_post_content) {
         this.paragrapheError.textContent = "Aucune modification n'a été effectuée.";
-        this.paragrapheError.style.fontSize = '16px';
-        this.paragrapheError.style.textAlign = "center";
         this.paragrapheError.style.color = 'red';
       }
       else if (this.formData.selectedFile && this.formData.post_content == this.old_post_content) {

@@ -38,7 +38,7 @@ const routes = [
         next();
       }
       else {
-        next(false);
+        next('/');
       }
     }
   },
@@ -51,7 +51,7 @@ const routes = [
         next();
       }
       else {
-        next(false);
+        next('/');
       }
     }
   },
@@ -64,7 +64,7 @@ const routes = [
         next();
       }
       else {
-        next(false);
+        next('/');
       }
     }
   },
@@ -77,7 +77,7 @@ const routes = [
         next();
       }
       else {
-        next(false);
+        next('/');
       }
     }
   },
@@ -90,7 +90,7 @@ const routes = [
         next();
       }
       else {
-        next(false);
+        next('/');
       }
     }
   },

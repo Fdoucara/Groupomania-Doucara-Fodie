@@ -32,7 +32,7 @@
           </div>
         </form>
         <p class="modale_content_upload_image"></p>
-        <p class="modale_content_commentModale_error"></p>
+        <p class="modale_content_error"></p>
       </div>
       <button class="btn modale_btn" @click="toggleCommentModale"> X </button>
     </div>
@@ -91,18 +91,16 @@ export default {
       if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
         this.paragraphe.style.textAlign = 'center'
-        this.paragraphe.style.fontSize = '18px';
-        this.paragraphe.style.marginBottom = '7px'
       } else {
         this.paragraphe.textContent = '';
       }
     },
     verifWrite() {
-      this.paragrapheError = document.querySelector('.modale_content_commentModale_error');
+      this.paragrapheError = document.querySelector('.modale_content_error');
       this.paragrapheError.textContent = '';
     },
     sendData() {
-      this.paragrapheError = document.querySelector('.modale_content_commentModale_error');
+      this.paragrapheError = document.querySelector('.modale_content_error');
       if (!this.formData.selectedFile && this.formData.comment_content != this.old_comment_content) {
         this.axiosInstance.patch('post/update-comment/' + this.comment_id, {
           comment_content: this.formData.comment_content
@@ -122,8 +120,6 @@ export default {
       else if (!this.formData.selectedFile && this.formData.comment_content == this.old_comment_content) {
         this.paragrapheError.textContent = "Aucune modification n'a été effectuée.";
         this.paragrapheError.style.textAlign = 'center'
-        this.paragrapheError.style.fontSize = '16px';
-        this.paragrapheError.style.marginBottom = '0'
         this.paragrapheError.style.color = 'red';
       }
       else if (this.formData.selectedFile && this.formData.comment_content == this.old_comment_content) {

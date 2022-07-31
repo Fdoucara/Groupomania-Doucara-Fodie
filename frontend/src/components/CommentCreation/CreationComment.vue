@@ -23,8 +23,8 @@
             </div>
           </div>
         </form>
-        <p class="card_body_comment_upload_image mt-3"></p>
-        <p class="card_body_comment_error"></p>
+        <p class="card_body_upload_image mt-3"></p>
+        <p class="card_body_error"></p>
       </div>
     </div>
   </div>
@@ -69,22 +69,20 @@ export default {
     onFile(event) {
       this.formData.selectedFile = event.target.files[0];
       this.filename = event.target.files[0].name;
-      this.paragraphe = document.querySelector('.card_body_comment_upload_image');
+      this.paragraphe = document.querySelector('.card_body_upload_image');
       if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
         this.paragraphe.style.textAlign = 'center'
-        this.paragraphe.style.fontSize = '18px';
-        this.paragraphe.style.marginBottom = '7px'
       } else {
         this.paragraphe.textContent = '';
       }
     },
     verifWrite() {
-      this.paragrapheError = document.querySelector('.card_body_comment_error');
+      this.paragrapheError = document.querySelector('.card_body_error');
       this.paragrapheError.textContent = '';
     },
     sendData() {
-      this.paragrapheError = document.querySelector('.card_body_comment_error');
+      this.paragrapheError = document.querySelector('.card_body_error');
       if (!this.formData.selectedFile && this.formData.comment_content !='') {
         this.axiosInstance.post('post/create-comment/' + this.post_id, {
           comment_content: this.formData.comment_content

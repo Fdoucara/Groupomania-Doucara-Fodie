@@ -72,6 +72,9 @@ export default {
       this.paragraphe = document.querySelector('.card_body_comment_upload_image');
       if (this.formData.selectedFile) {
         this.paragraphe.textContent = `${this.filename}`;
+        this.paragraphe.style.textAlign = 'center'
+        this.paragraphe.style.fontSize = '18px';
+        this.paragraphe.style.marginBottom = '7px'
       } else {
         this.paragraphe.textContent = '';
       }

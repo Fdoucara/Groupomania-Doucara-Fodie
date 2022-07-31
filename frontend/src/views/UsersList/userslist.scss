@@ -5,8 +5,10 @@
   border: 0;
   border-radius: 0px 0px 15px 15px;
   background: white;
+
   &_body {
     width: 100%;
+
     &_text {
       font-size: 22px;
       padding: 35px;
@@ -16,26 +18,32 @@
 
 .user_contain {
   padding-top: 25px;
+
   &_info {
     padding: 10px;
     border-radius: 20px;
+
     &:hover {
       background-color: #E0EAFC;
     }
+
     &_body {
       width: 100%;
+
       &_content {
         margin: 0;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
+
         &_image {
           width: 150px;
           height: 150px;
           border-radius: 50%;
           object-fit: cover;
         }
+
         &_text {
           text-align: left;
           font-size: 22px;
@@ -43,19 +51,23 @@
           width: 60%;
           padding-top: 25px;
           padding-bottom: 20px;
+
           &_bio {
             font-style: italic;
             font-size: 18px;
           }
+
           &_role {
             font-style: oblique;
             font-size: 20px;
           }
         }
+
         &_btn {
           width: 100%;
           display: flex;
           padding-bottom: 10px;
+
           &_change {
             font-size: 20px;
             background: #D31027;
@@ -65,7 +77,8 @@
             margin-bottom: 5px;
             border-radius: 25px;
           }
-          &_delete { 
+
+          &_delete {
             font-size: 20px;
             background: #203A43;
             color: white;
@@ -76,6 +89,7 @@
           }
         }
       }
+
       &_link {
         width: 70%;
         display: flex;
@@ -96,6 +110,7 @@
   .card {
     width: 90%;
     margin-top: 60px;
+
     &_body {
       &_text {
         font-size: 15px;
@@ -107,45 +122,55 @@
   .user_contain {
     margin-top: 0px;
     padding-top: 0px;
+
     &_info {
-      margin-top: 5px!important;
+      margin-top: 5px !important;
       padding: 10px;
       border-radius: 20px;
+
       &_body {
         width: 100%;
+
         &_content {
           margin: 0;
           display: flex;
           flex-direction: column;
           justify-content: space-around;
           align-items: center;
+
           &_image {
             width: 80px;
             height: 80px;
           }
+
           &_text {
             font-size: 16px;
             width: 60%;
             padding-top: 15px;
             padding-bottom: 10px;
+
             &_bio {
               font-size: 14px;
             }
+
             &_role {
               font-size: 15px;
             }
           }
+
           &_btn {
             &_change {
               font-size: 13px;
               width: 45%;
             }
-            &_delete { 
+
+            &_delete {
               font-size: 13px;
               width: 45%;
             }
           }
         }
+
         &_link {
           width: 90%;
         }

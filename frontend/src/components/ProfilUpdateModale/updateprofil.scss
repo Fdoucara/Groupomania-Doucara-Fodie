@@ -141,67 +141,67 @@
   }
 }
 
-/* Little devices (mobile, 768px and down)*/ 
+/* Little devices (mobile, 768px and down)*/
 @media (max-width: 768px) {
   .modale {
     height: auto;
     width: 95%;
     padding: 20px;
     bottom: 2%;
-  
+
     &_title {
       font-size: 16px;
       margin: 0px;
     }
-  
+
     &_content {
       font-size: 14px;
-  
+
       &_body {
         margin: 0px;
-  
+
         &_image {
           padding-bottom: 15px;
-  
+
           &_img {
             width: 70px;
             height: 70px;
           }
-  
+
           &_button {
             width: 60%;
-  
+
             &_input {
               display: none;
             }
-  
+
             &_label {
               font-size: 13px;
               padding: 10px 0px;
             }
           }
         }
-  
+
         &_name {
-  
+
           &_group {
             width: 45%;
           }
         }
-  
+
         &_modify {
-  
+
           &_textarea {
             font-size: 14px;
 
           }
         }
       }
-  
+
       &_footer {
         padding-top: 20px;
         padding-bottom: 10px;
-  
+
         &_button {
           font-size: 15px;
         }
@@ -212,7 +212,7 @@
         padding-bottom: 0px;
       }
     }
-  
+
     &_btn {
       font-size: 14px;
     }
@@ -221,11 +221,13 @@
   input {
     font-size: 14px;
   }
-} 
+}
 
-/* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */ 
-@media (min-width: 768px) {} 
-/* Large devices (desktops, 992px and up) */ 
-@media (min-width: 992px) {} 
-/* Extra large devices (large desktops, 1200px and up) */ 
+/* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
+@media (min-width: 768px) {}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {}
+
+/* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {}

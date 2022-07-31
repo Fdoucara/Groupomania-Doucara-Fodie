@@ -69,19 +69,23 @@
   .card {
     width: 90%;
     padding: 15px;
+
     &_body {
       &_header {
         &_text {
           font-size: 15px;
         }
       }
+
       &_image {
         padding-bottom: 15px;
       }
+
       &_text {
         font-size: 16px;
         padding-bottom: 0px;
       }
+
       &_footer {
         font-size: 14px;
       }

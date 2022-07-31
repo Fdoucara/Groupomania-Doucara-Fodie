@@ -45,6 +45,7 @@
         width: 60%;
         font-size: 18px;
         text-align: left;
+
         &_name {
           margin-bottom: 16px;
         }
@@ -60,6 +61,7 @@
       font-size: 17px;
       background-color: #D31027;
       color: white;
+
       &_phone {
         display: none;
         background-color: #D31027;
@@ -71,6 +73,7 @@
       font-size: 17px;
       background-color: #203A43;
       color: white;
+
       &_phone {
         display: none;
         background-color: #203A43;
@@ -187,7 +190,7 @@
 
       &_group {
         width: 90%;
-      
+
         &_img {
           max-width: 80px;
 
@@ -218,6 +221,7 @@
 
       &_update {
         display: none;
+
         &_phone {
           font-size: 14px;
           display: block;
@@ -226,6 +230,7 @@
 
       &_delete {
         display: none;
+
         &_phone {
           font-size: 14px;
           display: block;
@@ -259,6 +264,6 @@
           font-size: 15px;
         }
       }
+    }
   }
-}
 }

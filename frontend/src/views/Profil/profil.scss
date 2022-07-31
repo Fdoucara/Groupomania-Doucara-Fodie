@@ -76,7 +76,7 @@
   &:hover {
     background-color: #E0EAFC;
   }
-  
+
   &_body {
     width: 100%;
 
@@ -122,39 +122,40 @@
   .card {
     margin-top: 60px;
     width: 90%;
-  
+
     &_contain {
       width: 95%;
-  
+
       &_group {
-  
+
         &_img {
           max-width: 60px;
-  
+
           &_fluid {
             width: 60px;
             height: 60px;
           }
         }
-  
+
         &_body {
           width: 65%;
           font-size: 15px;
+
           &_name {
             font-size: 15px;
           }
         }
       }
-  
+
       &_bio {
         font-size: 14px;
       }
     }
-  }  
+  }
 
   .activite {
     width: 90%;
-  
+
     h1 {
       font-size: 17px;
     }
@@ -166,15 +167,15 @@
 
   .card_post {
     width: 90%;
-  
+
     &_body {
-  
+
       &_header {
         &_text {
           font-size: 14px;
         }
       }
-  
+
       &_text {
         font-size: 15px;
       }

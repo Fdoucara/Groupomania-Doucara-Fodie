@@ -75,7 +75,7 @@
   }
 }
 
-/* Little devices (mobile, 768px and down)*/ 
+/* Little devices (mobile, 768px and down)*/
 @media (max-width: 768px) {
   .modale {
     height: auto;
@@ -107,11 +107,13 @@
       }
     }
   }
-} 
+}
 
-/* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */ 
-@media (min-width: 768px) {} 
-/* Large devices (desktops, 992px and up) */ 
-@media (min-width: 992px) {} 
-/* Extra large devices (large desktops, 1200px and up) */ 
+/* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
+@media (min-width: 768px) {}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {}
+
+/* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {}

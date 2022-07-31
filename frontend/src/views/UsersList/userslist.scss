@@ -19,6 +19,9 @@
   &_info {
     padding: 10px;
     border-radius: 20px;
+    &:hover {
+      background-color: #E0EAFC;
+    }
     &_body {
       width: 100%;
       &_content {

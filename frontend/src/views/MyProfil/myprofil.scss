@@ -116,6 +116,10 @@
     border: 0px;
     border-radius: 15px;
     background: white;
+
+    &:hover {
+      background-color: #E0EAFC;
+    }
   }
 
   &_card_link {

@@ -73,6 +73,10 @@
   border-radius: 15px;
   background: white;
 
+  &:hover {
+    background-color: #E0EAFC;
+  }
+  
   &_body {
     width: 100%;
 

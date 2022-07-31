@@ -119,6 +119,12 @@
         color: white;
       }
     }
+
+    &_error {
+      margin: 0px;
+      font-size: 18px;
+      padding-bottom: 10px;
+    }
   }
 
   &_btn {
@@ -145,6 +151,7 @@
   
     &_title {
       font-size: 16px;
+      margin: 0px;
     }
   
     &_content {
@@ -198,6 +205,12 @@
         &_button {
           font-size: 15px;
         }
+      }
+
+      &_error {
+        margin: 0px;
+        font-size: 13px;
+        padding-bottom: 0px;
       }
     }
   

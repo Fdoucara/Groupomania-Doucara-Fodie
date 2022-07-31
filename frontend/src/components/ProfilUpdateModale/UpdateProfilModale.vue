@@ -144,8 +144,6 @@ export default {
             console.log({ error });
             this.paragrapheError.textContent = error.response.data.message;
             this.paragrapheError.style.textAlign = 'center'
-            this.paragrapheError.style.fontSize = '16px';
-            this.paragrapheError.style.paddingBottom = '10px'
             this.paragrapheError.style.color = 'red';
           })
       }

@@ -21,7 +21,7 @@
           <i class="fas fa-edit" :id="post.id" @click="updatePost" v-if="post.user_id == userId"></i>
           <i class="fas fa-trash" :id="post.id" @click="deletePost" v-if="post.user_id == userId && roleId == 3"></i>
           <i class="fas fa-trash" :id="post.id" @click="deleteAnyonePost"
-            v-if="post.user_id == userId || roleId == 1 || roleId == 4"></i>
+            v-if="roleId == 1 || roleId == 4"></i>
         </div>
       </div>
     </div>

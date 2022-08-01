@@ -188,7 +188,7 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 992px) {
+@media (min-width: 768px) and (max-width: 991px) {
   .card {
     margin-top: 60px;
     width: 70%;
@@ -263,7 +263,77 @@
 }
 
 /* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {}
+@media (min-width: 992px) and (max-width: 1200px) {
+  .card {
+    margin-top: 60px;
+    width: 60%;
+    padding-top: 0px;
+    margin-left: 15px;
 
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {}
+    &_body {
+      width: 100%;
+
+      &_content {
+        margin: 20px;
+        margin-bottom: 10px;
+
+        &_image {
+          width: 60px;
+          height: 60px;
+        }
+
+        &_text {
+          height: 70px;
+          padding: 7px;
+          font-size: 19px;
+
+          &::placeholder {
+            font-size: 19px;
+          }
+        }
+      }
+
+      &_footer {
+        &_upload {
+          width: 40%;
+
+          &_input {
+            display: none;
+          }
+
+          &_label {
+            font-size: 17px;
+            padding: 8px 0px;
+
+            &_text {
+              display: none;
+            }
+          }
+        }
+
+        &_send {
+          width: 40%;
+
+          &_button {
+            padding: 8px 0px;
+            font-size: 17px;
+
+            &_text {
+              display: none;
+            }
+          }
+        }
+      }
+
+      &_upload_image {
+        font-size: 16px;
+        padding-bottom: 0px;
+      }
+
+      &_error {
+        font-size: 16px;
+        padding-bottom: 10px;
+      }
+    }
+  }
+}

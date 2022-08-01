@@ -109,7 +109,7 @@
 }
 
 /* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
-@media (min-width: 768px) and (max-width: 992px) {
+@media (min-width: 768px) and (max-width: 991px) {
   .container {
     position: fixed;
     height: 100%;
@@ -169,7 +169,54 @@
 }
 
 /* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {}
-
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {}
+@media (min-width: 992px) and (max-width: 1200px) {
+  .container {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+  
+    &_image {
+      width: 100%;
+  
+      &_first {
+        position: absolute;
+        left: 10%;
+        top: 25%;
+        width: 400px;
+        height: auto;
+        display: block;
+      }
+  
+      &_second {
+        display: none;
+      }
+    }
+  
+    &_body {
+      right: 10%;
+      background: white;
+      width: 85%;
+      height: auto;
+      padding: 30px;
+      border-radius: 20px;
+      margin-top: 150px;
+      font-size: 20px;
+  
+      &_title {
+        text-align: left;
+      }
+  
+      &_button {
+        display: block;
+        width: 60%;
+        margin: auto;
+        color: white;
+        background: #D31027;
+        font-size: 20px;
+        padding: 10px 0px 10px 0px;
+      }
+    }
+  }
+}

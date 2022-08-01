@@ -46,12 +46,17 @@
       padding-top: 10px;
       padding-bottom: 10px;
       font-size: 21px;
+      cursor: pointer;
     }
   }
 }
 
 .bold {
   font-weight: 700;
+}
+
+.red {
+  color: #D31027;
 }
 
 @media (max-width: 768px) {

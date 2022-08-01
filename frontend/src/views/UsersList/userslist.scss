@@ -22,9 +22,11 @@
   &_info {
     padding: 10px;
     border-radius: 20px;
+    transition: transform 1s ease-in-out;
 
     &:hover {
       background-color: #E0EAFC;
+      transform: rotate3d(0, 1, 0, 25deg);
     }
 
     &_body {

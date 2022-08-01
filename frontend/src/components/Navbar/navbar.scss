@@ -318,3 +318,69 @@
     color: #D31027;
   }
 }
+
+/* Large devices (desktops, 992px and up)*/
+@media (min-width: 1200px) {
+  .overlay {
+    display: none;
+    position: fixed;
+    width: 20%;
+    height: 100%;
+    transition: all 0.5s ease-in-out;
+    z-index: 2;
+  }
+  
+  .black {
+    display: none;
+    background-color: black;
+    opacity: 0.5;
+  }
+
+  .navbar {
+    position: fixed;
+    height: 100%;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    background: #D31027;
+  
+    &_logo {
+      height: 100px;
+      width: auto;
+  
+      img {
+        height: 100%;
+      }
+    }
+  
+    &_item {
+      width: 100%;
+      text-align: center;
+    }
+  
+    &_link {
+      position: absolute;
+      left: 40%;
+      width: 20%;
+      text-decoration: none;
+      color: white;
+      cursor: pointer;
+  
+      &_p {
+        display: none;
+        width: 100%;
+        font-size: 30px;
+      }
+    }
+  }
+  
+  .fas {
+    position: relative;
+    left: 0%;
+    line-height: 40px;
+    color: white;
+    font-size: 35px;
+  }
+}

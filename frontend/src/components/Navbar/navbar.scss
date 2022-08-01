@@ -117,32 +117,34 @@
   }
 
   &_item {
+    position: relative;
+    display: inline-block;
     width: 100%;
-    text-align: left;
-  }
-
-  &_link {
-    position: absolute;
-    left: 40%;
-    width: 20%;
-    text-decoration: none;
-    color: white;
-    cursor: pointer;
-
-    &_p {
+    &_icon {
+      position: relative;
       width: 100%;
-      margin: 0;
-      font-size: 30px;
+      text-align: center;
+      color: white;
+      font-size: 35px;
+      cursor: pointer;
+      &_text {
+        visibility: hidden;
+        position: absolute;
+        width: 130px;
+        background-color: #fff;
+        color: #D31027;
+        text-align: center;
+        font-size: 20px;
+        padding: 10px;
+        border-radius: 6px;
+        top: -25px;
+        left: 50px;
+      }
+      &:hover &_text{
+        visibility: visible;
+      }
     }
   }
-}
-
-.fas {
-  position: absolute;
-  left: 30%;
-  line-height: 40px;
-  color: white;
-  font-size: 30px;
 }
 
 /* Little devices (mobile, 768px and down)*/
@@ -178,26 +180,15 @@
 
     &_item {
       top: 0%;
-    }
-
-    &_link {
-      &_p {
-        display: none;
+      &_icon {
+        font-size: 25px;
+        color: #D31027;
       }
     }
   }
 
   .show {
     margin-left: 0px;
-  }
-
-  .fas {
-    position: relative;
-    left: 0%;
-    width: 100%;
-    text-align: center;
-    font-size: 25px;
-    color: #D31027;
   }
 }
 
@@ -234,26 +225,15 @@
 
     &_item {
       top: 0%;
-    }
-
-    &_link {
-      &_p {
-        display: none;
+      &_icon {
+        font-size: 25px;
+        color: #D31027;
       }
     }
   }
 
   .show {
     margin-left: 0px;
-  }
-
-  .fas {
-    position: relative;
-    left: 0%;
-    width: 100%;
-    text-align: center;
-    font-size: 25px;
-    color: #D31027;
   }
 }
 
@@ -296,26 +276,15 @@
 
     &_item {
       top: 0%;
-    }
-
-    &_link {
-      &_p {
-        display: none;
+      &_icon {
+        font-size: 25px;
+        color: #D31027;
       }
     }
   }
 
   .show {
     margin-left: 0px;
-  }
-
-  .fas {
-    position: relative;
-    left: 0%;
-    width: 100%;
-    text-align: center;
-    font-size: 30px;
-    color: #D31027;
   }
 }
 
@@ -359,28 +328,5 @@
       width: 100%;
       text-align: center;
     }
-  
-    &_link {
-      position: absolute;
-      left: 40%;
-      width: 20%;
-      text-decoration: none;
-      color: white;
-      cursor: pointer;
-  
-      &_p {
-        display: none;
-        width: 100%;
-        font-size: 30px;
-      }
-    }
-  }
-  
-  .fas {
-    position: relative;
-    left: 0%;
-    line-height: 40px;
-    color: white;
-    font-size: 35px;
-  }
+  } 
 }

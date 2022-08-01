@@ -11,20 +11,21 @@
       <router-link to="/accueil" class="navbar_logo"> <img src="../../assets/logomodif1.png" alt="Logo Groupomania">
       </router-link>
       <div class="navbar_item">
-        <router-link to="/accueil"> <i class="fas fa-home"></i> </router-link>
-        <router-link to="/accueil" class="navbar_link">
-          <p class="navbar_link_p"> Accueil </p>
+        <router-link to="/accueil" class="navbar_item_icon">
+          <i class="fas fa-home">
+            <span class="navbar_item_icon_text"> Accueil </span>
+          </i>
         </router-link>
       </div>
       <div class="navbar_item">
-        <router-link to="/utilisateurs"> <i class="fas fa-users"></i> </router-link>
-        <router-link to="/utilisateurs" class="navbar_link">
-          <p class="navbar_link_p"> Utilisateurs </p>
+        <router-link to="/utilisateurs" class="navbar_item_icon">
+          <i class="fas fa-users">
+            <span class="navbar_item_icon_text"> Utilisateurs </span>
+          </i>
         </router-link>
       </div>
       <div class="navbar_item">
-        <i class="fas fa-sign-out-alt" @click="deconnexion"></i>
-        <p class="navbar_link navbar_link_p" @click="deconnexion"> Deconnexion </p>
+        <i class="fas fa-sign-out-alt navbar_item_icon" @click="deconnexion"></i>
       </div>
 
     </nav>
